@@ -1,26 +1,255 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   JEEVAN PRODUCTIONS — DESIGN SYSTEM
+
+   Essentially monochrome: warm paper, deep ink, and one restrained ember
+   accent that only ever appears at small scale — eyebrow labels, hover
+   states, the active nav underline, hairline marks. The photography supplies
+   all the real colour, which is why the accent is warm: it sits with the
+   reds, stage light and skin tones already in JP's work instead of fighting
+   them.
+
+   Every value below is contrast-checked against the surfaces it is used on
+   (`npm run audit:contrast`). Ember is tuned to clear 4.5:1 on *all four*
+   light surfaces — including the darkest, sand — so it is never conditionally
+   safe: min 4.80:1. Ember-light is the on-ink counterpart at 10.5:1; plain
+   ember must never be used on the dark surface.
+   ========================================================================== */
+
+@theme {
+  /* ---- Color ---- */
+  --color-ink: #131319;
+  --color-ink-2: #24242d;
+  --color-ink-3: #3d3d48;
+  --color-paper: #f4f1ec;
+  --color-paper-2: #ebe5dd;
+  --color-paper-warm: #faf8f5;
+  /* Warm sand tint for section changes — replaces the old lavender panels. */
+  --color-sand: #eae2d6;
+  --color-ember: #a83f25;
+  --color-ember-deep: #7d2c18;
+  --color-ember-light: #e9b9a4;
+  --color-neutral: #6a6158;
+  --color-neutral-2: #b5aca4;
+
+  /* ---- Type ---- */
+  --font-display: var(--font-fraunces), "Playfair Display", Georgia, serif;
+  --font-sans: var(--font-grotesk), "DM Sans", system-ui, sans-serif;
+
+  /* ---- Motion ---- */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  /* ---- Layout ---- */
+  --spacing-gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --breakpoint-3xl: 1800px;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --nav-h: 4.75rem;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ---- Fluid type scale ---- */
+/* Display sizes are deliberately restrained. Oversized type was crowding its
+   frames and forcing awkward line breaks; at these sizes the headlines still
+   read as display type but sit comfortably inside the composition. */
+.t-hero {
+  font-size: clamp(2.25rem, 5.4vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+.t-statement {
+  font-size: clamp(1.875rem, 4vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.026em;
+}
+.t-h2 {
+  font-size: clamp(1.625rem, 2.9vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.022em;
+}
+.t-h3 {
+  font-size: clamp(1.3125rem, 2.1vw, 1.875rem);
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+.t-lead {
+  font-size: clamp(1.0625rem, 1.5vw, 1.3125rem);
+  line-height: 1.55;
+  letter-spacing: -0.011em;
+}
+.t-body {
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.68;
+}
+.t-label {
+  font-size: clamp(0.6875rem, 0.78vw, 0.8125rem);
+  line-height: 1.1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ---- Base ---- */
+* {
+  min-width: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--color-ember);
+  color: #fff;
+}
+
+/* ---- Focus: visible, on-brand, never removed ---- */
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+.on-dark :focus-visible {
+  outline-color: var(--color-ember-light);
+}
+
+/* ---- Utilities ---- */
+.gutter {
+  padding-inline: var(--spacing-gutter);
+}
+
+.rule {
+  border-top: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
+}
+.on-dark .rule {
+  border-color: color-mix(in srgb, #fff 16%, transparent);
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 200;
+  transform: translateY(-200%);
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  transition: transform 220ms var(--ease-out-expo);
+}
+.skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   MOTION PRIMITIVES
+   Pre-animation states are applied ONLY under .js-motion, which the motion
+   provider adds at runtime. If JS fails or reduced-motion is on, every
+   element renders in its final, visible state. Content is never trapped.
+   ========================================================================== */
+
+.js-motion [data-reveal="fade-up"] {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+  will-change: transform, opacity;
+}
+.js-motion [data-reveal="fade"] {
+  opacity: 0;
+  will-change: opacity;
+}
+.js-motion [data-reveal="mask"] .line-mask > span {
+  transform: translate3d(0, 110%, 0);
+  will-change: transform;
+}
+.js-motion [data-reveal="media"] {
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+}
+.js-motion [data-reveal="media"] > img,
+.js-motion [data-reveal="media"] > video,
+.js-motion [data-reveal="media"] > picture > img {
+  transform: scale(1.06);
+  will-change: transform;
+}
+
+.line-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.06em;
+  margin-block: -0.06em;
+}
+.line-mask > span {
+  display: block;
+}
+
+/* ---- Reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  .js-motion [data-reveal],
+  .js-motion [data-reveal] *,
+  .js-motion [data-reveal="mask"] .line-mask > span,
+  .js-motion [data-reveal="media"] > img,
+  .js-motion [data-reveal="media"] > video {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- Marquee (pauses for reduced motion via the rule above) ---- */
+@keyframes jp-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track {
+  animation: jp-marquee linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+  }
 }
