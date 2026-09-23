@@ -133,9 +133,9 @@ export function Navigation() {
             <Link
               href="/"
               aria-label={`${site.name} — home`}
-              className="font-display shrink-0 pl-1 text-[1.3rem] leading-none tracking-[-0.02em]"
+              className="font-display shrink-0 pl-1 text-[clamp(1.05rem,3.6vw,1.3rem)] leading-none tracking-[-0.02em] whitespace-nowrap"
             >
-              Jeevan<span className="text-ember-light">.</span>
+              Jeevan Productions<span className="text-ember-light">.</span>
             </Link>
 
             <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">

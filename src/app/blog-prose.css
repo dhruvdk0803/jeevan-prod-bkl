@@ -1,0 +1,155 @@
+/* ==========================================================================
+   .jp-prose — typography for CMS blog-post HTML.
+
+   The admin editor's Tiptap output is sanitised to a small allowlist (see
+   `lib/cms/html.ts`), so this only needs to style: h2/h3/h4, p, lists,
+   blockquote, code/pre, hr, img/figure/figcaption and links. Kept to a
+   comfortable 68ch measure and the same design tokens as the rest of the
+   site — no separate "blog theme".
+   ========================================================================== */
+
+.jp-prose {
+  max-width: 68ch;
+  color: var(--color-ink-2);
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  line-height: 1.7;
+}
+
+.jp-prose > * + * {
+  margin-top: 1.6em;
+}
+
+.jp-prose h2,
+.jp-prose h3,
+.jp-prose h4 {
+  color: var(--color-ink);
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
+}
+
+.jp-prose h2 {
+  margin-top: 2.2em;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.jp-prose h3 {
+  margin-top: 1.9em;
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+}
+
+.jp-prose h4 {
+  margin-top: 1.6em;
+  font-size: clamp(1.0625rem, 1.3vw, 1.1875rem);
+  font-weight: 600;
+  font-family: var(--font-sans);
+}
+
+.jp-prose > h2:first-child,
+.jp-prose > h3:first-child {
+  margin-top: 0;
+}
+
+.jp-prose a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-ember);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.jp-prose a:hover {
+  color: var(--color-ember);
+}
+
+.jp-prose strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.jp-prose ul,
+.jp-prose ol {
+  padding-left: 1.4em;
+}
+
+.jp-prose ul {
+  list-style: disc;
+}
+
+.jp-prose ol {
+  list-style: decimal;
+}
+
+.jp-prose li + li {
+  margin-top: 0.5em;
+}
+
+.jp-prose li::marker {
+  color: var(--color-ember);
+}
+
+.jp-prose blockquote {
+  border-left: 2px solid var(--color-ember);
+  padding-left: 1.4em;
+  font-family: var(--font-display);
+  font-size: clamp(1.1875rem, 1.6vw, 1.375rem);
+  line-height: 1.5;
+  color: var(--color-ink);
+  font-style: italic;
+}
+
+.jp-prose code {
+  background: var(--color-paper-2);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.88em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.jp-prose pre {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border-radius: 8px;
+  padding: 1.25em 1.4em;
+  overflow-x: auto;
+  font-size: 0.88em;
+  line-height: 1.6;
+}
+
+.jp-prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.jp-prose hr {
+  border: none;
+  border-top: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
+  margin-block: 2.4em;
+}
+
+.jp-prose figure {
+  margin: 0;
+}
+
+.jp-prose img {
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  background: var(--color-paper-2);
+}
+
+.jp-prose figcaption {
+  margin-top: 0.75em;
+  font-size: 0.8em;
+  color: var(--color-neutral);
+  text-align: center;
+}
+
+.jp-prose > p:first-of-type {
+  font-size: clamp(1.125rem, 1.5vw, 1.3125rem);
+  color: var(--color-ink-2);
+}

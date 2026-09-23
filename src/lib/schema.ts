@@ -11,6 +11,11 @@ import { site } from "@/content/site";
 
 const ORG_ID = `${site.url}/#organization`;
 
+/** CMS images (Vercel Blob / uploads) may already be absolute; local paths aren't. */
+function absoluteUrl(pathOrUrl: string) {
+  return /^https?:\/\//i.test(pathOrUrl) ? pathOrUrl : `${site.url}${pathOrUrl}`;
+}
+
 export function organizationSchema() {
   return {
     "@context": "https://schema.org",
@@ -167,6 +172,68 @@ export function jobPostingSchema(j: {
         addressCountry: site.country,
       },
     },
+  };
+}
+
+/**
+ * BlogPosting schema for a single published post. Author is a `Person` when
+ * the post has a byline, falling back to the organization — a post is never
+ * emitted without *some* author, but we never invent a name.
+ */
+export function blogPostingSchema(p: {
+  title: string;
+  description: string;
+  slug: string;
+  image?: string | null;
+  datePublished: string;
+  dateModified: string;
+  authorName?: string | null;
+  tags?: string[];
+  section?: string | null;
+  wordCount?: number;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: p.title,
+    description: p.description,
+    url: `${site.url}/blog/${p.slug}`,
+    ...(p.image ? { image: absoluteUrl(p.image) } : {}),
+    datePublished: p.datePublished,
+    dateModified: p.dateModified,
+    author: p.authorName
+      ? { "@type": "Person", name: p.authorName }
+      : { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${site.url}/blog/${p.slug}` },
+    ...(p.tags && p.tags.length ? { keywords: p.tags.join(", ") } : {}),
+    ...(p.section ? { articleSection: p.section } : {}),
+    ...(typeof p.wordCount === "number" ? { wordCount: p.wordCount } : {}),
+  };
+}
+
+/** Blog section identity — used once, on the /blog index. */
+export function blogSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${site.url}/blog/#blog`,
+    url: `${site.url}/blog`,
+    name: `${site.name} — Blog`,
+    publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": `${site.url}/#website` },
+  };
+}
+
+/** Generic listing schema for /blog, /blog/category/[slug], /blog/tag/[slug], /blog/page/[n]. */
+export function collectionPageSchema(c: { name: string; description: string; path: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: c.name,
+    description: c.description,
+    url: `${site.url}${c.path}`,
+    isPartOf: { "@id": `${site.url}/#website` },
   };
 }
 

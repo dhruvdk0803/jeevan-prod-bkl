@@ -2,7 +2,7 @@ import Link from "next/link";
 import { worlds } from "@/content/site";
 import { IndexLabel } from "@/components/primitives/Type";
 import { MediaReveal } from "@/components/primitives/Media";
-import { ArrowLink } from "@/components/primitives/Actions";
+import { Arrow } from "@/components/primitives/Actions";
 
 /**
  * WorldStrip — a compact summary of the three worlds (Stories / Brands /
@@ -50,9 +50,15 @@ export function WorldStrip() {
                 imgClassName="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
               />
             </div>
-            <ArrowLink href={world.href} className="pointer-events-none shrink-0">
+            {/* Visual affordance only — the whole row is already the link, and a
+                nested <a> is invalid HTML (it broke hydration). */}
+            <span
+              aria-hidden="true"
+              className="t-label text-ink group-hover:text-ember inline-flex shrink-0 items-center gap-2.5 py-2 transition-colors duration-300"
+            >
               Explore
-            </ArrowLink>
+              <Arrow className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
+            </span>
           </div>
         </Link>
       ))}

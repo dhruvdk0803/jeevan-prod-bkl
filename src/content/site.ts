@@ -42,6 +42,7 @@ export const primaryNav: NavItem[] = [
   { label: "Work", href: "/work", meta: "Selected projects" },
   { label: "Services", href: "/services", meta: "Media, marketing, events" },
   { label: "About", href: "/about", meta: "Who we are" },
+  { label: "Blog", href: "/blog", meta: "Notes, stories and guides" },
   { label: "Impact", href: "/impact", meta: "Community stories" },
   { label: "Social Hours", href: "/social-hours", meta: "Gatherings across San Diego" },
   { label: "Careers", href: "/careers", meta: "Join the team" },

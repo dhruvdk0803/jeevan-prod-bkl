@@ -2,7 +2,7 @@
 
 import { useActionState, useEffect, useRef } from "react";
 import { useFormStatus } from "react-dom";
-import { submitApplication } from "@/app/careers/actions";
+import { submitApplication } from "@/app/(site)/careers/actions";
 import type { ActionResult } from "@/lib/form-security";
 import { roleOptions } from "@/content/careers";
 import {

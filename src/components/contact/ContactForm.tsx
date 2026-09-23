@@ -3,7 +3,7 @@
 import { useActionState, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { clsx } from "clsx";
-import { submitEnquiry } from "@/app/contact/actions";
+import { submitEnquiry } from "@/app/(site)/contact/actions";
 import type { ActionResult } from "@/lib/form-security";
 import {
   FieldError,

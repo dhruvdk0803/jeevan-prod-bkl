@@ -1,84 +1,42 @@
-import Image from "next/image";
 import Link from "next/link";
+import { preload } from "react-dom";
 import { Button } from "@/components/primitives/Actions";
-import { photoCatalog } from "@/content/photo-catalog";
 import { worlds } from "@/content/site";
+import { HeroVideo, HeroVideoToggle } from "./HeroVideo";
 
 /**
- * Homepage hero — full-bleed cinematic triptych with a world index.
+ * Homepage hero — full-bleed looping brand film with a world index.
  *
- * Three of JP's own photographs run edge to edge at full viewport height, so
- * the imagery reads as solid and immersive rather than as thumbnails floating
- * on a page. Because every work photo is 4:5 portrait, splitting the viewport
- * into three tall columns crops them far less than stretching one photo across
- * a widescreen would. Below `sm` it collapses to a single full-bleed image.
+ * The film (public/media/hero, encoded from JP's master: 1080p for desktop,
+ * 720p for phones, muted, looping) plays edge to edge at full viewport height
+ * behind a heavy scrim, so the type holds AA contrast over any frame.
  *
- * Layout is a plain flex column — statement centred in the remaining space,
- * scroll cue and world index in normal flow at the bottom. Nothing is
- * absolutely positioned, so nothing can drift out of alignment as the
- * viewport changes.
- *
- * Deliberately a **server component with CSS-only choreography**. This is the
- * LCP moment, so it must not wait on GSAP, Lenis or hydration: the first image
- * is preloaded, the type animates on pure keyframes, and the sequence plays
- * even if the JS bundle never arrives.
+ * The statement, scroll cue and world index stay a **server-rendered,
+ * CSS-choreographed** flex column: this is the LCP moment, so nothing waits on
+ * GSAP, Lenis or hydration. The poster frame is preloaded at high priority and
+ * is what paints first; the video fades in over it once it can play.
  */
 
 const LINES = ["We create stories, brands,", "and experiences that", "bring people together."];
 
-/** Warm frames that hold up cropped tall and side by side. */
-const PANEL_SOURCES = [
-  "/media/work/photo-24.jpeg", // cultural celebration — vivid red
-  "/media/work/photo-13.jpeg", // lakeside at sunset — golden
-  "/media/work/photo-9.jpeg", //  venue at dusk — amber
-];
-
-const panels = PANEL_SOURCES.map((src) => {
-  const found = photoCatalog.find((p) => p.src === src);
-  if (!found) throw new Error(`Hero panel missing from catalog: ${src}`);
-  return found;
-});
+const POSTER = "/media/hero/hero-poster.jpg";
 
 export function Hero() {
+  preload(POSTER, { as: "image", fetchPriority: "high" });
   return (
     <section
       className="on-dark bg-ink text-paper relative isolate flex min-h-[94svh] flex-col overflow-hidden"
       aria-labelledby="hero-heading"
     >
-      {/* ---- Solid full-bleed imagery ---- */}
-      <div className="absolute inset-0 -z-20 grid grid-cols-1 sm:grid-cols-3">
-        {panels.map((photo, i) => (
-          <div
-            key={photo.src}
-            className={`jp-panel relative h-full ${i > 0 ? "hidden sm:block" : ""}`}
-            style={{ "--d": `${i * 0.12}s` } as React.CSSProperties}
-          >
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              fill
-              sizes="(max-width: 640px) 100vw, 34vw"
-              quality={82}
-              preload={i === 0}
-              loading={i === 0 ? "eager" : "lazy"}
-              fetchPriority={i === 0 ? "high" : "auto"}
-              className="h-full w-full object-cover"
-            />
-            {/* Hairline seam between frames — reads as a deliberate triptych. */}
-            {i > 0 ? (
-              <span
-                aria-hidden="true"
-                className="absolute inset-y-0 left-0 w-px bg-white/15"
-              />
-            ) : null}
-          </div>
-        ))}
+      {/* ---- Full-bleed brand film ---- */}
+      <div className="jp-film absolute inset-0 -z-20">
+        <HeroVideo poster={POSTER} />
       </div>
 
       {/* Scrim — heavy enough to hold AA contrast for light type over any frame. */}
       <div
         aria-hidden="true"
-        className="from-ink/92 via-ink/72 to-ink/95 absolute inset-0 -z-10 bg-gradient-to-b"
+        className="from-ink/85 via-ink/55 to-ink/92 absolute inset-0 -z-10 bg-gradient-to-b"
       />
 
       {/* ---- Centred statement ---- */}
@@ -132,7 +90,10 @@ export function Hero() {
 
       {/* ---- Scroll cue + world index, both in normal flow ---- */}
       <div className="jp-in" style={{ "--d": "1s" } as React.CSSProperties}>
-        <div className="flex justify-center pb-7">
+        <div className="gutter relative mx-auto flex max-w-[110rem] justify-center pb-7">
+          <div className="absolute right-[var(--spacing-gutter)] bottom-7">
+            <HeroVideoToggle />
+          </div>
           <span aria-hidden="true" className="flex flex-col items-center gap-2.5">
             <span className="t-label text-paper/55">Scroll</span>
             <span className="bg-paper/20 relative h-9 w-px overflow-hidden">
@@ -165,8 +126,8 @@ export function Hero() {
         .jp-in    { opacity: 0; animation: jp-rise 900ms cubic-bezier(0.16,1,0.3,1) var(--d, 0s) both; }
         .jp-line  { display: block; transform: translate3d(0, 110%, 0);
                     animation: jp-lift 1050ms cubic-bezier(0.16,1,0.3,1) var(--d, 0s) both; }
-        .jp-panel img { transform: scale(1.1);
-                    animation: jp-settle 2600ms cubic-bezier(0.16,1,0.3,1) var(--d, 0s) both; }
+        .jp-film  { transform: scale(1.06);
+                    animation: jp-settle 2600ms cubic-bezier(0.16,1,0.3,1) both; }
         .jp-scroll { animation: jp-drop 2400ms cubic-bezier(0.76,0,0.24,1) 1.4s infinite; }
 
         @keyframes jp-rise   { from { opacity: 0; transform: translate3d(0,1.25rem,0); }
@@ -178,7 +139,7 @@ export function Hero() {
                                60%,100% { transform: translateY(200%); } }
 
         @media (prefers-reduced-motion: reduce) {
-          .jp-in, .jp-line, .jp-panel img, .jp-scroll {
+          .jp-in, .jp-line, .jp-film, .jp-scroll {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;

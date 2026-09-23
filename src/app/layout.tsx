@@ -1,11 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Instrument_Sans } from "next/font/google";
-import { MotionProvider } from "@/lib/motion";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
-import { Cursor } from "@/components/layout/Cursor";
+import Script from "next/script";
 import { organizationSchema } from "@/lib/schema";
 import { site } from "@/content/site";
+import { getSiteSettings } from "@/lib/cms/public";
 import "./globals.css";
 
 /* Display: Fraunces — an editorial serif with optical sizing, so large
@@ -26,7 +24,7 @@ const grotesk = Instrument_Sans({
   variable: "--font-grotesk",
 });
 
-export const metadata: Metadata = {
+const baseMetadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
     default: `${site.name} — Media, Marketing & Events in San Diego`,
@@ -67,6 +65,33 @@ export const metadata: Metadata = {
   },
 };
 
+/**
+ * Base metadata merged with Admin → Settings: default title/description,
+ * default share image and search-engine verification tokens all come from
+ * the CMS so they can change without a deploy.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const s = await getSiteSettings();
+  const title = s.seoTitleDefault || (baseMetadata.title as { default: string }).default;
+  const description = s.seoDescriptionDefault || site.description;
+  const images = s.defaultOgImageUrl ? [{ url: s.defaultOgImageUrl }] : undefined;
+  return {
+    ...baseMetadata,
+    title: { default: title, template: `%s — ${site.name}` },
+    description,
+    openGraph: { ...baseMetadata.openGraph, description, ...(images ? { images } : {}) },
+    twitter: { ...baseMetadata.twitter, description, ...(images ? { images } : {}) },
+    alternates: {
+      ...baseMetadata.alternates,
+      types: { "application/rss+xml": [{ url: "/blog/feed.xml", title: `${site.name} — Blog` }] },
+    },
+    verification: {
+      ...(s.googleSiteVerification ? { google: s.googleSiteVerification } : {}),
+      ...(s.bingSiteVerification ? { other: { "msvalidate.01": s.bingSiteVerification } } : {}),
+    },
+  };
+}
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
@@ -86,7 +111,9 @@ var d=document.documentElement;d.classList.add("js-motion");
 window.__jpMotionFailsafe=setTimeout(function(){d.classList.remove("js-motion")},2500);
 }catch(e){}})();`;
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const { ga4MeasurementId } = await getSiteSettings();
+  const gaId = ga4MeasurementId && /^G-[A-Z0-9]+$/.test(ga4MeasurementId) ? ga4MeasurementId : null;
   return (
     /* suppressHydrationWarning: MOTION_BOOTSTRAP intentionally adds
        `.js-motion` to <html> before React hydrates, so the class list is
@@ -100,21 +127,21 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script dangerouslySetInnerHTML={{ __html: MOTION_BOOTSTRAP }} />
       </head>
       <body>
-        <a href="#main" className="skip-link t-label">
-          Skip to content
-        </a>
-        <MotionProvider>
-          <Navigation />
-          <main id="main" tabIndex={-1}>
-            {children}
-          </main>
-          <Footer />
-          <Cursor />
-        </MotionProvider>
+        {/* Site chrome (nav, footer, motion) lives in app/(site)/layout.tsx so
+            /admin renders in its own clean shell. */}
+        {children}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema()) }}
         />
+        {gaId ? (
+          <>
+            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
+            <Script id="ga4" strategy="afterInteractive">
+              {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','${gaId}');`}
+            </Script>
+          </>
+        ) : null}
       </body>
     </html>
   );

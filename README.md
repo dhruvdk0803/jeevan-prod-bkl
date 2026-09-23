@@ -99,7 +99,56 @@ never leave content invisible.
 
 ---
 
+## CMS & blog (`/admin`)
+
+A self-hosted CMS lives at **`/admin`** (email + password). The team writes,
+schedules and publishes posts there; they appear at **`/blog`** with full SEO.
+
+| Area | What it does |
+|---|---|
+| Posts | Rich-text editor (headings, lists, quotes, links, images), autosave for drafts, schedule by setting a future publish date, preview drafts on the real site, Google + social previews, live SEO score. Renaming a published post's slug auto-creates a 301 from the old URL. |
+| Categories / Tags | Taxonomy with their own SEO titles and descriptions and public archive pages. |
+| Media | Upload library (JPEG/PNG/WebP/AVIF/GIF, 8 MB, alt text required). |
+| SEO | Per-page title/description/share-image/noindex overrides for every marketing page, plus a health check (missing descriptions, alt text…). |
+| Redirects | 301/302 rules for moved URLs, applied site-wide by `src/proxy.ts`. |
+| Settings (admins) | Default meta, default share image, Google Search Console + Bing verification, GA4 ID, blog heading. |
+| Users (admins) | Invite editors/admins, reset passwords, byline bios. |
+
+Public SEO output: per-post metadata + canonical + Open Graph `article` tags,
+`BlogPosting` and `BreadcrumbList` JSON-LD, auto table of contents, generated
+share images, `/blog/feed.xml` (RSS), and a sitemap that includes posts and
+categories and drops anything marked noindex. `/admin` and `/api` are
+disallowed in robots.txt and sent with `X-Robots-Tag: noindex`.
+
+**Local:** `npm run dev` — the CMS uses an embedded database in `.data/`
+automatically; nothing to install. Create a login with
+`npm run admin:create` (stop the dev server first), then sign in at
+http://localhost:3000/admin.
+
+**Architecture:** Drizzle ORM (`src/db/schema.ts`, migrations in `drizzle/`),
+session auth (`src/lib/auth/`), cached public reads that admin writes
+invalidate instantly (`src/lib/cms/public.ts`, `tags.ts`). Build contract for
+the CMS code: `CMS-BRIEF.md`. After changing the schema: `npm run db:generate`.
+
+---
+
 ## Going live
+
+**CMS (required for /admin and /blog):**
+
+1. In Vercel → Storage, add **Neon Postgres** and **Blob** to the project.
+   They set `DATABASE_URL` and `BLOB_READ_WRITE_TOKEN` automatically.
+2. Set `ADMIN_EMAIL` and a strong `ADMIN_PASSWORD`, deploy, and sign in at
+   `/admin/login` with exactly those — the first login creates the admin.
+   Then remove both variables. (Or run `npm run admin:create` with the
+   production `DATABASE_URL` in `.env.local`.)
+3. `npm run build` applies database migrations before building, so every
+   deploy keeps the schema current.
+4. In Admin → Settings, paste the Google Search Console verification token,
+   then submit `https://www.jeevanproductions.com/sitemap.xml` in Search
+   Console.
+
+**Forms and content:**
 
 1. **Read `NEEDS-FROM-CLIENT.md`** and resolve the "Confirm Before Publish" list.
 2. Set the environment variables in `.env.example`:

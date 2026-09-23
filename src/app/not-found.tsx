@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { AnimatedHeading, Label } from "@/components/primitives/Type";
 import { ArrowLink, Button } from "@/components/primitives/Actions";
 import { site } from "@/content/site";
+import { SiteChrome } from "@/components/layout/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
@@ -17,6 +18,7 @@ export const metadata: Metadata = {
  */
 export default function NotFound() {
   return (
+    <SiteChrome>
     <section aria-labelledby="not-found-heading" className="bg-paper text-ink">
       <div className="gutter mx-auto flex min-h-[calc(100svh-var(--nav-h))] max-w-[110rem] flex-col justify-center py-[clamp(5rem,12vw,8rem)]">
         <Label className="mb-8">404 — Off the map</Label>
@@ -62,5 +64,6 @@ export default function NotFound() {
         </nav>
       </div>
     </section>
+    </SiteChrome>
   );
 }

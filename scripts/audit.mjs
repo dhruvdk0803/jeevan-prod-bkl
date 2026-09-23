@@ -23,6 +23,8 @@ const ROUTES = [
   "/contact",
   "/privacy",
   "/terms",
+  // CMS-driven; individual posts are dynamic, so the index stands in for them.
+  "/blog",
 ];
 
 const BANNED = [
