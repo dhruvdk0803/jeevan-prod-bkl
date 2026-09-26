@@ -40,6 +40,7 @@ export const site = {
 
 export const primaryNav: NavItem[] = [
   { label: "Work", href: "/work", meta: "Selected projects" },
+  { label: "Portfolio", href: "/portfolio", meta: "The story in frames" },
   { label: "Services", href: "/services", meta: "Media, marketing, events" },
   { label: "About", href: "/about", meta: "Who we are" },
   { label: "Blog", href: "/blog", meta: "Notes, stories and guides" },

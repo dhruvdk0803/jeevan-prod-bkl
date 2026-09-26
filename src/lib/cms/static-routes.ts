@@ -27,6 +27,13 @@ export const STATIC_ROUTES: StaticRoute[] = [
       "Photography and event coverage from Jeevan Productions across media, marketing and events — San Diego and Los Angeles.",
   },
   {
+    path: "/portfolio",
+    label: "Portfolio",
+    defaultTitle: "Portfolio",
+    defaultDescription:
+      "Jeevan Productions' photography portfolio — stage, evening events, gatherings, weddings, portraits, families, places and details, from a San Diego creative company.",
+  },
+  {
     path: "/services",
     label: "Services",
     defaultTitle: "Services",
