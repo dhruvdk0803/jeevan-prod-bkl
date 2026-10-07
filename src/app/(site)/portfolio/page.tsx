@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { CTASection } from "@/components/primitives/Actions";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
-import { PortfolioStory } from "@/components/portfolio/PortfolioStory";
+import { PortfolioWall } from "@/components/portfolio/PortfolioWall";
 import {
   activeChapters,
   imagesByChapter,
@@ -15,12 +15,10 @@ import { site } from "@/content/site";
 import "./portfolio.css";
 
 /**
- * /portfolio — JP's photography told as a film in acts.
+ * /portfolio — JP's photography.
  *
- *   Opening   WebGL corridor of frames you fly through on scroll
- *   Contents  the acts, with a floating preview
- *   Acts      per chapter: aperture reveal → pinned horizontal reel
- *   Wall      every frame, filterable, with a fullscreen viewer
+ *   Opening   a short WebGL corridor of frames you fly through on scroll
+ *   Wall      every frame, filterable by category, with a fullscreen viewer
  *
  * All selection happens here on the server so the client receives only the
  * data each piece needs.
@@ -51,7 +49,7 @@ function pickCover(images: PortfolioImage[]) {
   );
 }
 
-/** Round-robin across acts so the corridor never shows one kind of work for long. */
+/** Round-robin across categories so the corridor never shows one kind of work for long. */
 function interleave(groups: PortfolioImage[][], limit: number) {
   const out: PortfolioImage[] = [];
   for (let i = 0; out.length < limit; i++) {
@@ -68,23 +66,20 @@ function interleave(groups: PortfolioImage[][], limit: number) {
   return out;
 }
 
-const REEL_MAX = 8;
-const TUNNEL_FRAMES = 36;
+const TUNNEL_FRAMES = 18;
 
 export default function PortfolioPage() {
-  const acts = activeChapters.map((chapter) => {
-    const all = imagesByChapter(chapter.id);
-    const featured = all.filter((i) => i.featured);
-    const cover = pickCover(featured.length ? featured : all);
-    const pool = (featured.length >= 4 ? featured : all).filter((i) => i.id !== cover.id);
-    return { chapter, cover, reel: pool.slice(0, REEL_MAX), total: all.length };
-  });
+  const categories = activeChapters.map((chapter) => ({
+    chapter,
+    total: imagesByChapter(chapter.id).length,
+  }));
 
+  // Featured frames first, round-robin across categories, so the short
+  // opening shows the range of the work rather than one kind of room.
   const tunnel = interleave(
-    acts.map((a) => {
-      const all = imagesByChapter(a.chapter.id);
-      const featured = all.filter((i) => i.featured);
-      return [...featured, ...all.filter((i) => !i.featured)];
+    activeChapters.map((c) => {
+      const all = imagesByChapter(c.id);
+      return [...all.filter((i) => i.featured), ...all.filter((i) => !i.featured)];
     }),
     TUNNEL_FRAMES,
   ).map(({ id, width, height, color, alt }) => ({ id, width, height, color, alt }));
@@ -102,10 +97,10 @@ export default function PortfolioPage() {
         ])}
       />
 
-      <PortfolioHero frames={tunnel} total={portfolio.length} actCount={acts.length} />
+      <PortfolioHero frames={tunnel} total={portfolio.length} categoryCount={categories.length} />
 
       {portfolio.length ? (
-        <PortfolioStory acts={acts} images={portfolio} chapters={activeChapters} />
+        <PortfolioWall categories={categories} images={portfolio} chapters={activeChapters} />
       ) : null}
 
       <CTASection

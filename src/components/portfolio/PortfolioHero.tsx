@@ -6,7 +6,7 @@ import { portfolioSrc } from "@/content/portfolio";
 import { FrameTunnel } from "./FrameTunnel";
 
 /**
- * Portfolio opening — "roll film".
+ * Portfolio opening — a short "roll film" before the wall.
  *
  * A tall section with a sticky, full-viewport stage. Inside: the WebGL frame
  * tunnel, and over it the only DOM that matters for SEO and screen readers —
@@ -28,12 +28,12 @@ const getReduced = () => window.matchMedia(REDUCED).matches;
 type Props = {
   frames: Pick<PortfolioImage, "id" | "width" | "height" | "color" | "alt">[];
   total: number;
-  actCount: number;
+  categoryCount: number;
 };
 
 const pad = (n: number) => String(n).padStart(3, "0");
 
-export function PortfolioHero({ frames, total, actCount }: Props) {
+export function PortfolioHero({ frames, total, categoryCount }: Props) {
   const reduced = useSyncExternalStore(subscribe, getReduced, () => false);
   const sectionRef = useRef<HTMLElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
@@ -47,13 +47,13 @@ export function PortfolioHero({ frames, total, actCount }: Props) {
     if (barRef.current) barRef.current.style.transform = `scaleX(${p})`;
     if (titleRef.current) {
       // Title holds, then pushes toward the lens and dissolves.
-      const t = Math.min(1, Math.max(0, (p - 0.04) / 0.18));
+      const t = Math.min(1, Math.max(0, (p - 0.06) / 0.28));
       titleRef.current.style.opacity = String(1 - t);
       titleRef.current.style.transform = `scale(${1 + t * 0.35})`;
       titleRef.current.style.filter = `blur(${t * 10}px)`;
     }
     if (outroRef.current) {
-      const t = Math.min(1, Math.max(0, (p - 0.8) / 0.14));
+      const t = Math.min(1, Math.max(0, (p - 0.72) / 0.2));
       outroRef.current.style.opacity = String(t);
       outroRef.current.style.transform = `translate3d(0, ${(1 - t) * 24}px, 0)`;
     }
@@ -67,7 +67,7 @@ export function PortfolioHero({ frames, total, actCount }: Props) {
     <section
       ref={sectionRef}
       aria-labelledby="portfolio-heading"
-      className={reduced ? "bg-ink text-paper on-dark relative" : "bg-ink text-paper on-dark relative h-[460vh]"}
+      className={reduced ? "bg-ink text-paper on-dark relative" : "bg-ink text-paper on-dark relative h-[240vh]"}
       data-theme-dark
     >
       <div ref={stageRef} className="group/stage sticky top-0 h-svh overflow-hidden">
@@ -109,7 +109,7 @@ export function PortfolioHero({ frames, total, actCount }: Props) {
           className="gutter pointer-events-none absolute inset-0 flex flex-col items-center justify-center text-center will-change-transform"
         >
           <p className="t-label text-ember-light pf-rise mb-6" style={{ "--d": "0.1s" } as React.CSSProperties}>
-            {actCount} acts · {total} frames
+            {categoryCount} categories · {total} frames
           </p>
           {/* The label gives assistive tech one word; crawlers read the adjacent
               letter spans (no whitespace between them) as "Portfolio" too. */}
@@ -130,7 +130,7 @@ export function PortfolioHero({ frames, total, actCount }: Props) {
           className="gutter t-statement font-display pointer-events-none absolute inset-x-0 bottom-[22%] mx-auto max-w-[22ch] text-center opacity-0"
           aria-hidden="true"
         >
-          Now, the story in {actCount} acts.
+          Every frame, below.
         </p>
 
         {!reduced ? (

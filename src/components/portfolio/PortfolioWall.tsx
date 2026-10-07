@@ -1,25 +1,24 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { clsx } from "clsx";
 import type { Chapter, ChapterId, PortfolioImage } from "@/content/portfolio";
 import { portfolioSrc } from "@/content/portfolio";
 import { scrollToId } from "@/lib/motion";
-import { ChapterReel } from "./ChapterReel";
 import { Lightbox } from "./Lightbox";
 
 /**
- * Everything after the opening: the contents, the acts, and the wall.
+ * The portfolio wall — every frame, filterable by category ("All" + one chip
+ * per category), opening into the fullscreen viewer.
  *
- * Client-side only because the acts and the wall share one piece of state —
- * the wall's filter — so "See every … frame" at the end of an act can jump to
- * the wall pre-filtered. All of it still server-renders in full.
+ * Client component for the filter, batching and viewer state; it still
+ * server-renders the first batch in full, with alt text, for SEO and no-JS.
  */
 
-type Act = { chapter: Chapter; cover: PortfolioImage; reel: PortfolioImage[]; total: number };
+type Category = { chapter: Chapter; total: number };
 
 type Props = {
-  acts: Act[];
+  categories: Category[];
   images: PortfolioImage[];
   chapters: Chapter[];
 };
@@ -28,7 +27,7 @@ type Filter = ChapterId | "all";
 
 const WALL_BATCH = 60;
 
-export function PortfolioStory({ acts, images, chapters }: Props) {
+export function PortfolioWall({ categories, images, chapters }: Props) {
   const [filter, setFilter] = useState<Filter>("all");
   const [open, setOpen] = useState<number | null>(null);
   // The wall grows in batches so the page (and the DOM) stays light.
@@ -42,53 +41,41 @@ export function PortfolioStory({ acts, images, chapters }: Props) {
   const pickFilter = useCallback((f: Filter) => {
     setFilter(f);
     setShown(WALL_BATCH);
+    // Deep in a long wall, switching category jumps back to its top.
+    const wall = document.getElementById("wall");
+    if (wall && wall.getBoundingClientRect().top < 0) requestAnimationFrame(() => scrollToId("wall"));
   }, []);
-
-  const openWall = useCallback((id: ChapterId) => {
-    pickFilter(id);
-    requestAnimationFrame(() => scrollToId("wall"));
-  }, [pickFilter]);
 
   const closeBox = useCallback(() => setOpen(null), []);
 
   return (
     <>
-      <Contents acts={acts} />
-
-      {acts.map((act, i) => (
-        <ChapterReel
-          key={act.chapter.id}
-          chapter={act.chapter}
-          cover={act.cover}
-          frames={act.reel}
-          total={act.total}
-          tone={i % 2 === 0 ? "ink" : "paper"}
-          onOpenWall={openWall}
-        />
-      ))}
-
       {/* ---- The wall ---- */}
       <section id="wall" aria-labelledby="wall-heading" className="bg-paper-warm text-ink scroll-mt-[var(--nav-h)]">
         <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,11vw,9rem)]">
           <div className="mb-12 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="t-label text-ember mb-5">The wall</p>
+              <p className="t-label text-ember mb-5">The work</p>
               <h2 id="wall-heading" className="pf-act-title font-display">
                 Every frame.
               </h2>
             </div>
             <p className="t-lead text-ink-3 max-w-[36ch]">
-              All {images.length}, uncut. Filter by act, then open any frame full screen.
+              All {images.length}, uncut. Pick a category, then open any frame full screen.
             </p>
           </div>
 
-          <div role="toolbar" aria-label="Filter frames by act" className="mb-10 flex flex-wrap gap-2">
+          <div
+            role="toolbar"
+            aria-label="Filter frames by category"
+            className="bg-paper-warm/90 sticky top-[calc(var(--nav-h)+0.5rem)] z-10 -mx-2 mb-10 flex flex-wrap gap-2 rounded-[28px] px-2 py-2 backdrop-blur"
+          >
             <FilterChip active={filter === "all"} onClick={() => pickFilter("all")}>
               All <span className="tabular-nums opacity-60">{images.length}</span>
             </FilterChip>
-            {acts.map((a) => (
-              <FilterChip key={a.chapter.id} active={filter === a.chapter.id} onClick={() => pickFilter(a.chapter.id)}>
-                {a.chapter.numeral} · {a.chapter.title} <span className="tabular-nums opacity-60">{a.total}</span>
+            {categories.map((c) => (
+              <FilterChip key={c.chapter.id} active={filter === c.chapter.id} onClick={() => pickFilter(c.chapter.id)}>
+                {c.chapter.title} <span className="tabular-nums opacity-60">{c.total}</span>
               </FilterChip>
             ))}
           </div>
@@ -184,82 +171,5 @@ function FilterChip({
     >
       {children}
     </button>
-  );
-}
-
-/**
- * The contents page of the film: one row per act. On pointer devices a
- * preview of the act's key frame floats with the cursor.
- */
-function Contents({ acts }: { acts: Act[] }) {
-  const previewRef = useRef<HTMLDivElement>(null);
-  const [hover, setHover] = useState<string | null>(null);
-
-  const onMove = (e: React.PointerEvent) => {
-    const el = previewRef.current;
-    if (!el || e.pointerType !== "mouse") return;
-    el.style.transform = `translate3d(${e.clientX + 24}px, ${e.clientY - 120}px, 0) rotate(-3deg)`;
-  };
-
-  return (
-    <section aria-labelledby="contents-heading" className="bg-paper text-ink relative" onPointerMove={onMove}>
-      <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,11vw,9rem)]">
-        <div className="mb-14 grid gap-6 md:grid-cols-[1fr_1.4fr] md:items-end">
-          <h2 id="contents-heading" className="t-label text-ember">
-            Contents
-          </h2>
-          <p className="t-statement font-display max-w-[20ch]">
-            {acts.length} kinds of room. One instinct: find the moment that matters.
-          </p>
-        </div>
-
-        <ol>
-          {acts.map((a) => (
-            <li key={a.chapter.id} className="rule">
-              <a
-                href={`#act-${a.chapter.id}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToId(`act-${a.chapter.id}`);
-                }}
-                onPointerEnter={() => setHover(a.chapter.id)}
-                onPointerLeave={() => setHover(null)}
-                onFocus={() => setHover(null)}
-                className="group grid grid-cols-[3.5rem_1fr_auto] items-baseline gap-4 py-[clamp(1rem,2.4vw,1.8rem)] md:grid-cols-[6rem_1fr_1fr_auto]"
-              >
-                <span className="font-display text-neutral text-[clamp(1.25rem,2vw,1.75rem)] italic">
-                  {a.chapter.numeral}
-                </span>
-                <span className="t-h2 font-display group-hover:text-ember transition-[color,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-3">
-                  {a.chapter.title}
-                </span>
-                <span className="t-body text-ink-3 hidden md:block">{a.chapter.line}</span>
-                <span className="t-label text-neutral tabular-nums">{String(a.total).padStart(3, "0")}</span>
-              </a>
-            </li>
-          ))}
-        </ol>
-      </div>
-
-      <div
-        ref={previewRef}
-        aria-hidden="true"
-        className="pf-preview pointer-events-none fixed top-0 left-0 z-50 hidden w-[min(22vw,320px)] overflow-hidden rounded-[3px] shadow-2xl md:block"
-        style={{ opacity: hover ? 1 : 0 }}
-      >
-        {acts.map((a) => (
-          // eslint-disable-next-line @next/next/no-img-element -- decorative preview
-          <img
-            key={a.chapter.id}
-            src={portfolioSrc(a.cover.id, "sm")}
-            alt=""
-            width={320}
-            height={400}
-            loading="lazy"
-            className={clsx("aspect-[4/5] w-full object-cover", hover === a.chapter.id ? "block" : "hidden")}
-          />
-        ))}
-      </div>
-    </section>
   );
 }

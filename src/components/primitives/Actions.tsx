@@ -22,7 +22,7 @@ export function Button({
 }: {
   href: string;
   children: ReactNode;
-  variant?: "solid" | "outline" | "light" | "ghost";
+  variant?: "solid" | "outline" | "light" | "ghost" | "ghost-ember";
   className?: string;
   external?: boolean;
 } & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
@@ -34,6 +34,9 @@ export function Button({
     variant === "light" && "bg-paper text-ink hover:bg-ember hover:text-paper",
     variant === "ghost" &&
       "border border-paper/35 text-paper hover:border-paper hover:bg-paper hover:text-ink",
+    // Outlined on dark, fills with the accent on hover (homepage hero CTA).
+    variant === "ghost-ember" &&
+      "border border-paper/35 text-paper hover:border-ember hover:bg-ember hover:text-paper",
     className,
   );
 

@@ -82,7 +82,7 @@ export function Hero() {
           <Button href="/work" variant="light">
             Explore our work
           </Button>
-          <Button href="/contact" variant="ghost">
+          <Button href="/contact" variant="ghost-ember">
             Start a project
           </Button>
         </div>
