@@ -352,17 +352,17 @@ export const projects: Project[] = [
     summary:
       "Grass, tree shade, and families arranged the way they actually sit together — not lined up for it.",
     cover: {
-      src: "/media/work/photo-21.jpeg",
-      width: 730,
-      height: 909,
-      alt: "A family of five, two parents and three young children, sit together on grass under a large tree, smiling at the camera.",
+      src: "/media/site/together-work.jpeg",
+      width: 2000,
+      height: 1333,
+      alt: "A family plays together on a grassy hill at golden hour, a dog running between them.",
     },
     gallery: [
       {
-        src: "/media/work/photo-21.jpeg",
-        width: 730,
-        height: 909,
-        alt: "A family of five, two parents and three young children, sit together on grass under a large tree, smiling at the camera.",
+        src: "/media/site/together-work.jpeg",
+        width: 2000,
+        height: 1333,
+        alt: "A family plays together on a grassy hill at golden hour, a dog running between them.",
       },
       {
         src: "/media/work/photo-26.jpeg",

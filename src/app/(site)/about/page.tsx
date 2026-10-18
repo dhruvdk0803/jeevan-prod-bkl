@@ -3,11 +3,12 @@ import { publishedTeam } from "@/content/team";
 import { impactPhilosophy } from "@/content/impact";
 import { AnimatedHeading, IndexLabel, Label, SectionIntro } from "@/components/primitives/Type";
 import { MediaReveal, CinematicBand } from "@/components/primitives/Media";
-import { ArrowLink, CTASection } from "@/components/primitives/Actions";
+import { ArrowLink } from "@/components/primitives/Actions";
 import { BrandMarquee } from "@/components/primitives/BrandMarquee";
 import { WorldStrip } from "@/components/about/WorldStrip";
 import { breadcrumbSchema, jsonLd } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
+import { sitePhotos } from "@/content/site-photos";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
@@ -55,8 +56,8 @@ export default function AboutPage() {
           </div>
           <div className="md:col-span-5">
             <MediaReveal
-              src="/media/brand/story.png"
-              alt="The Jeevan Productions logo."
+              src={sitePhotos.jpLogo.src}
+              alt={sitePhotos.jpLogo.alt}
               ratio="4/5"
               sizes="(max-width: 768px) 100vw, 40vw"
               priority
@@ -74,8 +75,8 @@ export default function AboutPage() {
         <div className="gutter mx-auto grid max-w-[110rem] gap-x-14 gap-y-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <MediaReveal
-              src="/media/work/photo-17.jpeg"
-              alt="A man in a blazer speaks and gestures to a seated group in a room with a 'Small Business' poster on the wall."
+              src={sitePhotos.ourStory.src}
+              alt={sitePhotos.ourStory.alt}
               ratio="4/5"
               sizes="(max-width: 768px) 100vw, 35vw"
               quality={82}
@@ -151,8 +152,8 @@ export default function AboutPage() {
 
       {/* ---- Cinematic rhythm break -------------------------------------- */}
       <CinematicBand
-        src="/media/work/photo-6.jpeg"
-        alt="A man holds a microphone and speaks on stage in front of a large red banner reading 'is using the right formula', with seated attendees in the foreground."
+        src={sitePhotos.acaGathering.src}
+        alt={sitePhotos.acaGathering.alt}
         overlay="strong"
       >
         <div className="gutter mx-auto w-full max-w-[110rem] py-16">
@@ -192,20 +193,15 @@ export default function AboutPage() {
           </h2>
           {founder ? (
             <div className="grid gap-x-14 gap-y-10 md:grid-cols-12 md:items-center">
-              {/*
-                No verified team portrait exists yet (see src/content/team.ts).
-                This monogram is a deliberate typographic stand-in — the
-                moment a real photograph is supplied, swap this block for
-                <MediaReveal src={founder.photo.src} alt={founder.photo.alt}
-                ratio="4/5" sizes="(max-width: 768px) 100vw, 35vw" /> and
-                nothing else on the page needs to change.
-              */}
-              <div className="md:col-span-4" aria-hidden="true">
-                <div className="bg-ink text-paper relative flex aspect-[4/5] items-center justify-center overflow-hidden">
-                  <span className="font-display text-[clamp(5rem,12vw,9rem)] leading-none">
-                    JD
-                  </span>
-                </div>
+              {/* JP supplied its monogram for this slot (client update doc). */}
+              <div className="md:col-span-4">
+                <MediaReveal
+                  src={sitePhotos.jpLogo.src}
+                  alt={sitePhotos.jpLogo.alt}
+                  ratio="4/5"
+                  sizes="(max-width: 768px) 100vw, 35vw"
+                  quality={82}
+                />
               </div>
               <div className="md:col-span-7 md:col-start-6">
                 <AnimatedHeading
@@ -276,10 +272,6 @@ export default function AboutPage() {
       {/* ---- 7. Partners --------------------------------------------------- */}
       <BrandMarquee />
 
-      <CTASection
-        lines={["Let's create something", "worth remembering."]}
-        body="Tell us about your brand, your event, or the story you want told."
-      />
     </>
   );
 }

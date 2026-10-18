@@ -80,8 +80,9 @@ export const worlds: WorldMeta[] = [
       "Visual Storytelling",
     ],
     href: "/services#stories",
-    image: "/media/work/photo-4.jpeg",
-    imageAlt: "Jeevan Productions photography — a moment captured on location in San Diego.",
+    image: "/media/site/studio-shoot.jpeg",
+    imageAlt:
+      "A videographer sets up a camera and ring light to film a man seated at a desk in a bright office.",
   },
   {
     id: "brands",
@@ -100,8 +101,9 @@ export const worlds: WorldMeta[] = [
       "Content Strategy",
     ],
     href: "/services#brands",
-    image: "/media/work/photo-11.jpeg",
-    imageAlt: "Jeevan Productions brand and campaign photography.",
+    image: "/media/site/aca-storefront.jpeg",
+    imageAlt:
+      "Two people talk outside the ACA Business Club building, its sign above a blue branded event tent.",
   },
   {
     id: "experiences",
@@ -120,8 +122,8 @@ export const worlds: WorldMeta[] = [
       "Event Marketing",
     ],
     href: "/services#experiences",
-    image: "/media/work/photo-19.jpeg",
-    imageAlt: "Guests together at a Jeevan Productions event in San Diego.",
+    image: "/media/site/banquet-hall.jpeg",
+    imageAlt: "Guests seated at round banquet tables in a large event hall, listening to a speaker.",
   },
 ];
 

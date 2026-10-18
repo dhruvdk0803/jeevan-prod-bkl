@@ -36,11 +36,18 @@ export function Hero() {
       {/* Scrim — heavy enough to hold AA contrast for light type over any frame. */}
       <div
         aria-hidden="true"
-        className="from-ink/85 via-ink/55 to-ink/92 absolute inset-0 -z-10 bg-gradient-to-b"
+        className="from-ink/55 via-ink/25 to-ink/70 absolute inset-0 -z-10 bg-gradient-to-b"
       />
 
       {/* ---- Centred statement ---- */}
       <div className="gutter mx-auto flex w-full max-w-[110rem] flex-1 flex-col items-center justify-center pt-[calc(var(--nav-h)+3rem)] pb-10 text-center">
+        <p
+          className="t-label jp-in text-ember-light mb-7"
+          style={{ "--d": "0.1s" } as React.CSSProperties}
+        >
+          Southern California
+        </p>
+
         <h1 id="hero-heading" className="t-hero mx-auto max-w-[20ch]">
           {LINES.map((line, i) => (
             <span className="line-mask" key={line}>
@@ -61,7 +68,7 @@ export function Hero() {
           <Button href="/work" variant="ghost-ember">
             Explore our work
           </Button>
-          <Button href="/contact" variant="light">
+          <Button href="/contact" variant="ember">
             Start a project
           </Button>
         </div>
@@ -69,16 +76,8 @@ export function Hero() {
 
       {/* ---- Scroll cue + world index, both in normal flow ---- */}
       <div className="jp-in" style={{ "--d": "1s" } as React.CSSProperties}>
-        <div className="gutter relative mx-auto flex max-w-[110rem] justify-center pb-7">
-          <div className="absolute right-[var(--spacing-gutter)] bottom-7">
-            <HeroVideoToggle />
-          </div>
-          <span aria-hidden="true" className="flex flex-col items-center gap-2.5">
-            <span className="t-label text-paper/55">Scroll</span>
-            <span className="bg-paper/20 relative h-9 w-px overflow-hidden">
-              <span className="jp-scroll bg-paper absolute inset-x-0 top-0 h-1/2" />
-            </span>
-          </span>
+        <div className="gutter mx-auto flex max-w-[110rem] justify-end pb-4">
+          <HeroVideoToggle />
         </div>
 
         <nav aria-label="What we do">
@@ -87,7 +86,7 @@ export function Hero() {
               <li key={world.id}>
                 <Link
                   href={world.href}
-                  className="group flex h-full flex-col gap-1 px-[clamp(0.5rem,2vw,2rem)] py-[clamp(0.9rem,2vw,1.5rem)] transition-colors duration-300 hover:bg-white/5"
+                  className="group flex h-full flex-col items-center gap-1 px-[clamp(0.5rem,2vw,2rem)] text-center py-[clamp(0.9rem,2vw,1.5rem)] transition-colors duration-300 hover:bg-white/5"
                 >
                   <span className="t-label text-paper/45 tabular-nums">{world.index}</span>
                   <span className="font-display group-hover:text-ember-light text-[clamp(1rem,1.7vw,1.5rem)] leading-tight transition-colors duration-300">
@@ -107,18 +106,15 @@ export function Hero() {
                     animation: jp-lift 1050ms cubic-bezier(0.16,1,0.3,1) var(--d, 0s) both; }
         .jp-film  { transform: scale(1.06);
                     animation: jp-settle 2600ms cubic-bezier(0.16,1,0.3,1) both; }
-        .jp-scroll { animation: jp-drop 2400ms cubic-bezier(0.76,0,0.24,1) 1.4s infinite; }
 
         @keyframes jp-rise   { from { opacity: 0; transform: translate3d(0,1.25rem,0); }
                                to   { opacity: 1; transform: none; } }
         @keyframes jp-lift   { from { transform: translate3d(0,110%,0); }
                                to   { transform: none; } }
         @keyframes jp-settle { from { transform: scale(1.1); } to { transform: scale(1); } }
-        @keyframes jp-drop   { 0% { transform: translateY(-100%); }
-                               60%,100% { transform: translateY(200%); } }
 
         @media (prefers-reduced-motion: reduce) {
-          .jp-in, .jp-line, .jp-film, .jp-scroll {
+          .jp-in, .jp-line, .jp-film {
             animation: none !important;
             opacity: 1 !important;
             transform: none !important;

@@ -75,13 +75,14 @@ rows.push(["paper/65", over(C.paper, C.ink, 0.65), "ink", C.ink, 4.5]);
 rows.push(["paper/75", over(C.paper, C.ink, 0.75), "ink", C.ink, 4.5]);
 rows.push(["border paper/40 (ui)", over(C.paper, C.ink, 0.4), "ink", C.ink, 3]);
 
-// The nav pill is one translucent ink surface on every page. Its worst case is
-// floating over the lightest background, so check the type against that.
-const PILL_ALPHA = 0.82; // must match bg-ink/82 in Navigation.tsx
+// Once scrolled, the nav pill is one translucent ink surface on every page. Its
+// worst case is floating over the lightest background, so check against that.
+// (At the top of the page the bar is transparent with ink type on paper.)
+const PILL_ALPHA = 0.75; // must match bg-ink/75 in Navigation.tsx
 const pillOverPaper = over(C.ink, C.paper, PILL_ALPHA);
 const pillOverPaperWarm = over(C.ink, C.paperWarm, PILL_ALPHA);
 rows.push(["nav text paper", C.paper, "pill/paper", pillOverPaper, 4.5]);
-rows.push(["nav text paper/70", over(C.paper, pillOverPaper, 0.7), "pill/paper", pillOverPaper, 4.5]);
+rows.push(["nav text paper/90", over(C.paper, pillOverPaper, 0.9), "pill/paper", pillOverPaper, 4.5]);
 rows.push(["nav text paper", C.paper, "pill/paper-warm", pillOverPaperWarm, 4.5]);
 rows.push(["nav ember-light", C.emberLight, "pill/paper", pillOverPaper, 4.5]);
 

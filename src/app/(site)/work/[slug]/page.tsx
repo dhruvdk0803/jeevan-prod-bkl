@@ -6,11 +6,10 @@ import {
   projectBySlug,
   relatedProjects,
 } from "@/content/projects";
-import { site } from "@/content/site";
 import type { MediaAsset } from "@/content/types";
 import { AnimatedHeading, Label } from "@/components/primitives/Type";
 import { MediaReveal } from "@/components/primitives/Media";
-import { Arrow, CTASection } from "@/components/primitives/Actions";
+import { Arrow } from "@/components/primitives/Actions";
 import { ProjectCard } from "@/components/primitives/ProjectCard";
 import { breadcrumbSchema, creativeWorkSchema, jsonLd } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -224,11 +223,6 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         </section>
       ) : null}
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body={site.closingStatement}
-      />
     </>
   );
 }

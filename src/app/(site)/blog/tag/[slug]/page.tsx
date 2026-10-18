@@ -4,7 +4,6 @@ import Link from "next/link";
 import { getPageSeo, getPublishedPosts, getTagBySlug, getTagsInUse } from "@/lib/cms/public";
 import { blogSchema, breadcrumbSchema, collectionPageSchema, jsonLd } from "@/lib/schema";
 import { SectionIntro } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { PostGrid } from "@/components/blog/PostGrid";
 import { BlogEmptyState } from "@/components/blog/BlogEmptyState";
 
@@ -86,11 +85,6 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
         {posts.length === 0 ? <BlogEmptyState /> : <PostGrid posts={posts} priorityFirst />}
       </section>
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body="If a story here sounds like yours, we'd love to hear about it."
-      />
     </>
   );
 }

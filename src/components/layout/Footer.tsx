@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { footerNav, legalNav, site } from "@/content/site";
 import { Arrow } from "@/components/primitives/Actions";
+import { FooterContactForm } from "@/components/contact/FooterContactForm";
 
 export function Footer() {
   const year = new Date().getFullYear();
@@ -8,24 +9,30 @@ export function Footer() {
   return (
     <footer className="on-dark bg-ink text-paper" data-theme-dark>
       <div className="gutter mx-auto max-w-[110rem] pt-[clamp(4rem,9vw,7.5rem)] pb-12">
-        {/* Closing statement — the last thing anyone reads. */}
-        <div className="rule border-t-0 pb-[clamp(3rem,7vw,6rem)]">
-          <h2 className="t-statement max-w-[16ch]" data-reveal="mask">
-            <span className="line-mask">
-              <span>Let&rsquo;s create</span>
-            </span>
-            <span className="line-mask">
-              <span>something meaningful.</span>
-            </span>
-          </h2>
+        {/* Closing statement — the last thing anyone reads — with the enquiry form beside it. */}
+        <div className="rule grid gap-x-[clamp(2rem,6vw,6rem)] gap-y-14 border-t-0 pb-[clamp(3rem,7vw,6rem)] lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <h2 className="t-statement max-w-[16ch]" data-reveal="mask">
+              <span className="line-mask">
+                <span>Let&rsquo;s create</span>
+              </span>
+              <span className="line-mask">
+                <span>something meaningful.</span>
+              </span>
+            </h2>
 
-          <Link
-            href="/contact"
-            className="group mt-10 inline-flex min-h-11 items-center gap-4 rounded-full bg-paper px-8 py-4 text-ink transition-colors duration-300 hover:bg-ember hover:text-paper"
-          >
-            <span className="t-label">Start a project</span>
-            <Arrow className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
-          </Link>
+            <Link
+              href="/contact"
+              className="group mt-10 inline-flex min-h-11 items-center gap-4 rounded-full bg-ember px-8 py-4 text-paper transition-colors duration-300 hover:bg-paper hover:text-ink"
+            >
+              <span className="t-label">Start a project</span>
+              <Arrow className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          <div className="lg:col-span-6 lg:col-start-7">
+            <FooterContactForm />
+          </div>
         </div>
 
         <div className="rule grid gap-10 pt-12 sm:grid-cols-2 lg:grid-cols-4">

@@ -36,6 +36,7 @@ export function ProjectCard({
   priority = false,
   ratio,
   sizes,
+  cover,
 }: {
   project: Project;
   index?: number;
@@ -43,13 +44,16 @@ export function ProjectCard({
   priority?: boolean;
   ratio?: "4/5" | "3/4" | "1/1" | "3/2";
   sizes?: string;
+  /** Replaces the project's own cover for this placement only. */
+  cover?: { src: string; alt: string };
 }) {
+  const image = cover ?? project.cover;
   const href = project.caseStudy ? `/work/${project.slug}` : undefined;
 
   const media = (
     <MediaReveal
-      src={project.cover.src}
-      alt={project.cover.alt}
+      src={image.src}
+      alt={image.alt}
       ratio={ratio ?? ratioFor[project.layout]}
       sizes={sizes ?? sizesFor[project.layout]}
       priority={priority}
@@ -143,13 +147,21 @@ function Dot() {
  * disciplines carry equal weight, instead of full-width slabs that crop
  * portrait photographs into wide letterboxes.
  */
-export function ProjectRhythm({ projects }: { projects: Project[] }) {
+export function ProjectRhythm({
+  projects,
+  covers,
+}: {
+  projects: Project[];
+  /** Per-slug cover overrides for this placement. */
+  covers?: Record<string, { src: string; alt: string }>;
+}) {
   return (
     <div className="grid grid-cols-2 gap-x-[clamp(1rem,2.5vw,2rem)] gap-y-[clamp(2.5rem,5vw,4rem)] lg:grid-cols-4">
       {projects.map((project, i) => (
         <ProjectCard
           key={project.slug}
           project={project}
+          cover={covers?.[project.slug]}
           index={i}
           ratio="4/5"
           sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 22vw"

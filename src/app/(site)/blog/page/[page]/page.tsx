@@ -4,7 +4,6 @@ import { getCategories, getPublishedPosts, getSiteSettings } from "@/lib/cms/pub
 import { buildMetadata } from "@/lib/seo";
 import { blogSchema, breadcrumbSchema, collectionPageSchema, jsonLd } from "@/lib/schema";
 import { SectionIntro } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { PostGrid } from "@/components/blog/PostGrid";
 import { Pagination } from "@/components/blog/Pagination";
 import { BLOG_DEFAULT_INTRO as DEFAULT_INTRO, BLOG_DEFAULT_TITLE as DEFAULT_TITLE, BLOG_PAGE_SIZE } from "../../config";
@@ -111,11 +110,6 @@ export default async function BlogPagePage({ params }: { params: Promise<Params>
         <Pagination page={page} totalPages={totalPages} basePath="/blog" />
       </section>
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body="If a story here sounds like yours, we'd love to hear about it."
-      />
     </>
   );
 }

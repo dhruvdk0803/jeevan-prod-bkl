@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { CTASection } from "@/components/primitives/Actions";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioWall } from "@/components/portfolio/PortfolioWall";
 import {
@@ -103,11 +102,6 @@ export default function PortfolioPage() {
         <PortfolioWall categories={categories} images={portfolio} chapters={activeChapters} />
       ) : null}
 
-      <CTASection
-        eyebrow="Your story next"
-        lines={["Let's make", "the next frame yours."]}
-        body="Tell us about the day, the brand or the room you want remembered."
-      />
     </>
   );
 }

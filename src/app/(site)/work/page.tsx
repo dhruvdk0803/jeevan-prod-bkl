@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { projects } from "@/content/projects";
-import { site } from "@/content/site";
 import { SectionIntro } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { WorkArchive } from "@/components/work/WorkArchive";
 import { breadcrumbSchema, jsonLd } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -49,11 +47,6 @@ export default function WorkPage() {
         <WorkArchive projects={projects} />
       </section>
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body={site.closingStatement}
-      />
     </>
   );
 }

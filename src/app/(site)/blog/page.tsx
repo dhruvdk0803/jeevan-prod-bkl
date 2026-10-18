@@ -5,7 +5,6 @@ import type { PostCard as PostCardData } from "@/lib/cms/types";
 import { buildMetadata } from "@/lib/seo";
 import { blogSchema, breadcrumbSchema, collectionPageSchema, jsonLd } from "@/lib/schema";
 import { SectionIntro } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { PostCard } from "@/components/blog/PostCard";
 import { PostGrid } from "@/components/blog/PostGrid";
 import { Pagination } from "@/components/blog/Pagination";
@@ -93,11 +92,6 @@ export default async function BlogIndexPage() {
         )}
       </section>
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body="If a story here sounds like yours, we'd love to hear about it."
-      />
     </>
   );
 }

@@ -116,18 +116,30 @@ export function Navigation() {
 
   const close = useCallback(() => setOpen(false), []);
 
+  /* The bar is fully transparent at the top of every page. Home and
+   * Portfolio open on dark heroes, so they keep light type; every other page
+   * opens on paper, so the bar switches to ink type until you scroll and the
+   * translucent glass surface appears. Pathname is known during SSR, so this
+   * never flashes. */
+  const darkTop = pathname === "/" || pathname.startsWith("/portfolio");
+  const glass = scrolled || open;
+  const onLight = !glass && !darkTop;
+
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-100 pt-[clamp(0.75rem,1.6vw,1.25rem)]">
         <div className="gutter mx-auto max-w-[110rem]">
           <div
             className={clsx(
-              "on-dark text-paper flex items-center justify-between gap-5 rounded-full border border-white/10 px-4 backdrop-blur-xl transition-[background-color,padding] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6",
-              // 82% is the floor at which the paper/70 nav links and the
-              // ember-light mark still clear 4.5:1 when the pill floats over
+              "flex items-center justify-between gap-5 rounded-full border px-4 transition-[background-color,border-color,padding,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6",
+              onLight ? "text-ink" : "on-dark text-paper",
+              // 75% is the floor at which the paper/90 nav links and the
+              // ember-light mark still clear 4.5:1 when the glass floats over
               // the lightest page background. Keep `PILL_ALPHA` in
               // scripts/contrast.mjs in sync with this value.
-              scrolled && !open ? "bg-ink/92 py-2" : "bg-ink/82 py-2.5",
+              glass
+                ? "bg-ink/75 border-white/10 py-2 backdrop-blur-xl"
+                : "border-transparent bg-transparent py-2.5",
             )}
           >
             <Link
@@ -135,7 +147,8 @@ export function Navigation() {
               aria-label={`${site.name} — home`}
               className="font-display shrink-0 pl-1 text-[clamp(1.05rem,3.6vw,1.3rem)] leading-none tracking-[-0.02em] whitespace-nowrap"
             >
-              Jeevan Productions<span className="text-ember-light">.</span>
+              Jeevan Productions
+              <span className={onLight ? "text-ember" : "text-ember-light"}>.</span>
             </Link>
 
             <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
@@ -151,14 +164,21 @@ export function Navigation() {
                       // the underline away from the text.
                       "group t-label relative py-2 transition-colors duration-300",
                       "before:absolute before:inset-x-0 before:-top-3 before:-bottom-3 before:content-['']",
-                      active ? "text-paper" : "text-paper/70 hover:text-paper",
+                      onLight
+                        ? active
+                          ? "text-ink"
+                          : "text-ink/75 hover:text-ink"
+                        : active
+                          ? "text-paper"
+                          : "text-paper/90 hover:text-paper",
                     )}
                   >
                     {item.label}
                     <span
                       aria-hidden="true"
                       className={clsx(
-                        "bg-ember-light absolute -bottom-0.5 left-0 h-px w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                        onLight ? "bg-ember" : "bg-ember-light",
+                        "absolute -bottom-0.5 left-0 h-px w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
                         active
                           ? "scale-x-100"
                           : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100",
@@ -172,7 +192,7 @@ export function Navigation() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="/contact"
-                className="t-label bg-paper text-ink hover:bg-ember hover:text-paper hidden min-h-11 items-center gap-2.5 rounded-full px-5 transition-colors duration-300 sm:inline-flex"
+                className="t-label bg-ember text-paper hover:bg-paper hover:text-ink hidden min-h-11 items-center gap-2.5 rounded-full px-5 transition-colors duration-300 sm:inline-flex"
               >
                 Start a project
                 <Arrow />
@@ -184,7 +204,12 @@ export function Navigation() {
                 onClick={() => setOpen((v) => !v)}
                 aria-expanded={open}
                 aria-controls="jp-menu"
-                className="t-label border-paper/30 text-paper hover:border-paper flex min-h-11 items-center gap-3 rounded-full border px-5 transition-colors duration-300"
+                className={clsx(
+                  "t-label flex min-h-11 items-center gap-3 rounded-full border px-5 transition-colors duration-300",
+                  onLight
+                    ? "border-ink/30 text-ink hover:border-ink"
+                    : "border-paper/30 text-paper hover:border-paper",
+                )}
               >
                 <span className="sr-only sm:not-sr-only">{open ? "Close" : "Menu"}</span>
                 <span aria-hidden="true" className="relative block h-3 w-4">

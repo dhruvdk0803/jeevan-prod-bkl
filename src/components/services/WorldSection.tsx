@@ -2,6 +2,7 @@ import { clsx } from "clsx";
 import type { Service, WorldMeta } from "@/content/types";
 import { services as allServices } from "@/content/services";
 import { projectsByWorld } from "@/content/projects";
+import { serviceCovers } from "@/content/site-photos";
 import { AnimatedHeading, IndexLabel, Label } from "@/components/primitives/Type";
 import { ProjectCard } from "@/components/primitives/ProjectCard";
 
@@ -138,6 +139,7 @@ export function WorldSection({ world, theme }: { world: WorldMeta; theme: Theme 
                 <ProjectCard
                   key={project.slug}
                   project={project}
+                  cover={serviceCovers[project.slug]}
                   index={i}
                   ratio="4/5"
                   sizes="(max-width: 768px) 100vw, 30vw"

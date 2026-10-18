@@ -8,7 +8,7 @@ import { ArrowLink, Button } from "@/components/primitives/Actions";
 import { ProjectRhythm } from "@/components/primitives/ProjectCard";
 import { BrandMarquee } from "@/components/primitives/BrandMarquee";
 import { featuredProjects } from "@/content/projects";
-import { photoCatalog } from "@/content/photo-catalog";
+import { sitePhotos } from "@/content/site-photos";
 import { site } from "@/content/site";
 import { websiteSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -22,16 +22,9 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-/** Pulls a photograph with its verified alt text. Throws at build if renamed. */
-const photo = (src: string) => {
-  const found = photoCatalog.find((p) => p.src === src);
-  if (!found) throw new Error(`Missing photo: ${src}`);
-  return found;
-};
-
 export default function HomePage() {
-  const introPhoto = photo("/media/work/photo-18.jpeg");
-  const impactPhoto = photo("/media/work/photo-7.jpeg");
+  const introPhoto = sitePhotos.acaGathering;
+  const impactPhoto = sitePhotos.celebrationGroup;
 
   return (
     <>
@@ -93,7 +86,10 @@ export default function HomePage() {
             </div>
           </div>
 
-          <ProjectRhythm projects={featuredProjects} />
+          <ProjectRhythm
+            projects={featuredProjects}
+            covers={{ together: sitePhotos.togetherHome }}
+          />
         </div>
       </section>
 

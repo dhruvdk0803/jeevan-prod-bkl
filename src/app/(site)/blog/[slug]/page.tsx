@@ -7,7 +7,6 @@ import { withHeadingIds } from "@/lib/cms/html";
 import { buildMetadata } from "@/lib/seo";
 import { blogPostingSchema, breadcrumbSchema, jsonLd } from "@/lib/schema";
 import { MediaReveal } from "@/components/primitives/Media";
-import { CTASection } from "@/components/primitives/Actions";
 import { Prose } from "@/components/blog/Prose";
 import { TableOfContents } from "@/components/blog/TableOfContents";
 import { AuthorByline } from "@/components/blog/AuthorByline";
@@ -194,11 +193,6 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
         </section>
       ) : null}
 
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Have something", "worth remembering?"]}
-        body="If this story sounds like yours, we'd love to hear about it."
-      />
     </>
   );
 }
