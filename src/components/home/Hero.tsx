@@ -41,19 +41,6 @@ export function Hero() {
 
       {/* ---- Centred statement ---- */}
       <div className="gutter mx-auto flex w-full max-w-[110rem] flex-1 flex-col items-center justify-center pt-[calc(var(--nav-h)+3rem)] pb-10 text-center">
-        <p
-          className="t-label jp-in text-ember-light mb-7 flex flex-wrap items-center justify-center gap-x-3"
-          style={{ "--d": "0.1s" } as React.CSSProperties}
-        >
-          <span>San Diego</span>
-          <span aria-hidden="true" className="bg-ember-light/50 h-1 w-1 rounded-full" />
-          <span>Media</span>
-          <span aria-hidden="true" className="bg-ember-light/50 h-1 w-1 rounded-full" />
-          <span>Marketing</span>
-          <span aria-hidden="true" className="bg-ember-light/50 h-1 w-1 rounded-full" />
-          <span>Events</span>
-        </p>
-
         <h1 id="hero-heading" className="t-hero mx-auto max-w-[20ch]">
           {LINES.map((line, i) => (
             <span className="line-mask" key={line}>
@@ -67,22 +54,14 @@ export function Hero() {
           ))}
         </h1>
 
-        <p
-          className="t-lead jp-in mx-auto mt-7 max-w-[44ch] text-paper/80"
-          style={{ "--d": "0.68s" } as React.CSSProperties}
-        >
-          A creative company telling stories through media, building brands through
-          marketing, and bringing people together through events.
-        </p>
-
         <div
           className="jp-in mt-10 flex flex-wrap items-center justify-center gap-3"
           style={{ "--d": "0.82s" } as React.CSSProperties}
         >
-          <Button href="/work" variant="light">
+          <Button href="/work" variant="ghost-ember">
             Explore our work
           </Button>
-          <Button href="/contact" variant="ghost-ember">
+          <Button href="/contact" variant="light">
             Start a project
           </Button>
         </div>
@@ -102,10 +81,10 @@ export function Hero() {
           </span>
         </div>
 
-        <nav aria-label="What we do" className="border-t border-white/15">
+        <nav aria-label="What we do">
           <ul className="gutter mx-auto grid max-w-[110rem] grid-cols-3">
-            {worlds.map((world, i) => (
-              <li key={world.id} className={i > 0 ? "border-l border-white/15" : ""}>
+            {worlds.map((world) => (
+              <li key={world.id}>
                 <Link
                   href={world.href}
                   className="group flex h-full flex-col gap-1 px-[clamp(0.5rem,2vw,2rem)] py-[clamp(0.9rem,2vw,1.5rem)] transition-colors duration-300 hover:bg-white/5"

@@ -30,12 +30,8 @@ const photo = (src: string) => {
 };
 
 export default function HomePage() {
-  const impactPhoto = photo("/media/work/photo-24.jpeg");
-  const socialPhotos = [
-    photo("/media/work/photo-19.jpeg"),
-    photo("/media/work/photo-22.jpeg"),
-    photo("/media/work/photo-6.jpeg"),
-  ];
+  const introPhoto = photo("/media/work/photo-18.jpeg");
+  const impactPhoto = photo("/media/work/photo-7.jpeg");
 
   return (
     <>
@@ -47,6 +43,14 @@ export default function HomePage() {
           <div className="grid gap-x-[clamp(2rem,6vw,7rem)] gap-y-10 lg:grid-cols-12">
             <div className="lg:col-span-4">
               <Label>More than a production company</Label>
+              <MediaReveal
+                src={introPhoto.src}
+                alt={introPhoto.alt}
+                ratio="4/5"
+                sizes="(max-width: 1024px) 100vw, 30vw"
+                quality={82}
+                className="mt-8 max-w-[26rem]"
+              />
             </div>
             <div className="lg:col-span-8">
               <AnimatedHeading
@@ -137,47 +141,6 @@ export default function HomePage() {
                 </Button>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------- CONNECTION: social hours ---------- */}
-      <section className="bg-sand" aria-labelledby="social-heading">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,10rem)]">
-          <div className="max-w-[36rem]">
-            <Label className="mb-7">Social Hours</Label>
-            <AnimatedHeading
-              id="social-heading"
-              size="statement"
-              lines={["Good things happen", "when good people get", "in the same room."]}
-            />
-          </div>
-
-          <div className="mt-[clamp(3rem,7vw,5rem)] grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
-            {socialPhotos.map((p, i) => (
-              <MediaReveal
-                key={p.src}
-                src={p.src}
-                alt={p.alt}
-                ratio="4/5"
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 31vw"
-                delay={i * 0.08}
-                className={i === 1 ? "sm:mt-[clamp(2rem,6vw,5rem)]" : undefined}
-              />
-            ))}
-          </div>
-
-          <div
-            className="mt-14 flex flex-wrap items-center gap-x-10 gap-y-5"
-            data-reveal="fade-up"
-          >
-            <p className="t-body text-ink-3 max-w-[44ch]">
-              Curated gatherings across San Diego — outdoor experiences, networking evenings,
-              social gatherings and community dinners.
-            </p>
-            <Button href="/social-hours" variant="outline">
-              Discover Social Hours
-            </Button>
           </div>
         </div>
       </section>

@@ -16,7 +16,6 @@ export const site = {
   email: "Team@JeevanProductions.com",
   phones: [
     { label: "San Diego / Los Angeles", number: "(310) 363-0288", tel: "+13103630288" },
-    { label: "Kansas City", number: "(816) 974-6089", tel: "+18169746089" },
   ],
   /** Primary market, per on-page copy ("Serving San Diego"). */
   city: "San Diego",
@@ -45,7 +44,6 @@ export const primaryNav: NavItem[] = [
   { label: "About", href: "/about", meta: "Who we are" },
   { label: "Blog", href: "/blog", meta: "Notes, stories and guides" },
   { label: "Impact", href: "/impact", meta: "Community stories" },
-  { label: "Social Hours", href: "/social-hours", meta: "Gatherings across San Diego" },
   { label: "Careers", href: "/careers", meta: "Join the team" },
   { label: "Contact", href: "/contact", meta: "Start a project" },
 ];

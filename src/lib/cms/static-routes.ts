@@ -62,13 +62,6 @@ export const STATIC_ROUTES: StaticRoute[] = [
       "The people, organizations, and communities Jeevan Productions is grateful to meet along the way — community stories, a monthly spotlight, and JP Gives.",
   },
   {
-    path: "/social-hours",
-    label: "Social Hours",
-    defaultTitle: "Social Hours",
-    defaultDescription:
-      "Social Hours is Jeevan Productions' curated gatherings across San Diego — outdoor experiences, networking evenings, social nights, and community dinners.",
-  },
-  {
     path: "/careers",
     label: "Careers",
     defaultTitle: "Careers",

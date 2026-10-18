@@ -55,9 +55,6 @@ export default function NotFound() {
               <ArrowLink href="/impact">Impact</ArrowLink>
             </li>
             <li>
-              <ArrowLink href="/social-hours">Social Hours</ArrowLink>
-            </li>
-            <li>
               <ArrowLink href="/careers">Careers</ArrowLink>
             </li>
           </ul>

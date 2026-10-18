@@ -28,11 +28,9 @@ redesign can go fully live. Grouped by urgency. File paths reference the
       commented-out (never rendered) HTML block on jeevanproductions.com.
       Confirm current roles/titles, or provide replacements, before
       publishing the team page.
-- [ ] **Kansas City vs. Palm Springs** — `src/content/site.ts` lists a
-      Kansas City phone number `(816) 974-6089` alongside San Diego/LA, but
-      JP's own Eventbrite organizer bio instead references Palm Springs as a
-      third market. Confirm which is accurate before stating a third market
-      anywhere on the site.
+- [x] **Kansas City vs. Palm Springs** — resolved: JP asked for Kansas City
+      to be removed everywhere. The KC phone number is gone from
+      `src/content/site.ts`; no third market is stated.
 - [ ] **"Five decades of collective experience"** — used as marketing copy in
       the Our Story section (from the verbatim site copy). This is a
       team-wide aggregate claim, not independently checkable. Confirm JP

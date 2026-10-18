@@ -14,10 +14,10 @@ import type { Project, World } from "@/content/types";
  * needs state and keyboard/aria wiring; the page itself stays a server
  * component and only hands over the project data.
  *
- * Layout: an asymmetric editorial grid. Every photo in the catalog is 4:5, so
- * rhythm comes from varying each item's column span and vertical offset
- * (driven by the project's `layout` field) rather than cropping to different
- * ratios.
+ * Layout: a three-column editorial grid (two on tablet). Every photo in the
+ * catalog is 4:5, so rhythm comes from staggering each column's vertical
+ * offset rather than cropping to different ratios. Columns are kept narrow
+ * enough that a full photo and its title fit on one screen.
  */
 
 type Filter = "all" | World;
@@ -27,19 +27,7 @@ const filters: { id: Filter; label: string }[] = [
   ...worlds.map((w) => ({ id: w.id, label: w.discipline.toUpperCase() })),
 ];
 
-const spanFor: Record<Project["layout"], string> = {
-  full: "lg:col-span-8",
-  offset: "lg:col-span-6 lg:col-start-7",
-  duo: "lg:col-span-5",
-  portrait: "lg:col-span-4",
-};
-
-const sizesFor: Record<Project["layout"], string> = {
-  full: "(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 62vw",
-  offset: "(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 46vw",
-  duo: "(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 38vw",
-  portrait: "(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 30vw",
-};
+const SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 30vw";
 
 /** Vertical rhythm: cycles through three offsets so items never line up in a grid. */
 const offsetForIndex = (i: number) => {
@@ -95,7 +83,7 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
           <p className="t-lead text-ink-3">No projects in this discipline yet.</p>
         </div>
       ) : (
-        <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-12 lg:gap-y-8">
+        <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-12">
           {filtered.map((project, i) => (
             <ArchiveItem key={project.slug} project={project} index={i} priority={i === 0} />
           ))}
@@ -123,7 +111,7 @@ function ArchiveItem({
         src={project.cover.src}
         alt={project.cover.alt}
         ratio="4/5"
-        sizes={sizesFor[project.layout]}
+        sizes={SIZES}
         priority={priority}
         quality={82}
         // The archive list is client-filtered: items mount/unmount as the
@@ -156,11 +144,7 @@ function ArchiveItem({
     </div>
   );
 
-  const className = clsx(
-    "group",
-    spanFor[project.layout],
-    offsetForIndex(index),
-  );
+  const className = clsx("group", offsetForIndex(index));
 
   if (href) {
     return (

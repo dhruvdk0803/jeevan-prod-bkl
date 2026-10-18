@@ -76,7 +76,7 @@ export function BrandMarquee({
               return (
                 <div
                   key={`${partner.name}-${i}`}
-                  className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full opacity-60 grayscale transition-[opacity,filter] duration-500 hover:opacity-100 hover:grayscale-0 md:h-16 md:w-16"
+                  className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full md:h-16 md:w-16"
                   aria-hidden={isClone ? "true" : undefined}
                 >
                   {partner.logo ? (
@@ -94,12 +94,6 @@ export function BrandMarquee({
             })}
           </div>
         </div>
-      </div>
-
-      <div className="gutter mx-auto max-w-[110rem]">
-        <p className={clsx("t-label mt-9", dark ? "text-paper/40" : "text-neutral")}>
-          Logos shown as they appear in JP&rsquo;s own client archive.
-        </p>
       </div>
     </section>
   );

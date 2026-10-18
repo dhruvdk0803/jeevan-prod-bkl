@@ -38,7 +38,7 @@ export default function AboutPage() {
         className="bg-paper-warm pt-[calc(var(--nav-h)+2.5rem)] pb-[clamp(4rem,9vw,7rem)]"
         aria-labelledby="about-hero-heading"
       >
-        <div className="gutter mx-auto grid max-w-[110rem] items-end gap-x-10 gap-y-12 md:grid-cols-12">
+        <div className="gutter mx-auto grid max-w-[110rem] items-center gap-x-10 gap-y-12 md:grid-cols-12">
           <div className="md:col-span-7">
             <Label className="mb-7">About Jeevan Productions</Label>
             <AnimatedHeading
@@ -55,8 +55,8 @@ export default function AboutPage() {
           </div>
           <div className="md:col-span-5">
             <MediaReveal
-              src="/media/work/photo-23.jpeg"
-              alt="A smiling man and woman, both with visible tattoos, embrace closely for a joyful close-up portrait."
+              src="/media/brand/story.png"
+              alt="The Jeevan Productions logo."
               ratio="4/5"
               sizes="(max-width: 768px) 100vw, 40vw"
               priority
@@ -74,8 +74,8 @@ export default function AboutPage() {
         <div className="gutter mx-auto grid max-w-[110rem] gap-x-14 gap-y-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <MediaReveal
-              src="/media/brand/story.png"
-              alt="Jeevan Productions — the photograph accompanying the company's Our Story section."
+              src="/media/work/photo-17.jpeg"
+              alt="A man in a blazer speaks and gestures to a seated group in a room with a 'Small Business' poster on the wall."
               ratio="4/5"
               sizes="(max-width: 768px) 100vw, 35vw"
               quality={82}

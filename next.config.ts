@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
   // node_modules at runtime instead of bundling it.
   serverExternalPackages: ["@electric-sql/pglite"],
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // The Social Hours page was retired; send old links and search results home.
+      { source: "/social-hours", destination: "/", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
