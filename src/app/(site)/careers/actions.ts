@@ -134,7 +134,7 @@ export async function submitApplication(
 
   return {
     status: "success",
-    message: "Thank you — your application is in. We'll be in touch if there's a fit.",
+    message: "Thank you. Your application is in, and we'll be in touch if there's a fit.",
   };
 }
 

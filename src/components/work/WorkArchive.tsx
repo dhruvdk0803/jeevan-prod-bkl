@@ -15,9 +15,9 @@ import type { Project, World } from "@/content/types";
  * component and only hands over the project data.
  *
  * Layout: a three-column editorial grid (two on tablet). Every photo in the
- * catalog is 4:5, so rhythm comes from staggering each column's vertical
- * offset rather than cropping to different ratios. Columns are kept narrow
- * enough that a full photo and its title fit on one screen.
+ * catalog is 4:5 and every row shares one top edge, so photos and titles line
+ * up across the row. Columns are kept narrow enough that a full photo and its
+ * title fit on one screen.
  */
 
 type Filter = "all" | World;
@@ -28,14 +28,6 @@ const filters: { id: Filter; label: string }[] = [
 ];
 
 const SIZES = "(max-width: 768px) 100vw, (max-width: 1024px) 45vw, 30vw";
-
-/** Vertical rhythm: cycles through three offsets so items never line up in a grid. */
-const offsetForIndex = (i: number) => {
-  const beat = i % 3;
-  if (beat === 0) return "lg:mt-0";
-  if (beat === 1) return "lg:mt-20";
-  return "lg:mt-10";
-};
 
 export function WorkArchive({ projects }: { projects: Project[] }) {
   const [filter, setFilter] = useState<Filter>("all");
@@ -51,7 +43,7 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
         <div
           role="group"
           aria-label="Filter work by discipline"
-          className="flex flex-wrap gap-3"
+          className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:gap-3"
         >
           {filters.map((f) => {
             const active = f.id === filter;
@@ -62,7 +54,7 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
                 aria-pressed={active}
                 onClick={() => setFilter(f.id)}
                 className={clsx(
-                  "t-label min-h-11 rounded-full border px-6 transition-colors duration-300",
+                  "t-label min-h-11 rounded-full border px-5 transition-colors duration-300 sm:px-6",
                   active
                     ? "border-ink bg-ink text-paper"
                     : "border-ink/50 text-ink-3 hover:border-ink hover:text-ink",
@@ -83,9 +75,9 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
           <p className="t-lead text-ink-3">No projects in this discipline yet.</p>
         </div>
       ) : (
-        <div className="mt-16 grid grid-cols-1 gap-x-8 gap-y-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-y-12">
+        <div className="mt-12 grid grid-cols-1 gap-x-8 gap-y-14 md:mt-16 md:grid-cols-2 md:gap-y-16 lg:grid-cols-3">
           {filtered.map((project, i) => (
-            <ArchiveItem key={project.slug} project={project} index={i} priority={i === 0} />
+            <ArchiveItem key={project.slug} project={project} priority={i === 0} />
           ))}
         </div>
       )}
@@ -95,11 +87,9 @@ export function WorkArchive({ projects }: { projects: Project[] }) {
 
 function ArchiveItem({
   project,
-  index,
   priority,
 }: {
   project: Project;
-  index: number;
   priority: boolean;
 }) {
   const hasCaseStudy = Boolean(project.caseStudy);
@@ -144,7 +134,7 @@ function ArchiveItem({
     </div>
   );
 
-  const className = clsx("group", offsetForIndex(index));
+  const className = "group block";
 
   if (href) {
     return (

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
 
   const path = `/blog/tag/${tag.slug}`;
   const override = await getPageSeo(path);
-  const title = override?.metaTitle || `${tag.name} — Journal`;
+  const title = override?.metaTitle || `${tag.name} | Journal`;
   const description =
     override?.metaDescription || `Posts from the Jeevan Productions journal, tagged ${tag.name}.`;
   // Tag pages with fewer than 2 posts are thin — noindex, follow regardless
@@ -65,7 +65,7 @@ export default async function BlogTagPage({ params }: { params: Promise<Params> 
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd(
           collectionPageSchema({
-            name: `${tag.name} — Journal`,
+            name: `${tag.name} | Journal`,
             description: `Posts tagged ${tag.name}.`,
             path: `/blog/tag/${tag.slug}`,
           }),

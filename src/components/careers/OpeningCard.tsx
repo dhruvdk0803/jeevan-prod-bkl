@@ -11,7 +11,7 @@ import type { JobOpening } from "@/content/types";
  */
 export function OpeningCard({ opening }: { opening: JobOpening }) {
   return (
-    <article className="rule flex flex-col justify-between gap-6 border-t-0 py-8 sm:flex-row sm:items-center sm:gap-10">
+    <article className="flex flex-col justify-between gap-6 border-t border-ink/13 py-8 sm:flex-row sm:items-center sm:gap-10">
       <div>
         <p className="t-label mb-3 text-neutral">
           {opening.discipline} · {opening.type} · {opening.location}

@@ -169,7 +169,7 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysis {
     "content-length",
     "Content length",
     words >= 300 ? "pass" : words >= 150 ? "warn" : "fail",
-    `${words} word${words === 1 ? "" : "s"} — aim for at least 300.`,
+    `${words} word${words === 1 ? "" : "s"}. Aim for at least 300.`,
   );
 
   push(
@@ -178,7 +178,7 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysis {
     rangeStatus(metaTitle.length, 50, 60),
     metaTitle.length === 0
       ? "No title set."
-      : `${metaTitle.length} characters — target 50–60.`,
+      : `${metaTitle.length} characters. Target 50–60.`,
   );
 
   push(
@@ -187,7 +187,7 @@ export function analyzeSeo(input: SeoAnalysisInput): SeoAnalysis {
     rangeStatus(metaDescription.length, 120, 160),
     metaDescription.length === 0
       ? "No meta description or excerpt set."
-      : `${metaDescription.length} characters — target 120–160.`,
+      : `${metaDescription.length} characters. Target 120–160.`,
   );
 
   push(

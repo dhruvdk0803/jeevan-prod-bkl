@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/about",
     title: "About",
     description:
-      "Jeevan Productions is a San Diego creative company founded by strategist Jeevan Dhaker — media, marketing and events built around one idea: make it matter.",
+      "Jeevan Productions is a San Diego creative company founded by strategist Jeevan Dhaker. Media, marketing and events built around one idea: make it matter.",
   });
 }
 
@@ -41,16 +41,16 @@ export default function AboutPage() {
       >
         <div className="gutter mx-auto grid max-w-[110rem] items-center gap-x-10 gap-y-12 md:grid-cols-12">
           <div className="md:col-span-7">
-            <Label className="mb-7">About Jeevan Productions</Label>
+            <Label className="mb-6">About Jeevan Productions</Label>
             <AnimatedHeading
               as="h1"
               size="hero"
               id="about-hero-heading"
               lines={["Creative work begins", "with human connection."]}
             />
-            <p className="t-lead text-ink-3 mt-8 max-w-[46ch]" data-reveal="fade-up" data-reveal-delay={0.15}>
+            <p className="t-lead text-ink-3 mt-7 max-w-[46ch]" data-reveal="fade-up" data-reveal-delay={0.15}>
               A creative company in San Diego, working across media, marketing
-              and events — telling stories, building brands, bringing people
+              and events: telling stories, building brands and bringing people
               together.
             </p>
           </div>
@@ -58,7 +58,7 @@ export default function AboutPage() {
             <MediaReveal
               src={sitePhotos.jpLogo.src}
               alt={sitePhotos.jpLogo.alt}
-              ratio="4/5"
+              ratio="1/1"
               sizes="(max-width: 768px) 100vw, 40vw"
               priority
               quality={82}
@@ -72,7 +72,7 @@ export default function AboutPage() {
         className="bg-paper py-[clamp(5rem,12vw,10rem)]"
         aria-labelledby="story-heading"
       >
-        <div className="gutter mx-auto grid max-w-[110rem] gap-x-14 gap-y-12 md:grid-cols-12">
+        <div className="gutter mx-auto grid max-w-[110rem] gap-x-14 gap-y-12 md:grid-cols-12 md:items-center">
           <div className="md:col-span-5">
             <MediaReveal
               src={sitePhotos.ourStory.src}
@@ -88,10 +88,10 @@ export default function AboutPage() {
               eyebrow="Our story"
               lines={["Built on the belief that", "every brand deserves one."]}
             />
-            <div className="t-body text-ink-3 mt-10 grid max-w-none gap-6 sm:grid-cols-2 sm:gap-x-10">
+            <div className="t-body text-ink-3 mt-8 grid gap-6 sm:grid-cols-2 sm:gap-x-10">
               <p>
                 Jeevan Productions was founded by strategist Jeevan Dhaker on
-                the belief that every brand has a story worth telling — with
+                the belief that every brand has a story worth telling, with
                 clarity, creativity and purpose. The agency brings together
                 over five decades of collective experience in strategy,
                 storytelling and execution.
@@ -99,8 +99,8 @@ export default function AboutPage() {
               <p>
                 We do not just market; we create meaning. Every campaign,
                 design and event begins with understanding who you are, what
-                you stand for, and how you want to be remembered — then
-                turning that understanding into branding that defines,
+                you stand for, and how you want to be remembered. Then we
+                turn that understanding into branding that defines,
                 marketing that connects, and events that move people. Your
                 brand isn&rsquo;t just promoted. It&rsquo;s elevated,
                 experienced and remembered.
@@ -116,7 +116,7 @@ export default function AboutPage() {
         aria-labelledby="philosophy-heading"
       >
         <div className="gutter mx-auto max-w-[110rem]">
-          <Label className="mb-10">What we believe</Label>
+          <Label className="mb-6">What we believe</Label>
           <AnimatedHeading
             id="philosophy-heading"
             as="h2"
@@ -142,7 +142,7 @@ export default function AboutPage() {
             <div data-reveal="fade-up" data-reveal-delay={0.2}>
               <IndexLabel index="03">Remember</IndexLabel>
               <p className="t-lead text-ink-3 mt-4 max-w-[30ch]">
-                Not just promoted — elevated, experienced, and worth
+                Not just promoted, but elevated, experienced, and worth
                 remembering long after the moment passes.
               </p>
             </div>
@@ -156,8 +156,8 @@ export default function AboutPage() {
         alt={sitePhotos.acaGathering.alt}
         overlay="strong"
       >
-        <div className="gutter mx-auto w-full max-w-[110rem] py-16">
-          <p className="t-h3 max-w-[24ch]" data-reveal="fade-up">
+        <div className="gutter mx-auto w-full max-w-[110rem] py-[clamp(3rem,7vw,6rem)]">
+          <p className="t-statement font-display max-w-[16ch]" data-reveal="fade-up">
             Make it matter.
           </p>
         </div>
@@ -188,22 +188,24 @@ export default function AboutPage() {
         aria-labelledby="team-heading"
       >
         <div className="gutter mx-auto max-w-[110rem]">
-          <h2 id="team-heading" className="t-label text-neutral mb-10">
+          <h2 id="team-heading" className="t-label text-neutral mb-10 font-sans!">
             The team
           </h2>
           {founder ? (
             <div className="grid gap-x-14 gap-y-10 md:grid-cols-12 md:items-center">
-              {/* JP supplied its monogram for this slot (client update doc). */}
-              <div className="md:col-span-4">
+              {/* JP supplied its monogram for this slot (client update doc).
+                  The source is square, so show it whole and keep it modest:
+                  it sits beside the founder's name, not as a hero image. */}
+              <div className="max-w-[16rem] md:col-span-4 md:max-w-none lg:col-span-3">
                 <MediaReveal
                   src={sitePhotos.jpLogo.src}
                   alt={sitePhotos.jpLogo.alt}
-                  ratio="4/5"
-                  sizes="(max-width: 768px) 100vw, 35vw"
+                  ratio="1/1"
+                  sizes="(max-width: 768px) 16rem, 25vw"
                   quality={82}
                 />
               </div>
-              <div className="md:col-span-7 md:col-start-6">
+              <div className="md:col-span-7 md:col-start-6 lg:col-span-8 lg:col-start-4 lg:pl-8">
                 <AnimatedHeading
                   as="h3"
                   size="statement"
@@ -249,7 +251,7 @@ export default function AboutPage() {
               lines={["Business should leave", "a place better than", "it found it."]}
             />
           </div>
-          <div className="mt-10 md:col-span-6 md:col-start-7 md:mt-0">
+          <div className="mt-10 md:col-span-6 md:col-start-7 md:mt-0 md:pt-9">
             <div className="flex flex-col gap-6">
               {impactPhilosophy.slice(0, 2).map((para, i) => (
                 <p

@@ -17,7 +17,7 @@ export const services: Service[] = [
     world: "stories",
     name: "Media",
     description:
-      "Photography and videography that carry your brand's story, its services and its personality — made to hold up online and offline, long after the scroll.",
+      "Photography and videography that carry your brand's story, its services and its personality, made to hold up online and offline, long after the scroll.",
     includes: ["Photography", "Videography", "Brand Content"],
     verified: true,
   },
@@ -26,7 +26,7 @@ export const services: Service[] = [
     world: "brands",
     name: "Marketing",
     description:
-      "Social media, ads, email, direct mail, graphic design, event marketing and consulting — built to boost visibility, drive engagement, and grow a brand with confidence.",
+      "Social media, ads, email, direct mail, graphic design, event marketing and consulting, built to boost visibility, drive engagement, and grow a brand with confidence.",
     includes: [
       "Social Media",
       "Ads",
@@ -43,7 +43,7 @@ export const services: Service[] = [
     world: "experiences",
     name: "Events",
     description:
-      "From planning to production, event experiences covering logistics, coordination, design and execution — built for meaningful connections and moments people remember.",
+      "From planning to production, event experiences covering logistics, coordination, design and execution, built for meaningful connections and moments people remember.",
     includes: ["Logistics", "Coordination", "Design", "Execution", "Event Marketing"],
     verified: true,
   },
@@ -60,7 +60,7 @@ export const process: { step: string; title: string; body: string }[] = [
   {
     step: "01",
     title: "Understand",
-    body: "We start with who you are, what you stand for, and how you want to be remembered — before any camera, campaign, or floor plan.",
+    body: "We start with who you are, what you stand for, and how you want to be remembered, before any camera, campaign, or floor plan.",
   },
   {
     step: "02",
@@ -75,6 +75,6 @@ export const process: { step: string; title: string; body: string }[] = [
   {
     step: "04",
     title: "Remember",
-    body: "Everything we make follows one idea: make it matter. Your brand isn't just promoted — it's elevated, experienced, and remembered.",
+    body: "Everything we make follows one idea: make it matter. Your brand isn't just promoted. It's elevated, experienced, and remembered.",
   },
 ];

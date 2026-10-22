@@ -22,7 +22,7 @@ export function WorldStrip() {
         <Link
           key={world.id}
           href={world.href}
-          className="group rule grid grid-cols-1 items-center gap-x-8 gap-y-6 py-10 last:border-b md:grid-cols-12"
+          className="group rule grid grid-cols-1 items-center gap-x-8 gap-y-6 py-10 last:border-b last:border-b-ink/13 md:grid-cols-12"
           data-reveal="fade-up"
           data-reveal-delay={i * 0.08}
         >

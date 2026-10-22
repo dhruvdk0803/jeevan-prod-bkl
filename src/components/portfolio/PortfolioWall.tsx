@@ -68,7 +68,7 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
           <div
             role="toolbar"
             aria-label="Filter frames by category"
-            className="bg-paper-warm/90 sticky top-[calc(var(--nav-h)+0.5rem)] z-10 -mx-2 mb-10 flex flex-wrap gap-2 rounded-[28px] px-2 py-2 backdrop-blur"
+            className="pf-chips bg-paper-warm/90 sticky top-[calc(var(--nav-h)+0.5rem)] z-10 -mx-2 mb-10 flex gap-2 overflow-x-auto rounded-[28px] px-2 py-2 backdrop-blur md:flex-wrap md:overflow-visible"
           >
             <FilterChip active={filter === "all"} onClick={() => pickFilter("all")}>
               All <span className="tabular-nums opacity-60">{images.length}</span>
@@ -91,14 +91,24 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
                   type="button"
                   onClick={() => setOpen(i)}
                   className="pf-tile group relative block w-full overflow-hidden rounded-[3px]"
-                  style={{ aspectRatio: `${img.width} / ${img.height}`, backgroundColor: img.color }}
+                  style={{
+                    aspectRatio: `${img.width} / ${img.height}`,
+                    backgroundColor: img.color,
+                    // A faint ink wash so near-white placeholders still read as
+                    // tiles against the paper while the image loads.
+                    backgroundImage: "linear-gradient(rgba(19,19,25,0.07), rgba(19,19,25,0.07))",
+                  }}
                   aria-label={`Open frame: ${img.alt}`}
                   data-cursor="View"
                 >
                   <WallImage img={img} />
                   <span
                     aria-hidden="true"
-                    className="t-label text-paper absolute bottom-2 left-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                    className="from-ink/60 pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                  />
+                  <span
+                    aria-hidden="true"
+                    className="t-label text-paper absolute bottom-3 left-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
                   >
                     {img.id.toUpperCase()}
                   </span>
@@ -144,6 +154,11 @@ function WallImage({ img }: { img: PortfolioImage }) {
       loading="lazy"
       decoding="async"
       data-loaded="false"
+      ref={(el) => {
+        // Cached or fast images can finish before hydration attaches onLoad;
+        // without this they would stay invisible at opacity 0.
+        if (el?.complete && el.naturalWidth) el.dataset.loaded = "true";
+      }}
       onLoad={(e) => (e.currentTarget.dataset.loaded = "true")}
       className="h-full w-full object-cover"
     />
@@ -165,7 +180,7 @@ function FilterChip({
       onClick={onClick}
       aria-pressed={active}
       className={clsx(
-        "t-label inline-flex min-h-11 items-center gap-2 rounded-full border px-5 transition-colors duration-300",
+        "t-label inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full border px-5 whitespace-nowrap transition-colors duration-300",
         active ? "bg-ink text-paper border-ink" : "border-ink/20 text-ink hover:border-ink",
       )}
     >

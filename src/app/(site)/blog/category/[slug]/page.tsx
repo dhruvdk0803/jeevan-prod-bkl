@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   if (!category) return {};
   return buildMetadata({
     path: `/blog/category/${category.slug}`,
-    title: category.metaTitle || `${category.name} — Journal`,
+    title: category.metaTitle || `${category.name} | Journal`,
     description:
       category.metaDescription ||
       category.description ||
@@ -56,7 +56,7 @@ export default async function BlogCategoryPage({ params }: { params: Promise<Par
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd(
           collectionPageSchema({
-            name: `${category.name} — Journal`,
+            name: `${category.name} | Journal`,
             description: category.description || `Posts filed under ${category.name}.`,
             path: `/blog/category/${category.slug}`,
           }),

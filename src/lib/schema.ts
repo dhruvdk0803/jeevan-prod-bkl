@@ -219,7 +219,7 @@ export function blogSchema() {
     "@type": "Blog",
     "@id": `${site.url}/blog/#blog`,
     url: `${site.url}/blog`,
-    name: `${site.name} — Blog`,
+    name: `${site.name} | Blog`,
     publisher: { "@id": ORG_ID },
     isPartOf: { "@id": `${site.url}/#website` },
   };

@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/services",
     title: "Services",
     description:
-      "Photography and video, brand strategy and campaigns, and full event production — the three things Jeevan Productions does, and how they work together.",
+      "Photography and video, brand strategy and campaigns, and full event production: the three things Jeevan Productions does, and how they work together.",
   });
 }
 
@@ -58,15 +58,15 @@ export default function ServicesPage() {
               {site.description}
             </p>
 
-            <nav aria-label="Jump to a world" className="mt-12">
-              <ul className="flex flex-wrap gap-x-10 gap-y-4">
+            <nav aria-label="Jump to a world" className="mt-10">
+              <ul className="flex flex-wrap gap-x-[clamp(1.25rem,3vw,2.5rem)] gap-y-1">
                 {worlds.map((world, i) => (
                   <li key={world.id} data-reveal="fade-up" data-reveal-delay={0.2 + i * 0.05}>
                     <Link
                       href={world.href}
-                      className="group t-label inline-flex items-baseline gap-3 text-ink/70 transition-colors duration-300 hover:text-ember"
+                      className="group t-label inline-flex items-baseline gap-3 py-2 text-ink-3 transition-colors duration-300 hover:text-ember"
                     >
-                      <span className="tabular-nums">{world.index}</span>
+                      <span className="text-neutral tabular-nums transition-colors duration-300 group-hover:text-current">{world.index}</span>
                       <span className="relative">
                         {world.title}
                         <span
@@ -108,13 +108,16 @@ export default function ServicesPage() {
             id="process-heading"
             eyebrow="How we work"
             lines={["From intention", "to impact."]}
-            className="mb-16 max-w-[36rem]"
+            className="mb-[clamp(3rem,6vw,4rem)] max-w-[36rem]"
           />
-          <div className="grid gap-x-10 gap-y-14 md:grid-cols-4">
+          <div className="grid gap-x-10 gap-y-10 md:grid-cols-4">
             {process.map((step, i) => (
               <div
                 key={step.step}
-                className={clsx(i > 0 && "md:border-l md:border-ink/10 md:pl-8")}
+                className={clsx(
+                  "border-t border-ink/10 pt-8 md:pt-0",
+                  i === 0 ? "md:border-t-0" : "md:border-t-0 md:border-l md:pl-8",
+                )}
                 data-reveal="fade-up"
                 data-reveal-delay={i * 0.08}
               >

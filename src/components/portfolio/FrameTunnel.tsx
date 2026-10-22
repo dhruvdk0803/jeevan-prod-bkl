@@ -29,6 +29,8 @@ type Props = {
   /** Called with the index of the frame nearest the camera, for the counter. */
   onFrame?: (index: number, progress: number) => void;
   onReady?: () => void;
+  /** Called if WebGL is unavailable, so the parent can show its still fallback. */
+  onFail?: () => void;
 };
 
 const SPACING = 3.1; // world units between consecutive frames along z
@@ -93,7 +95,7 @@ const FRAG = /* glsl */ `
   }
 `;
 
-export function FrameTunnel({ frames, sectionRef, onFrame, onReady }: Props) {
+export function FrameTunnel({ frames, sectionRef, onFrame, onReady, onFail }: Props) {
   const mountRef = useRef<HTMLDivElement>(null);
   const [failed, setFailed] = useState(false);
 
@@ -114,6 +116,7 @@ export function FrameTunnel({ frames, sectionRef, onFrame, onReady }: Props) {
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
       } catch {
         setFailed(true);
+        onFail?.();
         return;
       }
 
@@ -285,7 +288,7 @@ export function FrameTunnel({ frames, sectionRef, onFrame, onReady }: Props) {
       disposed = true;
       cleanup();
     };
-  }, [frames, sectionRef, onFrame, onReady]);
+  }, [frames, sectionRef, onFrame, onReady, onFail]);
 
   if (failed) return null;
   return <div ref={mountRef} className="absolute inset-0 [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full" />;

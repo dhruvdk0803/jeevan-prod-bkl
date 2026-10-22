@@ -85,6 +85,8 @@
   line-height: 1.68;
 }
 .t-label {
+  /* Labels are always sans, even when rendered as h2/h3 for semantics. */
+  font-family: var(--font-sans);
   font-size: clamp(0.6875rem, 0.78vw, 0.8125rem);
   line-height: 1.1;
   letter-spacing: 0.16em;
@@ -110,17 +112,20 @@ body {
   overflow-x: clip;
 }
 
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  text-wrap: balance;
-}
+/* In the base layer so utility classes (font-sans, etc.) can override them. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-wrap: balance;
+  }
 
-p {
-  text-wrap: pretty;
+  p {
+    text-wrap: pretty;
+  }
 }
 
 ::selection {
@@ -143,11 +148,14 @@ p {
   padding-inline: var(--spacing-gutter);
 }
 
-.rule {
-  border-top: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
-}
-.on-dark .rule {
-  border-color: color-mix(in srgb, #fff 16%, transparent);
+/* Layered so utilities like border-t-0 can switch the hairline off. */
+@layer components {
+  .rule {
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 13%, transparent);
+  }
+  .on-dark .rule {
+    border-color: color-mix(in srgb, #fff 16%, transparent);
+  }
 }
 
 .hide-scrollbar {

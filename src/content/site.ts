@@ -12,7 +12,7 @@ export const site = {
   tagline: "Creativity is our identity.",
   url: "https://www.jeevanproductions.com",
   description:
-    "Jeevan Productions is a creative company in San Diego working across media, marketing and events — telling stories, building brands and bringing people together.",
+    "Jeevan Productions is a creative company in San Diego working across media, marketing and events: telling stories, building brands and bringing people together.",
   email: "Team@JeevanProductions.com",
   phones: [
     { label: "San Diego / Los Angeles", number: "(310) 363-0288", tel: "+13103630288" },
@@ -70,7 +70,7 @@ export const worlds: WorldMeta[] = [
     discipline: "Media",
     idea: "We tell stories worth remembering.",
     blurb:
-      "Photography, video and film that carry a brand's story, its services and its personality — made to last longer than a scroll.",
+      "Photography, video and film that carry a brand's story, its services and its personality, made to last longer than a scroll.",
     capabilities: [
       "Photography",
       "Video Production",
@@ -112,12 +112,11 @@ export const worlds: WorldMeta[] = [
     discipline: "Events",
     idea: "We create experiences that bring people together.",
     blurb:
-      "Events from first idea to final guest — planning, design, production and the marketing that fills the room.",
+      "Events from first idea to final guest: planning, design, production and the marketing that fills the room.",
     capabilities: [
       "Event Production",
       "Logistics & Coordination",
       "Event Design",
-      "Social Hours",
       "Community Gatherings",
       "Event Marketing",
     ],

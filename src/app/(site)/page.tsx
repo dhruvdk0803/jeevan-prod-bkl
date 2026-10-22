@@ -16,7 +16,7 @@ import { buildMetadata } from "@/lib/seo";
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata({
     path: "/",
-    title: "Jeevan Productions — Media, Marketing & Events in San Diego",
+    title: "Jeevan Productions | Media, Marketing & Events in San Diego",
     description:
       "Jeevan Productions is a creative company in San Diego. We tell stories through media, build brands through marketing, and bring people together through events.",
   });
@@ -32,32 +32,37 @@ export default function HomePage() {
 
       {/* ---------- UNDERSTANDING: the quiet turn after the cinema ---------- */}
       <section className="bg-paper" aria-labelledby="intro-heading">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,13vw,11rem)]">
-          <div className="grid gap-x-[clamp(2rem,6vw,7rem)] gap-y-10 lg:grid-cols-12">
-            <div className="lg:col-span-4">
-              <Label>More than a production company</Label>
-              <MediaReveal
-                src={introPhoto.src}
-                alt={introPhoto.alt}
-                ratio="4/5"
-                sizes="(max-width: 1024px) 100vw, 30vw"
-                quality={82}
-                className="mt-8 max-w-[26rem]"
-              />
-            </div>
+        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,10rem)]">
+          {/* Eyebrow, statement, lead and link read as one column on the right;
+              the photo's top edge lines up with the eyebrow. On phones the text
+              leads and the photo follows. */}
+          <div className="grid items-start gap-x-[clamp(2rem,6vw,7rem)] gap-y-14 lg:grid-cols-12">
+            <MediaReveal
+              src={introPhoto.src}
+              alt={introPhoto.alt}
+              ratio="4/5"
+              sizes="(max-width: 1024px) 100vw, 30vw"
+              quality={82}
+              className="order-last w-full max-w-[26rem] lg:order-none lg:col-span-4 lg:max-w-none"
+            />
             <div className="lg:col-span-8">
+              <Label className="mb-6">More than a production company</Label>
               <AnimatedHeading
                 id="intro-heading"
                 size="statement"
+                // Authored line breaks suit wide screens; on phones they forced
+                // ragged double wraps, so the lines flow as one paragraph there.
+                // (`!` because the unlayered .line-mask rule outranks utilities.)
+                className="max-sm:[&_.line-mask]:inline! max-sm:[&_.line-mask>span]:inline!"
                 lines={[
-                  "We bring media, marketing",
-                  "and experiences together —",
-                  "so a story, a brand and a room",
+                  "We bring media, marketing ",
+                  "and experiences together, ",
+                  "so a story, a brand and a room ",
                   "all say the same thing.",
                 ]}
               />
               <p
-                className="t-lead text-ink-3 mt-10 max-w-[54ch]"
+                className="t-lead text-ink-3 mt-8 max-w-[54ch]"
                 data-reveal="fade-up"
                 data-reveal-delay={0.12}
               >
@@ -65,7 +70,7 @@ export default function HomePage() {
                 tell better stories, build stronger brands, and create the kind of moments
                 people actually remember. We don&rsquo;t just market. We make things matter.
               </p>
-              <div className="mt-9" data-reveal="fade-up" data-reveal-delay={0.2}>
+              <div className="mt-10" data-reveal="fade-up" data-reveal-delay={0.2}>
                 <ArrowLink href="/about">Our story</ArrowLink>
               </div>
             </div>
@@ -96,7 +101,6 @@ export default function HomePage() {
       {/* ---- Proof, continued: who we've worked with ---- */}
       <BrandMarquee />
 
-
       {/* ---------- VALUES: impact teaser ---------- */}
       <section
         className="on-dark bg-ink text-paper"
@@ -117,14 +121,14 @@ export default function HomePage() {
             </div>
 
             <div className="lg:col-span-6 lg:col-start-7">
-              <p className="t-label text-ember-light mb-7">Beyond business</p>
+              <p className="t-label text-ember-light mb-6">Beyond business</p>
               <AnimatedHeading
                 id="impact-heading"
                 size="statement"
                 lines={["Business should leave", "a community better", "than it found it."]}
               />
               <p
-                className="t-lead mt-9 max-w-[46ch] text-paper/70"
+                className="t-lead mt-8 max-w-[46ch] text-paper/75"
                 data-reveal="fade-up"
                 data-reveal-delay={0.12}
               >

@@ -10,7 +10,7 @@ export function Footer() {
     <footer className="on-dark bg-ink text-paper" data-theme-dark>
       <div className="gutter mx-auto max-w-[110rem] pt-[clamp(4rem,9vw,7.5rem)] pb-12">
         {/* Closing statement — the last thing anyone reads — with the enquiry form beside it. */}
-        <div className="rule grid gap-x-[clamp(2rem,6vw,6rem)] gap-y-14 border-t-0 pb-[clamp(3rem,7vw,6rem)] lg:grid-cols-12">
+        <div className="grid items-start gap-x-[clamp(2rem,6vw,6rem)] gap-y-14 pb-[clamp(3rem,7vw,6rem)] lg:grid-cols-12">
           <div className="lg:col-span-5">
             <h2 className="t-statement max-w-[16ch]" data-reveal="mask">
               <span className="line-mask">

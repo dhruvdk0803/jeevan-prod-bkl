@@ -7,6 +7,7 @@ import type { ActionResult } from "@/lib/form-security";
 import { roleOptions } from "@/content/careers";
 import {
   CheckboxField,
+  ErrorSummary,
   Fieldset,
   SelectField,
   TextArea,
@@ -24,7 +25,7 @@ function SubmitButton() {
       type="submit"
       disabled={pending}
       aria-disabled={pending}
-      className="t-label inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-ink px-8 py-4 text-paper transition-colors duration-300 hover:bg-ember disabled:cursor-not-allowed disabled:opacity-60"
+      className="t-label inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-ember px-8 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
     >
       {pending ? "Submitting…" : "Submit application"}
     </button>
@@ -54,11 +55,11 @@ export function ApplicationForm() {
         ref={successRef}
         role="status"
         tabIndex={-1}
-        className="rule border-t-0 bg-paper-warm px-8 py-14 text-center sm:px-16"
+        className="bg-paper-warm px-8 py-14 text-center sm:px-16"
       >
         <p className="t-label mb-4 text-ember">Application received</p>
         <h3 className="t-h3">{state.message}</h3>
-        <p className="t-body mt-4 max-w-[48ch] mx-auto text-ink-3">
+        <p className="t-body mx-auto mt-4 max-w-[48ch] text-ink-3">
           We read every application personally. If your background is a fit for what&rsquo;s ahead,
           we&rsquo;ll reach out.
         </p>
@@ -68,16 +69,7 @@ export function ApplicationForm() {
 
   return (
     <form ref={formRef} action={formAction} noValidate className="space-y-12">
-      {showErrorSummary ? (
-        <div
-          ref={errorSummaryRef}
-          role="alert"
-          tabIndex={-1}
-          className="border-l-2 border-ember-deep bg-sand px-6 py-5"
-        >
-          <p className="t-body text-ink">{state.message}</p>
-        </div>
-      ) : null}
+      {showErrorSummary ? <ErrorSummary ref={errorSummaryRef} message={state.message} /> : null}
 
       <Fieldset legend="About you">
         <div className="grid gap-8 sm:grid-cols-2">

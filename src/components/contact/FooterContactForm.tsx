@@ -26,7 +26,7 @@ const interests = [
 const initialState: ActionResult = { status: "error", message: "" };
 
 const inputClass =
-  "t-body w-full rounded-none border-0 border-b border-paper/30 bg-transparent px-0 py-3 text-paper placeholder:text-paper/40 transition-colors duration-300 focus:border-paper focus:outline-none";
+  "t-body mt-1 block w-full rounded-none border-0 border-b border-paper/30 bg-transparent px-0 py-3 text-paper placeholder:text-paper/40 transition-colors duration-300 focus:border-paper focus:outline-none aria-[invalid=true]:border-ember-light";
 
 function SubmitButton() {
   const { pending } = useFormStatus();
@@ -60,7 +60,7 @@ function Field({
       </label>
       {children}
       {error ? (
-        <p id={`${id}-error`} className="t-body mt-2 text-ember-light">
+        <p id={`${id}-error`} className="t-body mt-2 text-sm text-ember-light">
           {error}
         </p>
       ) : null}
@@ -94,14 +94,14 @@ export function FooterContactForm() {
   const describe = (key: keyof typeof ids) => (errors[key] ? `${ids[key]}-error` : undefined);
 
   return (
-    <form action={formAction} noValidate className="space-y-8">
+    <form action={formAction} noValidate className="space-y-9">
       {state.status === "error" && state.message ? (
         <p role="alert" className="t-body border-l-2 border-ember-light pl-4 text-paper/85">
           {state.message}
         </p>
       ) : null}
 
-      <div className="grid gap-8 sm:grid-cols-2">
+      <div className="grid gap-x-8 gap-y-9 sm:grid-cols-2">
         <Field id={ids.name} label="Name" error={errors.name}>
           <input
             id={ids.name}
@@ -135,7 +135,8 @@ export function FooterContactForm() {
           defaultValue=""
           aria-invalid={Boolean(errors.interest)}
           aria-describedby={describe("interest")}
-          className={clsx(inputClass, "cursor-pointer [&>option]:text-ink")}
+          // Muted until a choice is made, matching the empty text fields.
+          className={clsx(inputClass, "cursor-pointer invalid:text-paper/45 [&>option]:text-ink")}
         >
           <option value="" disabled>
             Choose one

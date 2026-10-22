@@ -63,14 +63,14 @@ export function ProjectCard({
   );
 
   const meta = (
-    <div className="mt-6 flex items-start justify-between gap-6">
+    <div className="mt-6 flex items-baseline justify-between gap-6">
       <div>
         <h3 className="t-h3 font-display">
-          <span className="transition-colors duration-300 group-hover:text-ember">
+          <span className="transition-colors duration-300 group-hover:text-ember [.on-dark_&]:group-hover:text-ember-light">
             {project.title}
           </span>
         </h3>
-        <p className="t-label text-neutral mt-3 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <p className="t-label text-neutral mt-3 flex flex-wrap items-center gap-x-3 gap-y-1.5 leading-[1.5] [.on-dark_&]:text-paper/60">
           <span>{project.discipline}</span>
           {/* Client, year and location only render when JP has confirmed them. */}
           {project.client ? (
@@ -94,7 +94,7 @@ export function ProjectCard({
         </p>
       </div>
       {typeof index === "number" ? (
-        <span className="t-label text-ink-3 shrink-0 tabular-nums">
+        <span className="t-label text-ink-3 shrink-0 tabular-nums [.on-dark_&]:text-paper/50">
           {String(index + 1).padStart(2, "0")}
         </span>
       ) : null}
@@ -111,7 +111,7 @@ export function ProjectCard({
       </div>
       {meta}
       {href ? (
-        <span className="t-label text-ember mt-4 inline-flex items-center gap-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <span className="t-label text-ember mt-4 inline-flex items-center gap-2 opacity-0 [.on-dark_&]:text-ember-light transition-opacity duration-300 group-hover:opacity-100">
           View case study
           <Arrow className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
         </span>
@@ -134,7 +134,10 @@ export function ProjectCard({
 
 function Dot() {
   return (
-    <span aria-hidden="true" className="bg-neutral-2 inline-block h-1 w-1 rounded-full" />
+    <span
+      aria-hidden="true"
+      className="bg-neutral-2 inline-block h-1 w-1 rounded-full [.on-dark_&]:bg-paper/40"
+    />
   );
 }
 
@@ -165,8 +168,6 @@ export function ProjectRhythm({
           index={i}
           ratio="4/5"
           sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 22vw"
-          // Every other card drops, giving the row a staggered baseline.
-          className={clsx(i % 2 === 1 && "lg:mt-[clamp(2rem,5vw,4.5rem)]")}
         />
       ))}
     </div>

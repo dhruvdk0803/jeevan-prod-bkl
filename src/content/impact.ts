@@ -97,7 +97,7 @@ export const jpGives = {
   title: "JP Gives",
   tagline: "Creativity, given forward.",
   body: [
-    "JP Gives is a future initiative — not yet launched. When it opens, it will put Jeevan Productions' own media, marketing, and event work behind causes and small businesses that couldn't otherwise afford it.",
+    "JP Gives is a future initiative, not yet launched. When it opens, it will put Jeevan Productions' own media, marketing, and event work behind causes and small businesses that couldn't otherwise afford it.",
     "Details, eligibility, and how to apply will be published here once the program is live.",
   ],
   offerings: [
@@ -112,7 +112,7 @@ export const jpGives = {
  * stated philosophy of meaning over promotion, extended to community.
  */
 export const impactPhilosophy: string[] = [
-  "Business should leave a community better than it found it. That's a belief, not a scoreboard — and it applies to the same work we already do: telling stories, building brands, bringing people into a room together.",
+  "Business should leave a community better than it found it. That's a belief, not a scoreboard, and it applies to the same work we already do: telling stories, building brands, bringing people into a room together.",
   "We don't have a community track record to publish yet. We'd rather say that plainly than dress up a handful of projects as a program.",
-  "As real, confirmed community work happens, it will replace this page — not the other way around.",
+  "As real, confirmed community work happens, it will replace this page, not the other way around.",
 ];

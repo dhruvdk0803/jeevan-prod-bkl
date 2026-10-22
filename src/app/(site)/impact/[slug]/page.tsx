@@ -83,14 +83,14 @@ export default async function ImpactStoryPage({ params }: Props) {
       {story.cover ? (
         <CinematicBand src={story.cover.src} alt={story.cover.alt} overlay="strong" priority>
           <div className="gutter relative mx-auto w-full max-w-[110rem] pb-[clamp(3rem,7vw,5rem)]">
-            <Label className="text-paper/70 mb-6">{categoryLabels[story.category]}</Label>
+            <p className="t-label text-paper/70 mb-6">{categoryLabels[story.category]}</p>
             <AnimatedHeading as="h1" size="hero" lines={[story.title]} />
             {meta ? <p className="t-label text-paper/70 mt-6">{meta}</p> : null}
           </div>
         </CinematicBand>
       ) : (
         <header className="bg-paper-warm">
-          <div className="gutter mx-auto max-w-[110rem] py-[clamp(6rem,14vw,10rem)]">
+          <div className="gutter mx-auto max-w-[110rem] pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(4rem,9vw,7rem)]">
             <Label className="mb-6">{categoryLabels[story.category]}</Label>
             <AnimatedHeading as="h1" size="hero" lines={[story.title]} />
             {meta ? <p className="t-label text-neutral mt-6">{meta}</p> : null}
@@ -99,22 +99,24 @@ export default async function ImpactStoryPage({ params }: Props) {
       )}
 
       <section className="bg-paper">
-        <div className="gutter mx-auto max-w-[70rem] space-y-6 py-[clamp(4rem,10vw,7rem)]">
-          {story.body.map((paragraph, i) => (
-            <p key={i} className="t-body text-ink-3" data-reveal="fade-up">
-              {paragraph}
-            </p>
-          ))}
+        <div className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]">
+          <div className="max-w-[62ch] space-y-6">
+            {story.body.map((paragraph, i) => (
+              <p key={i} className="t-body text-ink-3" data-reveal="fade-up">
+                {paragraph}
+              </p>
+            ))}
+          </div>
         </div>
       </section>
 
       {story.quote ? (
         <section className="bg-sand" aria-label="Quote">
-          <div className="gutter mx-auto max-w-[70rem] py-[clamp(4rem,10vw,7rem)]">
-            <blockquote className="t-statement font-display" data-reveal="fade-up">
+          <div className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]">
+            <blockquote className="t-statement font-display max-w-[32ch]" data-reveal="fade-up">
               &ldquo;{story.quote.text}&rdquo;
             </blockquote>
-            <p className="t-label text-neutral mt-6">— {story.quote.attribution}</p>
+            <p className="t-label text-neutral mt-6">{story.quote.attribution}</p>
           </div>
         </section>
       ) : null}

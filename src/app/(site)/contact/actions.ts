@@ -64,23 +64,27 @@ export async function submitEnquiry(
     return { status: "error", message: turnstileResult.reason };
   }
 
+  // Fields a form doesn't render (the footer form, or variant fields hidden for
+  // the chosen interest) come back as null; treat them as simply not provided.
+  const field = (key: string) => formData.get(key) ?? undefined;
+
   const parsed = enquirySchema.safeParse({
-    interest: formData.get("interest"),
-    name: formData.get("name"),
-    email: formData.get("email"),
-    company: formData.get("company"),
-    phone: formData.get("phone"),
-    projectType: formData.get("projectType"),
-    timeline: formData.get("timeline"),
-    budget: formData.get("budget"),
-    details: formData.get("details"),
-    shootType: formData.get("shootType"),
-    shootLocation: formData.get("shootLocation"),
-    eventDate: formData.get("eventDate"),
-    guestCount: formData.get("guestCount"),
-    marketingScope: formData.get("marketingScope"),
-    marketingChannels: formData.get("marketingChannels"),
-    partnershipType: formData.get("partnershipType"),
+    interest: field("interest"),
+    name: field("name"),
+    email: field("email"),
+    company: field("company"),
+    phone: field("phone"),
+    projectType: field("projectType"),
+    timeline: field("timeline"),
+    budget: field("budget"),
+    details: field("details"),
+    shootType: field("shootType"),
+    shootLocation: field("shootLocation"),
+    eventDate: field("eventDate"),
+    guestCount: field("guestCount"),
+    marketingScope: field("marketingScope"),
+    marketingChannels: field("marketingChannels"),
+    partnershipType: field("partnershipType"),
   });
 
   if (!parsed.success) {
@@ -113,7 +117,7 @@ export async function submitEnquiry(
 
   return {
     status: "success",
-    message: "Thank you — your message is in. We'll be in touch soon.",
+    message: "Thank you. Your message is in, and we'll be in touch soon.",
   };
 }
 

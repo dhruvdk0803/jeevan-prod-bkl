@@ -27,6 +27,32 @@
     transform: none;
   }
 }
+/* Keeps the opening's type readable over bright frames: a soft ink pool
+   behind the title block plus a low, wide shadow on the letterforms. */
+.pf-scrim {
+  background: radial-gradient(
+    ellipse 46% 34% at 50% calc(50% + var(--nav-h) / 2),
+    rgba(19, 19, 25, 0.82) 0%,
+    rgba(19, 19, 25, 0.6) 45%,
+    rgba(19, 19, 25, 0) 100%
+  );
+}
+@media (max-width: 767px) {
+  .pf-scrim {
+    background: radial-gradient(
+      ellipse 85% 30% at 50% calc(50% + var(--nav-h) / 2),
+      rgba(19, 19, 25, 0.85) 0%,
+      rgba(19, 19, 25, 0.6) 50%,
+      rgba(19, 19, 25, 0) 100%
+    );
+  }
+}
+.pf-legible {
+  text-shadow:
+    0 1px 2px rgba(19, 19, 25, 0.55),
+    0 2px 28px rgba(19, 19, 25, 0.65);
+}
+
 .pf-rise {
   opacity: 0;
   animation: pf-rise 1s cubic-bezier(0.16, 1, 0.3, 1) var(--d, 0s) both;
@@ -65,6 +91,15 @@
   line-height: 0.9;
   letter-spacing: -0.045em;
   font-variation-settings: "opsz" 144, "SOFT" 20;
+}
+
+/* ---- Category chips: one swipeable row on phones (no scrollbar) ---- */
+.pf-chips {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.pf-chips::-webkit-scrollbar {
+  display: none;
 }
 
 /* ---- The wall ---- */

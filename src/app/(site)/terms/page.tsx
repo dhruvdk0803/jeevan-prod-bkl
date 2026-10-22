@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionIntro, Label } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -9,7 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/terms",
     title: "Terms of Service",
     description:
-      "The terms that govern use of the Jeevan Productions website — inquiries, careers, content, and liability.",
+      "The terms that govern use of the Jeevan Productions website: inquiries, careers, content, and liability.",
   });
 }
 
@@ -19,7 +18,7 @@ export default function TermsPage() {
   return (
     <>
       <section aria-labelledby="terms-heading" className="bg-paper text-ink">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,8rem)]">
+        <div className="gutter mx-auto max-w-[110rem] pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(5rem,12vw,8rem)]">
           <SectionIntro
             as="h1"
             id="terms-heading"
@@ -39,7 +38,7 @@ export default function TermsPage() {
             <p className="t-body text-ink-2">
               This page is a starting point written in plain English to
               reflect what this site actually does today. It is not a
-              substitute for legal advice — Jeevan Productions should have
+              substitute for legal advice. Jeevan Productions should have
               counsel review these terms before they govern any live launch.
             </p>
           </div>
@@ -58,7 +57,7 @@ export default function TermsPage() {
               <PolicySection heading="Inquiries and career applications">
                 <p>
                   Submitting the contact form is a request to start a
-                  conversation about a project — it is not a contract, quote,
+                  conversation about a project. It is not a contract, quote,
                   or booking. No engagement exists until both parties agree
                   to written terms for a specific project.
                 </p>
@@ -76,7 +75,7 @@ export default function TermsPage() {
                   belong to {site.legalName} or are used with permission,
                   and are shown to represent the studio&rsquo;s work. Please don&rsquo;t
                   reproduce, redistribute, or claim this content as your own
-                  without asking first — email{" "}
+                  without asking first. Email{" "}
                   <a
                     href={`mailto:${site.email}`}
                     className="text-ember underline underline-offset-4"
@@ -119,7 +118,7 @@ export default function TermsPage() {
               </PolicySection>
             </div>
 
-            <aside className="rule pt-8 md:col-span-4 md:col-start-9">
+            <aside className="rule pt-8 md:sticky md:top-[calc(var(--nav-h)+2rem)] md:col-span-4 md:col-start-9 md:self-start">
               <Label className="mb-4">Questions</Label>
               <p className="t-body text-ink-2">
                 For anything related to these terms, reach us directly.
@@ -134,12 +133,6 @@ export default function TermsPage() {
           </div>
         </div>
       </section>
-
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Let's create something", "worth remembering."]}
-        body={site.closingStatement}
-      />
     </>
   );
 }
@@ -154,7 +147,7 @@ function PolicySection({
   return (
     <div data-reveal="fade-up">
       <h2 className="t-h3 mb-4">{heading}</h2>
-      <div className="t-body text-ink-2 [&_a]:text-ember [&_p+p]:mt-4 [&_p]:leading-relaxed">
+      <div className="t-body text-ink-2 [&_a]:text-ember [&>*+*]:mt-4 [&_p]:leading-relaxed">
         {children}
       </div>
     </div>

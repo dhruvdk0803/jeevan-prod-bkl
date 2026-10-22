@@ -10,8 +10,8 @@ import type { JPEvent } from "./types";
 export const socialHours = {
   headline: "Good things happen when good people get in the same room.",
   intro: [
-    "Jeevan Productions curates gatherings across San Diego — outdoor adventures, social nights, networking evenings, and community dinners.",
-    "New experiences are added regularly. Current dates and tickets live on Eventbrite, not here — so this page never shows a stale listing.",
+    "Jeevan Productions curates gatherings across San Diego: outdoor adventures, social nights, networking evenings, and community dinners.",
+    "New experiences are added regularly. Current dates and tickets live on Eventbrite, not here, so this page never shows a stale listing.",
   ],
   categories: [
     { name: "Outdoor Experiences", blurb: "Hikes, nature walks & scenic adventures" },
@@ -19,7 +19,7 @@ export const socialHours = {
     { name: "Social Gatherings", blurb: "Meet new people & build relationships" },
     { name: "Dinners & Community", blurb: "Great food, conversations & connections" },
   ],
-  note: "Full, current listings and tickets are on our Eventbrite page — this site links out rather than duplicating dates that can change.",
+  note: "Full, current listings and tickets are on our Eventbrite page. This site links out rather than duplicating dates that can change.",
 };
 
 /**
@@ -41,7 +41,7 @@ export const events: JPEvent[] = [
     venue: "The Britannia Tearooms",
     city: "San Diego",
     description:
-      "A seated afternoon tea built for conversation — one of JP's Dinners & Community gatherings, verified via a past Eventbrite listing.",
+      "A seated afternoon tea built for conversation, one of JP's Dinners & Community gatherings, verified via a past Eventbrite listing.",
     status: "past",
     verified: true,
   },

@@ -25,7 +25,7 @@ import "./portfolio.css";
 
 const TITLE = "Portfolio";
 const DESCRIPTION =
-  "Jeevan Productions' photography portfolio — stage, evening events, gatherings, weddings, portraits, families, places and details, from a San Diego creative company.";
+  "Jeevan Productions' photography portfolio: stage, evening events, gatherings, weddings, portraits, families, places and details, from a San Diego creative company.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const cover = pickCover(portfolio);
@@ -88,7 +88,7 @@ export default function PortfolioPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd([
-          collectionPageSchema({ name: `${site.name} — ${TITLE}`, description: DESCRIPTION, path: "/portfolio" }),
+          collectionPageSchema({ name: `${site.name} ${TITLE}`, description: DESCRIPTION, path: "/portfolio" }),
           breadcrumbSchema([
             { name: "Home", href: "/" },
             { name: TITLE, href: "/portfolio" },

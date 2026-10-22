@@ -30,7 +30,7 @@ export default function Error({
           The reel slipped.
         </h1>
         <p className="t-lead text-ink-3 mt-8 max-w-[46ch]">
-          Something broke loading this page. It&rsquo;s on us, not you — try again,
+          Something broke loading this page. It&rsquo;s on us, not you. Try again,
           or head back to the homepage. If it keeps happening, reach us at{" "}
           <a href={`mailto:${site.email}`} className="text-ember underline underline-offset-4">
             {site.email}

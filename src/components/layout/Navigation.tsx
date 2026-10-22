@@ -39,6 +39,9 @@ const subscribeToScroll = (onStoreChange: () => void) => {
 const getScrolledSnapshot = () => window.scrollY > 24;
 const getScrolledServerSnapshot = () => false;
 
+/** Routes whose first section is dark or a full-bleed photograph. */
+const DARK_HERO_PREFIXES = ["/portfolio", "/careers", "/contact", "/impact"];
+
 export function Navigation() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -116,39 +119,47 @@ export function Navigation() {
 
   const close = useCallback(() => setOpen(false), []);
 
-  /* The bar is fully transparent at the top of every page. Home and
-   * Portfolio open on dark heroes, so they keep light type; every other page
-   * opens on paper, so the bar switches to ink type until you scroll and the
-   * translucent glass surface appears. Pathname is known during SSR, so this
-   * never flashes. */
-  const darkTop = pathname === "/" || pathname.startsWith("/portfolio");
+  /* The bar is fully transparent at the top of every page. Pages that open on
+   * a dark or photographic hero keep light type (with a soft scrim behind the
+   * bar so it reads over any frame); every other page opens on paper, so the
+   * bar uses ink type until you scroll and the translucent glass appears.
+   * Pathname is known during SSR, so this never flashes. */
+  const darkTop =
+    pathname === "/" || DARK_HERO_PREFIXES.some((prefix) => pathname.startsWith(prefix));
   const glass = scrolled || open;
   const onLight = !glass && !darkTop;
 
   return (
     <>
       <header className="fixed inset-x-0 top-0 z-100 pt-[clamp(0.75rem,1.6vw,1.25rem)]">
+        {/* Scrim behind the transparent bar over dark heroes and video. */}
+        <div
+          aria-hidden="true"
+          className={clsx(
+            "from-ink/70 pointer-events-none absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b to-transparent transition-opacity duration-500",
+            !glass && darkTop ? "opacity-100" : "opacity-0",
+          )}
+        />
         <div className="gutter mx-auto max-w-[110rem]">
           <div
             className={clsx(
-              "flex items-center justify-between gap-5 rounded-full border px-4 transition-[background-color,border-color,padding,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] sm:px-6",
+              "flex items-center justify-between gap-5 rounded-full border transition-[background-color,border-color,padding,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
               onLight ? "text-ink" : "on-dark text-paper",
               // 75% is the floor at which the paper/90 nav links and the
               // ember-light mark still clear 4.5:1 when the glass floats over
               // the lightest page background. Keep `PILL_ALPHA` in
               // scripts/contrast.mjs in sync with this value.
               glass
-                ? "bg-ink/75 border-white/10 py-2 backdrop-blur-xl"
-                : "border-transparent bg-transparent py-2.5",
+                ? "bg-ink/75 border-white/10 px-3 py-2 backdrop-blur-xl sm:px-5"
+                : "border-transparent bg-transparent px-0 py-2.5",
             )}
           >
             <Link
               href="/"
-              aria-label={`${site.name} — home`}
-              className="font-display shrink-0 pl-1 text-[clamp(1.05rem,3.6vw,1.3rem)] leading-none tracking-[-0.02em] whitespace-nowrap"
+              aria-label={`${site.name}, home`}
+              className="font-display shrink-0 text-[clamp(1.05rem,3.6vw,1.3rem)] leading-none tracking-[-0.02em] whitespace-nowrap"
             >
               Jeevan Productions
-              <span className={onLight ? "text-ember" : "text-ember-light"}>.</span>
             </Link>
 
             <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
@@ -192,7 +203,11 @@ export function Navigation() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="/contact"
-                className="t-label bg-ember text-paper hover:bg-paper hover:text-ink hidden min-h-11 items-center gap-2.5 rounded-full px-5 transition-colors duration-300 sm:inline-flex"
+                className={clsx(
+                  "t-label bg-ember text-paper hover:bg-paper hover:text-ink hidden min-h-11 items-center gap-2.5 rounded-full px-5 ring-1 ring-transparent transition-[background-color,color,box-shadow] duration-300 sm:inline-flex",
+                  // On paper the white hover state needs an edge to stay visible.
+                  onLight && "hover:ring-ink/20",
+                )}
               >
                 Start a project
                 <Arrow />
@@ -205,10 +220,11 @@ export function Navigation() {
                 aria-expanded={open}
                 aria-controls="jp-menu"
                 className={clsx(
-                  "t-label flex min-h-11 items-center gap-3 rounded-full border px-5 transition-colors duration-300",
+                  "t-label flex min-h-11 items-center gap-3 rounded-full px-5 transition-colors duration-300",
+                  // Solid neutral partner to the terracotta CTA, legible over video or paper.
                   onLight
-                    ? "border-ink/30 text-ink hover:border-ink"
-                    : "border-paper/30 text-paper hover:border-paper",
+                    ? "bg-ink text-paper hover:bg-ember"
+                    : "bg-paper text-ink hover:bg-ember hover:text-paper",
                 )}
               >
                 <span className="sr-only sm:not-sr-only">{open ? "Close" : "Menu"}</span>

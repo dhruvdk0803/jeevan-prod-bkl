@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/work",
     title: "Work",
     description:
-      "Photography and event coverage from Jeevan Productions across media, marketing and events — San Diego and Los Angeles.",
+      "Photography and event coverage from Jeevan Productions across media, marketing and events in San Diego and Los Angeles.",
   });
 }
 
@@ -24,14 +24,14 @@ export default function WorkPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(trail)} />
 
-      <section className="gutter mx-auto max-w-[110rem] pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(4rem,10vw,7rem)]">
+      <section className="gutter mx-auto max-w-[110rem] pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(3rem,7vw,5rem)]">
         <SectionIntro
           eyebrow="Selected work"
           as="h1"
           size="hero"
           lines={["The work,", "as it happened."]}
         >
-          Photography and coverage across media, marketing and events — shot
+          Photography and coverage across media, marketing and events. Shot
           in the room, not staged for it. {projects.length} projects, sorted
           by discipline below.
         </SectionIntro>
@@ -46,7 +46,6 @@ export default function WorkPage() {
         </h2>
         <WorkArchive projects={projects} />
       </section>
-
     </>
   );
 }

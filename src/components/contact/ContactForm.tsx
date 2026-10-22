@@ -6,6 +6,7 @@ import { clsx } from "clsx";
 import { submitEnquiry } from "@/app/(site)/contact/actions";
 import type { ActionResult } from "@/lib/form-security";
 import {
+  ErrorSummary,
   FieldError,
   Fieldset,
   SelectField,
@@ -31,6 +32,23 @@ const interests = [
 
 type Interest = (typeof interests)[number]["id"];
 
+/**
+ * Fields that only appear for one interest. The server reads every one of
+ * them, and a field that isn't in the DOM arrives as `null`, which the schema
+ * rejects with an invisible error, so the form could never succeed. Any
+ * variant field that isn't currently shown is submitted as an empty hidden
+ * input instead.
+ */
+const variantFields: Record<string, Interest> = {
+  shootType: "MEDIA",
+  shootLocation: "MEDIA",
+  eventDate: "EVENTS",
+  guestCount: "EVENTS",
+  marketingScope: "MARKETING",
+  marketingChannels: "MARKETING",
+  partnershipType: "PARTNERSHIPS",
+};
+
 const timelineOptions = ["ASAP", "1–3 months", "3–6 months", "6+ months", "Not sure yet"];
 const budgetOptions = [
   "Under $2,500",
@@ -51,7 +69,7 @@ function SubmitButton() {
       type="submit"
       disabled={pending}
       aria-disabled={pending}
-      className="t-label inline-flex min-h-11 items-center justify-center gap-3 rounded-full bg-ink px-8 py-4 text-paper transition-colors duration-300 hover:bg-ember disabled:cursor-not-allowed disabled:opacity-60"
+      className="t-label inline-flex min-h-12 w-full items-center justify-center gap-3 rounded-full bg-ember px-8 py-4 text-paper transition-colors duration-300 hover:bg-ink disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
     >
       {pending ? "Sending…" : "Send message"}
     </button>
@@ -85,7 +103,7 @@ export function ContactForm() {
         ref={successRef}
         role="status"
         tabIndex={-1}
-        className="rule border-t-0 bg-paper-warm px-8 py-14 text-center sm:px-16"
+        className="bg-paper-warm px-8 py-14 text-center sm:px-16"
       >
         <p className="t-label mb-4 text-ember">Message received</p>
         <h3 className="t-h3">{state.message}</h3>
@@ -98,34 +116,34 @@ export function ContactForm() {
 
   return (
     <form action={formAction} noValidate className="space-y-12">
-      {showErrorSummary ? (
-        <div
-          ref={errorSummaryRef}
-          role="alert"
-          tabIndex={-1}
-          className="border-l-2 border-ember-deep bg-sand px-6 py-5"
-        >
-          <p className="t-body text-ink">{state.message}</p>
-        </div>
-      ) : null}
+      {showErrorSummary ? <ErrorSummary ref={errorSummaryRef} message={state.message} /> : null}
 
       <Fieldset legend="What are you interested in?" required>
         <div
           role="radiogroup"
           aria-label="What are you interested in?"
           aria-describedby={fieldErrors.interest ? "field-interest-error" : undefined}
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3"
+          // Six-column track: three tiles on the first row, two wider tiles on
+          // the second, so there is no orphaned gap. On phones it's two up with
+          // the fifth tile spanning the full row. `auto-rows-fr` keeps every
+          // tile the same height regardless of how its blurb wraps.
+          className="grid auto-rows-fr grid-cols-2 gap-3 sm:grid-cols-6"
         >
-          {interests.map((opt) => {
+          {interests.map((opt, i) => {
             const active = interest === opt.id;
             return (
               <label
                 key={opt.id}
                 className={clsx(
-                  "min-h-11 cursor-pointer rounded-2xl border px-5 py-6 transition-colors duration-300",
+                  "flex cursor-pointer flex-col rounded-2xl border px-5 py-5 transition-colors duration-300",
+                  i < 3 ? "sm:col-span-2" : "sm:col-span-3",
+                  i === interests.length - 1 && "col-span-2",
+                  "has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-ember",
                   active
                     ? "border-ink bg-ink text-paper"
-                    : "border-ink/50 text-ink hover:border-ink",
+                    : fieldErrors.interest
+                      ? "border-ember-deep text-ink hover:border-ink"
+                      : "border-ink/50 text-ink hover:border-ink",
                 )}
               >
                 <input
@@ -141,7 +159,7 @@ export function ContactForm() {
                 <span
                   className={clsx(
                     "t-body mt-2 block",
-                    active ? "text-paper/70" : "text-neutral",
+                    active ? "text-paper/75" : "text-neutral",
                   )}
                 >
                   {opt.blurb}
@@ -177,6 +195,7 @@ export function ContactForm() {
             label="Project type"
             defaultValue={interestLabel(interest)}
             error={fieldErrors.projectType}
+            className="sm:col-span-2"
           />
           <SelectField
             name="timeline"
@@ -255,6 +274,12 @@ export function ContactForm() {
           error={fieldErrors.details}
         />
       </Fieldset>
+
+      {Object.entries(variantFields)
+        .filter(([, owner]) => owner !== interest)
+        .map(([field]) => (
+          <input key={field} type="hidden" name={field} value="" />
+        ))}
 
       <Turnstile />
 

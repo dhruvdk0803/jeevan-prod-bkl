@@ -6,6 +6,7 @@ import {
   projectBySlug,
   relatedProjects,
 } from "@/content/projects";
+import type { ReactNode } from "react";
 import type { MediaAsset } from "@/content/types";
 import { AnimatedHeading, Label } from "@/components/primitives/Type";
 import { MediaReveal } from "@/components/primitives/Media";
@@ -101,108 +102,83 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
         ) : null}
       </section>
 
-      {/* 2. Opening visual */}
-      <section className="gutter mx-auto max-w-[110rem] pb-[clamp(5rem,12vw,9rem)]">
+      {/* 2. Opening visual. Bottom spacing comes from the Context section's
+          own padding, so the gap matches every other section break. */}
+      <section className="gutter mx-auto max-w-[110rem]">
         <MediaReveal
           src={project.cover.src}
           alt={project.cover.alt}
           ratio="4/5"
-          sizes="(max-width: 1024px) 100vw, 84vw"
+          sizes="(max-width: 1024px) 100vw, 52rem"
           priority
           quality={82}
-          className="mx-auto max-w-[52rem]"
+          className={CENTERED_MEDIA}
         />
       </section>
 
       {/* 3. Context */}
-      <section
-        className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
-        aria-label="Context"
-      >
-        <div className="grid gap-x-8 gap-y-6 md:grid-cols-12">
-          <div className="md:col-span-3">
-            <Label as="h2">Context</Label>
-          </div>
-          <p className="t-lead text-ink-3 md:col-span-7 md:col-start-6" data-reveal="fade-up">
-            {caseStudy.context}
-          </p>
-        </div>
-      </section>
+      <TextSection label="Context">{caseStudy.context}</TextSection>
 
-      <div className="gutter mx-auto max-w-[110rem]">
-        <div className="rule" />
-      </div>
+      <Rule />
 
-      {/* 4. Approach — alternating alignment */}
-      <section
-        className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
-        aria-label="Approach"
-      >
-        <div className="grid gap-x-8 gap-y-6 md:grid-cols-12">
-          <p
-            className="order-2 t-lead text-ink-3 md:order-1 md:col-span-7"
-            data-reveal="fade-up"
-          >
-            {caseStudy.approach}
-          </p>
-          <div className="order-1 md:order-2 md:col-span-3 md:col-start-10">
-            <Label as="h2">Approach</Label>
-          </div>
-        </div>
-      </section>
+      {/* 4. Approach: same label/body columns as Context so the text edges
+          line up down the page. */}
+      <TextSection label="Approach">{caseStudy.approach}</TextSection>
 
       {/* 5. Gallery */}
       {restOfGallery.length > 0 ? (
-        <section
-          className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,9rem)]"
-          aria-label="Gallery"
-        >
-          <Label as="h2" className="mb-10">
-            Gallery
-          </Label>
-          <Gallery images={restOfGallery} />
-        </section>
+        <>
+          <Rule />
+          <section
+            className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
+            aria-label="Gallery"
+          >
+            <Label as="h2" className="mb-10 font-sans!">
+              Gallery
+            </Label>
+            <Gallery images={restOfGallery} />
+          </section>
+        </>
       ) : null}
 
-      {/* 6. Outcome / quote — only rendered when the content exists */}
+      {/* 6. Outcome / quote: only rendered when the content exists */}
       {caseStudy.outcome ? (
-        <section
-          className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
-          aria-label="Outcome"
-        >
-          <div className="grid gap-x-8 gap-y-6 md:grid-cols-12">
-            <div className="md:col-span-3">
-              <Label as="h2">Outcome</Label>
-            </div>
-            <p className="t-lead text-ink-3 md:col-span-7 md:col-start-6">{caseStudy.outcome}</p>
-          </div>
-        </section>
+        <>
+          <Rule />
+          <TextSection label="Outcome">{caseStudy.outcome}</TextSection>
+        </>
       ) : null}
 
       {caseStudy.quote ? (
-        <section className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]">
-          <blockquote className="t-statement max-w-[30ch] font-display">
-            &ldquo;{caseStudy.quote.text}&rdquo;
-          </blockquote>
-          <p className="t-label text-neutral mt-6">{caseStudy.quote.attribution}</p>
-        </section>
+        <>
+          <Rule />
+          <section className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]">
+            <blockquote className="t-statement max-w-[30ch] font-display">
+              &ldquo;{caseStudy.quote.text}&rdquo;
+            </blockquote>
+            <p className="t-label text-neutral mt-6">{caseStudy.quote.attribution}</p>
+          </section>
+        </>
       ) : null}
 
       {/* 7. Related work + next project */}
       {related.length > 0 ? (
-        <section
-          className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,9rem)]"
-          aria-label="Related work"
-        >
-          <Label as="h2" className="mb-10">
-            Related work
-          </Label>
-          <div className="grid gap-x-8 gap-y-16 md:grid-cols-2">
-            {related.map((p, i) => (
-              <ProjectCard key={p.slug} project={p} index={i} ratio="4/5" sizes="(max-width: 768px) 100vw, 45vw" />
-            ))}
-          </div>
-        </section>
+        <>
+          <Rule />
+          <section
+            className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
+            aria-label="Related work"
+          >
+            <Label as="h2" className="mb-10 font-sans!">
+              Related work
+            </Label>
+            <div className="grid gap-x-8 gap-y-14 md:grid-cols-2">
+              {related.map((p, i) => (
+                <ProjectCard key={p.slug} project={p} index={i} ratio="4/5" sizes="(max-width: 768px) 100vw, 45vw" />
+              ))}
+            </div>
+          </section>
+        </>
       ) : null}
 
       {next ? (
@@ -210,10 +186,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           <Link
             href={`/work/${next.slug}`}
             data-cursor="Next"
-            className="group gutter mx-auto flex max-w-[110rem] flex-col gap-6 py-[clamp(5rem,14vw,11rem)]"
+            className="group gutter mx-auto flex max-w-[110rem] flex-col gap-6 py-[clamp(5rem,12vw,9rem)]"
           >
             <span className="t-label text-ember-light">Next project</span>
-            <span className="t-statement font-display flex flex-wrap items-center gap-6">
+            <span className="t-statement font-display flex flex-wrap items-center gap-x-6 gap-y-2">
               <span className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2">
                 {next.title}
               </span>
@@ -222,8 +198,50 @@ export default async function CaseStudyPage({ params }: { params: Promise<Params
           </Link>
         </section>
       ) : null}
-
     </>
+  );
+}
+
+/**
+ * Centred single images (cover, lone gallery image, gallery lead) share one
+ * width so they read as the same frame. `w-full` matters: inside a flex
+ * column, `mx-auto` alone shrinks the box to its (absolutely positioned)
+ * content and the image collapses to zero width.
+ */
+const CENTERED_MEDIA = "mx-auto w-full max-w-[52rem]";
+const HALF_SIZES = "(max-width: 768px) 100vw, 45vw";
+
+/** Label in the left columns, lead paragraph in the right: one shared grid. */
+function TextSection({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <section
+      className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]"
+      aria-label={label}
+    >
+      <div className="grid gap-x-8 gap-y-5 md:grid-cols-12">
+        <div className="md:col-span-4 lg:col-span-3">
+          {/* font-sans! : globals.css sets h2 to the display serif outside any
+              cascade layer, which outranks a plain utility class. */}
+          <Label as="h2" className="font-sans! md:pt-[0.45em]">
+            {label}
+          </Label>
+        </div>
+        <p
+          className="t-lead text-ink-3 max-w-[60ch] md:col-span-8 lg:col-span-7 lg:col-start-6"
+          data-reveal="fade-up"
+        >
+          {children}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function Rule() {
+  return (
+    <div className="gutter mx-auto max-w-[110rem]">
+      <div className="rule" />
+    </div>
   );
 }
 
@@ -236,75 +254,51 @@ function Gallery({ images }: { images: MediaAsset[] }) {
         src={images[0].src}
         alt={images[0].alt}
         ratio="4/5"
-        sizes="(max-width: 1024px) 100vw, 60vw"
-        className="mx-auto max-w-[44rem]"
+        sizes="(max-width: 1024px) 100vw, 52rem"
+        className={CENTERED_MEDIA}
       />
     );
   }
 
   if (n === 2) {
     return (
-      <div className="grid gap-x-8 gap-y-14 md:grid-cols-2">
-        <MediaReveal
-          src={images[0].src}
-          alt={images[0].alt}
-          ratio="4/5"
-          sizes="(max-width: 768px) 100vw, 45vw"
-        />
-        <MediaReveal
-          src={images[1].src}
-          alt={images[1].alt}
-          ratio="4/5"
-          sizes="(max-width: 768px) 100vw, 45vw"
-          className="md:mt-[clamp(3rem,8vw,6rem)]"
-        />
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+        {images.map((img) => (
+          <MediaReveal key={img.src} src={img.src} alt={img.alt} ratio="4/5" sizes={HALF_SIZES} />
+        ))}
       </div>
     );
   }
 
-  // 3 or more: lead with a full-width image, then pair off the rest with a
-  // gentle vertical offset. Any final odd image out gets its own full row.
+  // 3 or more: lead with a centred image, then the rest in an aligned
+  // two-column grid. A final odd image out is centred at the same size as
+  // its neighbours rather than leaving an empty cell beside it.
   const [lead, ...rest] = images;
-  const pairs: MediaAsset[][] = [];
-  for (let i = 0; i < rest.length; i += 2) pairs.push(rest.slice(i, i + 2));
+  const oddLast = rest.length % 2 === 1;
 
   return (
-    <div className="flex flex-col gap-14 md:gap-20">
+    <div className="flex flex-col gap-6 md:gap-8">
       <MediaReveal
         src={lead.src}
         alt={lead.alt}
         ratio="4/5"
-        sizes="(max-width: 1024px) 100vw, 80vw"
-        className="mx-auto max-w-[56rem]"
+        sizes="(max-width: 1024px) 100vw, 52rem"
+        className={CENTERED_MEDIA}
       />
-      {pairs.map((pair, i) => (
-        <div
-          key={i}
-          className={clsx(
-            "grid gap-x-8 gap-y-14",
-            pair.length === 2 ? "md:grid-cols-2" : "md:grid-cols-2",
-          )}
-        >
+      <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+        {rest.map((img, i) => (
           <MediaReveal
-            src={pair[0].src}
-            alt={pair[0].alt}
+            key={img.src}
+            src={img.src}
+            alt={img.alt}
             ratio="4/5"
-            sizes="(max-width: 768px) 100vw, 45vw"
-            className={i % 2 === 1 ? "md:mt-[clamp(3rem,8vw,6rem)]" : undefined}
+            sizes={HALF_SIZES}
+            className={clsx(
+              oddLast && i === rest.length - 1 && "md:col-span-2 md:mx-auto md:w-[calc(50%-1rem)]",
+            )}
           />
-          {pair[1] ? (
-            <MediaReveal
-              src={pair[1].src}
-              alt={pair[1].alt}
-              ratio="4/5"
-              sizes="(max-width: 768px) 100vw, 45vw"
-              className={i % 2 === 0 ? "md:mt-[clamp(3rem,8vw,6rem)]" : undefined}
-            />
-          ) : (
-            <div aria-hidden="true" className="hidden md:block" />
-          )}
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

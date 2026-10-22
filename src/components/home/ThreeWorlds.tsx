@@ -80,9 +80,9 @@ export function ThreeWorlds() {
                         <div className="flex flex-wrap items-baseline gap-x-5">
                           <h3
                             className={clsx(
-                              "t-h2 font-display transition-[transform,color] duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                              "t-h2 font-display transition-colors duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]",
                               isActive
-                                ? "translate-x-2 text-ink"
+                                ? "text-ink"
                                 : "text-ink/50 group-hover:text-ink",
                             )}
                           >

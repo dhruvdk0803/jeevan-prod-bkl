@@ -8,7 +8,7 @@ import { getPostBySlug } from "@/lib/cms/public";
  * a network font and deliberately not loaded here).
  */
 export const runtime = "nodejs";
-export const alt = "Jeevan Productions — Journal";
+export const alt = "Jeevan Productions Journal";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -17,7 +17,7 @@ type Params = { slug: string };
 export default async function Image({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const post = await getPostBySlug(slug);
-  const title = post?.title ?? "Jeevan Productions — Journal";
+  const title = post?.title ?? "Jeevan Productions Journal";
   const category = post?.category?.name;
 
   return new ImageResponse(
@@ -47,7 +47,7 @@ export default async function Image({ params }: { params: Promise<Params> }) {
               display: "flex",
             }}
           >
-            Jeevan Productions — Journal
+            Jeevan Productions Journal
           </div>
         </div>
 

@@ -6,13 +6,13 @@ import { SiteChrome } from "@/components/layout/SiteChrome";
 
 export const metadata: Metadata = {
   title: "Page Not Found",
-  description: "This page doesn't exist — but here's where the rest of the work lives.",
+  description: "This page doesn't exist, but here's where the rest of the work lives.",
   alternates: { canonical: "/404" },
   robots: { index: false, follow: true },
 };
 
 /**
- * A genuinely designed 404 — not a centred system error. Same editorial
+ * A genuinely designed 404, not a centred system error. Same editorial
  * language as the rest of the site: label, masked display heading, a warm
  * human line, and real routes back into the work.
  */
@@ -20,13 +20,13 @@ export default function NotFound() {
   return (
     <SiteChrome>
     <section aria-labelledby="not-found-heading" className="bg-paper text-ink">
-      <div className="gutter mx-auto flex min-h-[calc(100svh-var(--nav-h))] max-w-[110rem] flex-col justify-center py-[clamp(5rem,12vw,8rem)]">
-        <Label className="mb-8">404 — Off the map</Label>
+      <div className="gutter mx-auto flex min-h-svh max-w-[110rem] flex-col justify-center pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(5rem,12vw,8rem)]">
+        <Label className="mb-8">404: Off the map</Label>
         <AnimatedHeading
           as="h1"
           id="not-found-heading"
           size="hero"
-          lines={["We haven't shot", "this scene yet."]}
+          lines={["We haven’t shot", "this scene yet."]}
         />
         <p className="t-lead text-ink-3 mt-8 max-w-[46ch]" data-reveal="fade-up" data-reveal-delay={0.15}>
           The page you&rsquo;re looking for doesn&rsquo;t exist, moved, or never made it
@@ -44,7 +44,7 @@ export default function NotFound() {
         </div>
 
         <nav aria-label="Explore the site" className="rule mt-16 pt-8">
-          <ul className="flex flex-wrap gap-x-10 gap-y-4">
+          <ul className="grid grid-cols-2 gap-x-10 gap-y-4 sm:flex sm:flex-wrap">
             <li>
               <ArrowLink href="/services">Services</ArrowLink>
             </li>

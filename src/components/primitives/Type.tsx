@@ -55,7 +55,11 @@ export function Label({
   className?: string;
   as?: ElementType;
 }) {
-  return <Tag className={clsx("t-label text-neutral", className)}>{children}</Tag>;
+  // Only fall back to the neutral colour when the caller doesn't set one.
+  const hasColour = /(^|\s)text-(?!left|right|center|balance|pretty|wrap|nowrap)[a-z]/.test(className ?? "");
+  return (
+    <Tag className={clsx("t-label", !hasColour && "text-neutral", className)}>{children}</Tag>
+  );
 }
 
 /** Numbered label: "01 — Stories" */

@@ -15,7 +15,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
   {
     path: "/",
     label: "Home",
-    defaultTitle: "Jeevan Productions — Media, Marketing & Events in San Diego",
+    defaultTitle: "Jeevan Productions | Media, Marketing & Events in San Diego",
     defaultDescription:
       "Jeevan Productions is a creative company in San Diego. We tell stories through media, build brands through marketing, and bring people together through events.",
   },
@@ -24,56 +24,56 @@ export const STATIC_ROUTES: StaticRoute[] = [
     label: "Work",
     defaultTitle: "Work",
     defaultDescription:
-      "Photography and event coverage from Jeevan Productions across media, marketing and events — San Diego and Los Angeles.",
+      "Photography and event coverage from Jeevan Productions across media, marketing and events in San Diego and Los Angeles.",
   },
   {
     path: "/portfolio",
     label: "Portfolio",
     defaultTitle: "Portfolio",
     defaultDescription:
-      "Jeevan Productions' photography portfolio — stage, evening events, gatherings, weddings, portraits, families, places and details, from a San Diego creative company.",
+      "Jeevan Productions' photography portfolio: stage, evening events, gatherings, weddings, portraits, families, places and details, from a San Diego creative company.",
   },
   {
     path: "/services",
     label: "Services",
     defaultTitle: "Services",
     defaultDescription:
-      "Photography and video, brand strategy and campaigns, and full event production — the three things Jeevan Productions does, and how they work together.",
+      "Photography and video, brand strategy and campaigns, and full event production: the three things Jeevan Productions does, and how they work together.",
   },
   {
     path: "/about",
     label: "About",
     defaultTitle: "About",
     defaultDescription:
-      "Jeevan Productions is a San Diego creative company founded by strategist Jeevan Dhaker — media, marketing and events built around one idea: make it matter.",
+      "Jeevan Productions is a San Diego creative company founded by strategist Jeevan Dhaker. Media, marketing and events built around one idea: make it matter.",
   },
   {
     path: "/blog",
     label: "Blog",
     defaultTitle: "Blog",
     defaultDescription:
-      "Notes, stories and guides from Jeevan Productions — the San Diego creative company working across media, marketing and events.",
+      "Notes, stories and guides from Jeevan Productions, the San Diego creative company working across media, marketing and events.",
   },
   {
     path: "/impact",
     label: "Impact",
     defaultTitle: "Impact",
     defaultDescription:
-      "The people, organizations, and communities Jeevan Productions is grateful to meet along the way — community stories, a monthly spotlight, and JP Gives.",
+      "The people, organizations, and communities Jeevan Productions is grateful to meet along the way: community stories, a monthly spotlight, and JP Gives.",
   },
   {
     path: "/careers",
     label: "Careers",
     defaultTitle: "Careers",
     defaultDescription:
-      "Join Jeevan Productions — a San Diego creative company working across media, marketing and events. See open roles or send a general application.",
+      "Join Jeevan Productions, a San Diego creative company working across media, marketing and events. See open roles or send a general application.",
   },
   {
     path: "/contact",
     label: "Contact",
     defaultTitle: "Contact",
     defaultDescription:
-      "Start a project with Jeevan Productions — media, marketing or events in San Diego. Tell us what you're planning and we'll be in touch.",
+      "Start a project with Jeevan Productions: media, marketing or events in San Diego. Tell us what you're planning and we'll be in touch.",
   },
   {
     path: "/privacy",
@@ -87,7 +87,7 @@ export const STATIC_ROUTES: StaticRoute[] = [
     label: "Terms of Service",
     defaultTitle: "Terms of Service",
     defaultDescription:
-      "The terms that govern use of the Jeevan Productions website — inquiries, careers, content, and liability.",
+      "The terms that govern use of the Jeevan Productions website: inquiries, careers, content, and liability.",
   },
 ];
 

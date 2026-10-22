@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionIntro, Label } from "@/components/primitives/Type";
-import { CTASection } from "@/components/primitives/Actions";
 import { site } from "@/content/site";
 import { buildMetadata } from "@/lib/seo";
 
@@ -19,7 +18,7 @@ export default function PrivacyPage() {
   return (
     <>
       <section aria-labelledby="privacy-heading" className="bg-paper text-ink">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,8rem)]">
+        <div className="gutter mx-auto max-w-[110rem] pt-[calc(var(--nav-h)+clamp(3rem,8vw,6rem))] pb-[clamp(5rem,12vw,8rem)]">
           <SectionIntro
             as="h1"
             id="privacy-heading"
@@ -39,7 +38,7 @@ export default function PrivacyPage() {
             <p className="t-body text-ink-2">
               This page is a starting point written in plain English to
               reflect what this site actually does today. It is not a
-              substitute for legal advice — Jeevan Productions should have
+              substitute for legal advice. Jeevan Productions should have
               counsel review this policy before it governs any live launch.
             </p>
           </div>
@@ -55,13 +54,13 @@ export default function PrivacyPage() {
                 </p>
                 <ul>
                   <li>
-                    <strong>Contact form inquiries</strong> — the name,
+                    <strong>Contact form inquiries</strong>: the name,
                     email, and message details you submit through the
                     contact page, so we can respond to your project
                     inquiry.
                   </li>
                   <li>
-                    <strong>Career applications</strong> — the name, email,
+                    <strong>Career applications</strong>: the name, email,
                     and any resume or portfolio file you upload when
                     applying to an open role on the careers page.
                   </li>
@@ -80,7 +79,7 @@ export default function PrivacyPage() {
                   Turnstile may process limited technical signals (such as
                   browser and network characteristics) to verify you&rsquo;re
                   human before a submission reaches us. It is provided by
-                  Cloudflare, Inc. — see Cloudflare&rsquo;s own privacy policy for
+                  Cloudflare, Inc. See Cloudflare&rsquo;s own privacy policy for
                   details on how Turnstile works.
                 </p>
               </PolicySection>
@@ -98,7 +97,7 @@ export default function PrivacyPage() {
               <PolicySection heading="How we use what you send us">
                 <p>
                   Inquiry and application details are used only to respond
-                  to you — to discuss a potential project or a job
+                  to you, to discuss a potential project or a job
                   application. We do not share, rent, or sell this
                   information to third parties. Resumes and application
                   materials are used solely for hiring purposes.
@@ -137,7 +136,7 @@ export default function PrivacyPage() {
               </PolicySection>
             </div>
 
-            <aside className="rule pt-8 md:col-span-4 md:col-start-9">
+            <aside className="rule pt-8 md:sticky md:top-[calc(var(--nav-h)+2rem)] md:col-span-4 md:col-start-9 md:self-start">
               <Label className="mb-4">Questions</Label>
               <p className="t-body text-ink-2">
                 For anything related to this policy or a request about your
@@ -153,12 +152,6 @@ export default function PrivacyPage() {
           </div>
         </div>
       </section>
-
-      <CTASection
-        eyebrow="Start a project"
-        lines={["Let's create something", "worth remembering."]}
-        body={site.closingStatement}
-      />
     </>
   );
 }
@@ -173,7 +166,7 @@ function PolicySection({
   return (
     <div data-reveal="fade-up">
       <h2 className="t-h3 mb-4">{heading}</h2>
-      <div className="t-body text-ink-2 [&_a]:text-ember [&_li]:mt-2 [&_p+p]:mt-4 [&_p]:leading-relaxed [&_strong]:text-ink [&_ul]:mt-3 [&_ul]:list-disc [&_ul]:pl-5">
+      <div className="t-body text-ink-2 [&_a]:text-ember [&>*+*]:mt-4 [&_li]:mt-2 [&_p]:leading-relaxed [&_strong]:text-ink [&_ul]:list-disc [&_ul]:pl-5">
         {children}
       </div>
     </div>

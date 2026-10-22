@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { AnimatedHeading, Label, SectionIntro } from "@/components/primitives/Type";
+import { AnimatedHeading, SectionIntro } from "@/components/primitives/Type";
 import { CinematicBand } from "@/components/primitives/Media";
 import { ArrowLink, CTASection } from "@/components/primitives/Actions";
 import { StoryGrid } from "@/components/impact/StoryCard";
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/impact",
     title: "Impact",
     description:
-      "The people, organizations, and communities Jeevan Productions is grateful to meet along the way — community stories, a monthly spotlight, and JP Gives.",
+      "The people, organizations, and communities Jeevan Productions is grateful to meet along the way: community stories, a monthly spotlight, and JP Gives.",
   });
 }
 
@@ -58,7 +58,7 @@ export default function ImpactPage() {
       {/* Hero — cinematic, over real photography. */}
       <CinematicBand src={heroPhoto.src} alt={heroPhoto.alt} overlay="strong" priority parallax={0.12}>
         <div className="gutter relative mx-auto w-full max-w-[110rem] pb-[clamp(3rem,7vw,5rem)]">
-          <Label className="text-paper/70 mb-6">Impact</Label>
+          <p className="t-label text-paper/70 mb-6">Impact</p>
           <AnimatedHeading
             as="h1"
             size="hero"
@@ -70,7 +70,7 @@ export default function ImpactPage() {
 
       {/* Supporting statement — quiet, typographic. */}
       <section className="bg-paper">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(4rem,10vw,7rem)]">
+        <div className="gutter mx-auto max-w-[110rem] pt-[clamp(4rem,10vw,7rem)]">
           <p className="t-lead max-w-[58ch]" data-reveal="fade-up">
             This page isn&rsquo;t about us. It&rsquo;s about the incredible people,
             organizations, and communities we&rsquo;re grateful to meet along the way.
@@ -80,7 +80,7 @@ export default function ImpactPage() {
       </section>
 
       {/* Philosophy */}
-      <section className="bg-paper-warm" aria-labelledby="philosophy-heading">
+      <section className="bg-paper" aria-labelledby="philosophy-heading">
         <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,10rem)]">
           <SectionIntro
             eyebrow="Philosophy"
@@ -113,7 +113,7 @@ export default function ImpactPage() {
             lines={["Real stories,", "shared with permission."]}
             id="stories-heading"
           >
-            The organizations, small businesses, and people JP has worked alongside —
+            The organizations, small businesses, and people JP has worked alongside,
             told here as soon as each story is ready to be shared publicly.
           </SectionIntro>
 
@@ -123,15 +123,15 @@ export default function ImpactPage() {
             </div>
           ) : (
             <div
-              className="rule mt-16 grid gap-x-[clamp(1.5rem,4vw,4rem)] pt-16 md:grid-cols-12"
+              className="rule mt-16 grid gap-x-[clamp(1.5rem,4vw,4rem)] gap-y-6 pt-16 lg:grid-cols-12"
               data-reveal="fade-up"
             >
-              <div className="md:col-span-7">
-                <p className="t-h3 font-display max-w-[22ch]">
-                  This section is waiting for its first story.
-                </p>
-                <p className="t-body text-ink-3 mt-6 max-w-[52ch]">
-                  We haven&rsquo;t published a community story yet — not because there&rsquo;s
+              <p className="t-h3 font-display max-w-[22ch] lg:col-span-5">
+                This section is waiting for its first story.
+              </p>
+              <div className="lg:col-span-6 lg:col-start-7">
+                <p className="t-body text-ink-3 max-w-[52ch]">
+                  We haven&rsquo;t published a community story yet. Not because there&rsquo;s
                   nothing to say, but because we&rsquo;d rather wait for a real one, told with
                   the organization&rsquo;s permission, than publish something thin to fill the
                   space.
@@ -177,7 +177,7 @@ export default function ImpactPage() {
 
           {spotlights.every((s) => s.status !== "published") ? (
             <p className="t-label text-neutral mt-16">
-              No spotlight has been published yet — check back soon.
+              No spotlight has been published yet. Check back soon.
             </p>
           ) : null}
         </div>
@@ -186,7 +186,7 @@ export default function ImpactPage() {
       {/* JP Gives — the most distinctive idea on the page. */}
       <section className="on-dark bg-ink text-paper" data-theme-dark aria-labelledby="jp-gives-heading">
         <div className="gutter mx-auto max-w-[110rem] py-[clamp(6rem,14vw,12rem)]">
-          <Label className="text-ember-light mb-8">Coming soon — not yet launched</Label>
+          <p className="t-label text-ember-light mb-8">Coming soon, not yet launched</p>
           <AnimatedHeading as="h2" size="statement" id="jp-gives-heading" lines={[jpGives.title]} />
           <p className="t-lead text-paper/70 mt-6 max-w-[36ch]" data-reveal="fade-up">
             {jpGives.tagline}
@@ -219,6 +219,7 @@ export default function ImpactPage() {
       <Metrics metrics={impactMetrics} />
 
       <CTASection
+        className="border-t border-paper/10"
         eyebrow="Get involved"
         lines={["Know a story", "worth telling?"]}
         body="If you're an organization, small business, or community group we've worked with, we'd love to hear from you."

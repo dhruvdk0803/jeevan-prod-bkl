@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
  * only Satori's default system font — Fraunces is a Google Font served over
  * the network and is deliberately not loaded here, per DESIGN-BRIEF.
  */
-export const alt = "Jeevan Productions — Media, Marketing & Events in San Diego";
+export const alt = "Jeevan Productions | Media, Marketing & Events in San Diego";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

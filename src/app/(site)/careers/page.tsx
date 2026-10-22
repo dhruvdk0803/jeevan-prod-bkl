@@ -14,13 +14,20 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/careers",
     title: "Careers",
     description:
-      "Join Jeevan Productions — a San Diego creative company working across media, marketing and events. See open roles or send a general application.",
+      "Join Jeevan Productions, a San Diego creative company working across media, marketing and events. See open roles or send a general application.",
   });
 }
 
 // A heroWorthy, energetic frame — no client depicted as JP staff, just real
 // JP photography that carries the "proud of your work" idea.
 const heroImage = photoCatalog.find((p) => p.src === "/media/work/photo-6.jpeg")!;
+
+// "media, marketing and events"
+const disciplines = worlds.map((w) => w.discipline.toLowerCase());
+const disciplineList =
+  disciplines.length > 1
+    ? `${disciplines.slice(0, -1).join(", ")} and ${disciplines[disciplines.length - 1]}`
+    : disciplines.join("");
 
 export default function CareersPage() {
   return (
@@ -102,12 +109,15 @@ export default function CareersPage() {
             </div>
             <div className="lg:col-span-6 lg:col-start-7">
               <p className="t-body max-w-[58ch] text-ink-3">
-                Jeevan Productions works across three worlds — {worlds.map((w) => w.discipline.toLowerCase()).join(", ")} — under one roof in {site.city}, {site.regionName}, founded in {site.founded}. Every project moves between these disciplines, so the people who work here tend to be comfortable moving with it: a photographer who understands brand strategy, an editor who thinks about the event the footage came from.
+                Jeevan Productions works across three worlds under one roof in {site.city}, {site.regionName}: {disciplineList}. The studio was founded in {site.founded}. Every project moves between these disciplines, so the people who work here tend to be comfortable moving with it: a photographer who understands brand strategy, an editor who thinks about the event the footage came from.
               </p>
               <ul className="mt-10 space-y-6">
                 {worlds.map((w) => (
                   <li key={w.id} className="rule pt-6">
-                    <p className="t-label text-neutral">{w.index} — {w.title}</p>
+                    <p className="t-label flex gap-3 text-neutral">
+                      <span className="text-ember">{w.index}</span>
+                      <span>{w.title}</span>
+                    </p>
                     <p className="t-body mt-2 text-ink-3">{w.idea}</p>
                   </li>
                 ))}
@@ -128,16 +138,16 @@ export default function CareersPage() {
 
           <div className="mt-16">
             {openings.length > 0 ? (
-              <div className="rule border-t-0">
+              <div className="border-b border-ink/13">
                 {openings.map((opening) => (
                   <OpeningCard key={opening.slug} opening={opening} />
                 ))}
               </div>
             ) : (
-              <div className="rule flex flex-col items-start gap-4 border-t-0 bg-paper px-8 py-14 sm:px-16">
+              <div className="flex flex-col items-start gap-4 border-l-2 border-ember bg-paper px-6 py-10 sm:px-12 sm:py-14">
                 <p className="t-label text-ember">No specific openings right now</p>
                 <p className="t-lead max-w-[52ch] text-ink-3">
-                  We don&rsquo;t have a listed role open at the moment — but we&rsquo;re always glad to hear
+                  We don&rsquo;t have a listed role open at the moment, but we&rsquo;re always glad to hear
                   from people whose craft would be a fit. Send a general application below and
                   we&rsquo;ll keep it on file.
                 </p>
@@ -157,7 +167,7 @@ export default function CareersPage() {
                 eyebrow="Apply"
                 lines={["Tell us about", "your craft."]}
               >
-                Areas we hear from most: {roleOptions.slice(0, 4).join(", ")}, and more — the
+                Areas we hear from most: {roleOptions.slice(0, 4).join(", ")}, and more. The
                 form covers the full list.
               </SectionIntro>
             </div>

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const title = settings.blogMetaTitle || settings.blogTitle || DEFAULT_TITLE;
   return buildMetadata({
     path: `/blog/page/${page}`,
-    title: `${title} — Page ${page}`,
+    title: `${title}, Page ${page}`,
     description: settings.blogMetaDescription || settings.blogIntro || DEFAULT_INTRO,
   });
 }
@@ -72,7 +72,7 @@ export default async function BlogPagePage({ params }: { params: Promise<Params>
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd(
           collectionPageSchema({
-            name: `${title} — Page ${page}`,
+            name: `${title}, Page ${page}`,
             description: settings.blogIntro || DEFAULT_INTRO,
             path: `/blog/page/${page}`,
           }),
@@ -104,7 +104,7 @@ export default async function BlogPagePage({ params }: { params: Promise<Params>
 
       <section className="gutter mx-auto max-w-[110rem] pb-[clamp(5rem,12vw,10rem)]" aria-labelledby="blog-list-heading">
         <h2 id="blog-list-heading" className="sr-only">
-          Posts — page {page}
+          Posts, page {page}
         </h2>
         <PostGrid posts={posts} />
         <Pagination page={page} totalPages={totalPages} basePath="/blog" />

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     path: "/contact",
     title: "Contact",
     description:
-      "Start a project with Jeevan Productions — media, marketing or events in San Diego. Tell us what you're planning and we'll be in touch.",
+      "Start a project with Jeevan Productions: media, marketing or events in San Diego. Tell us what you're planning and we'll be in touch.",
   });
 }
 
@@ -66,12 +66,14 @@ export default function ContactPage() {
 
             <aside className="lg:col-span-4 lg:col-start-9" aria-labelledby="contact-facts-heading">
               <div className="lg:sticky lg:top-32">
-                <h2 id="contact-facts-heading" className="t-label mb-8 text-neutral">
+                {/* `font-sans!`: the global h2 rule (unlayered) would otherwise set this label in the display serif. */}
+                <h2 id="contact-facts-heading" className="t-label mb-6 font-sans! text-neutral">
                   Reach us directly
                 </h2>
 
-                <div className="space-y-8">
-                  <div className="rule border-t-0 pb-8">
+                {/* Even rhythm: every block has the same hairline above and the same padding. */}
+                <div className="border-b border-ink/13">
+                  <div className="border-t border-ink/13 py-7">
                     <p className="t-label mb-3 text-neutral">Email</p>
                     <a
                       href={`mailto:${site.email}`}
@@ -81,12 +83,12 @@ export default function ContactPage() {
                     </a>
                   </div>
 
-                  <div className="rule pt-8 pb-8">
+                  <div className="border-t border-ink/13 py-7">
                     <p className="t-label mb-3 text-neutral">Phone</p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-3">
                       {site.phones.map((p) => (
-                        <li key={p.tel} className="t-body text-ink-3">
-                          <span className="text-neutral">{p.label}</span>{" "}
+                        <li key={p.tel} className="t-body">
+                          <span className="block text-neutral">{p.label}</span>
                           <a
                             href={`tel:${p.tel}`}
                             className="text-ink transition-colors duration-300 hover:text-ember"
@@ -98,28 +100,28 @@ export default function ContactPage() {
                     </ul>
                   </div>
 
-                  <div className="rule pt-8 pb-8">
+                  <div className="border-t border-ink/13 py-7">
                     <p className="t-label mb-3 text-neutral">Location</p>
-                    <p className="t-body text-ink-3">
+                    <p className="t-body text-ink">
                       {site.city}, {site.region}
                     </p>
                   </div>
 
-                  <div className="rule pt-8 pb-8">
+                  <div className="border-t border-ink/13 py-7">
                     <p className="t-label mb-3 text-neutral">Office hours</p>
-                    <p className="t-body text-ink-3">{site.hours}</p>
+                    <p className="t-body text-ink">{site.hours}</p>
                   </div>
 
-                  <div className="rule pt-8">
+                  <div className="border-t border-ink/13 py-7">
                     <p className="t-label mb-3 text-neutral">Follow</p>
-                    <ul className="space-y-2">
+                    <ul className="space-y-1">
                       {site.socials.map((s) => (
                         <li key={s.href}>
                           <a
                             href={s.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="group t-body inline-flex items-center gap-2 text-ink-3 transition-colors duration-300 hover:text-ember"
+                            className="group t-body inline-flex items-center gap-2 text-ink transition-colors duration-300 hover:text-ember"
                           >
                             {s.label}
                             <Arrow className="-rotate-45 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

@@ -36,19 +36,24 @@ export function Hero() {
       {/* Scrim — heavy enough to hold AA contrast for light type over any frame. */}
       <div
         aria-hidden="true"
-        className="from-ink/55 via-ink/25 to-ink/70 absolute inset-0 -z-10 bg-gradient-to-b"
+        className="from-ink/60 via-ink/35 to-ink/75 absolute inset-0 -z-10 bg-gradient-to-b"
       />
 
       {/* ---- Centred statement ---- */}
       <div className="gutter mx-auto flex w-full max-w-[110rem] flex-1 flex-col items-center justify-center pt-[calc(var(--nav-h)+3rem)] pb-10 text-center">
+        {/* Paper, not ember-light: the label sits over the brightest part of
+            the film (surf), where the pale accent washed out. */}
         <p
-          className="t-label jp-in text-ember-light mb-7"
+          className="t-label jp-in text-paper mb-7 [text-shadow:0_1px_14px_rgb(19_19_25/0.7)]"
           style={{ "--d": "0.1s" } as React.CSSProperties}
         >
           Southern California
         </p>
 
-        <h1 id="hero-heading" className="t-hero mx-auto max-w-[20ch]">
+        <h1
+          id="hero-heading"
+          className="t-hero mx-auto max-w-[20ch] [text-shadow:0_2px_28px_rgb(19_19_25/0.35)]"
+        >
           {LINES.map((line, i) => (
             <span className="line-mask" key={line}>
               <span
@@ -62,7 +67,7 @@ export function Hero() {
         </h1>
 
         <div
-          className="jp-in mt-10 flex flex-wrap items-center justify-center gap-3"
+          className="jp-in mt-10 flex w-full max-w-[18rem] flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
           style={{ "--d": "0.82s" } as React.CSSProperties}
         >
           <Button href="/work" variant="ghost-ember">
@@ -88,11 +93,11 @@ export function Hero() {
                   href={world.href}
                   className="group flex h-full flex-col items-center gap-1 px-[clamp(0.5rem,2vw,2rem)] text-center py-[clamp(0.9rem,2vw,1.5rem)] transition-colors duration-300 hover:bg-white/5"
                 >
-                  <span className="t-label text-paper/45 tabular-nums">{world.index}</span>
+                  <span className="t-label text-paper/70 tabular-nums">{world.index}</span>
                   <span className="font-display group-hover:text-ember-light text-[clamp(1rem,1.7vw,1.5rem)] leading-tight transition-colors duration-300">
                     {world.title}
                   </span>
-                  <span className="t-label text-paper/55">{world.discipline}</span>
+                  <span className="t-label text-paper/75">{world.discipline}</span>
                 </Link>
               </li>
             ))}

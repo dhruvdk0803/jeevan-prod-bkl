@@ -27,8 +27,8 @@ const grotesk = Instrument_Sans({
 const baseMetadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Media, Marketing & Events in San Diego`,
-    template: `%s — ${site.name}`,
+    default: `${site.name} | Media, Marketing & Events in San Diego`,
+    template: `%s | ${site.name}`,
   },
   description: site.description,
   alternates: { canonical: "/" },
@@ -50,12 +50,12 @@ const baseMetadata: Metadata = {
     locale: "en_US",
     url: site.url,
     siteName: site.name,
-    title: `${site.name} — Media, Marketing & Events`,
+    title: `${site.name} | Media, Marketing & Events`,
     description: site.description,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${site.name} — Media, Marketing & Events`,
+    title: `${site.name} | Media, Marketing & Events`,
     description: site.description,
   },
   robots: {
@@ -77,13 +77,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const images = s.defaultOgImageUrl ? [{ url: s.defaultOgImageUrl }] : undefined;
   return {
     ...baseMetadata,
-    title: { default: title, template: `%s — ${site.name}` },
+    title: { default: title, template: `%s | ${site.name}` },
     description,
     openGraph: { ...baseMetadata.openGraph, description, ...(images ? { images } : {}) },
     twitter: { ...baseMetadata.twitter, description, ...(images ? { images } : {}) },
     alternates: {
       ...baseMetadata.alternates,
-      types: { "application/rss+xml": [{ url: "/blog/feed.xml", title: `${site.name} — Blog` }] },
+      types: { "application/rss+xml": [{ url: "/blog/feed.xml", title: `${site.name} | Blog` }] },
     },
     verification: {
       ...(s.googleSiteVerification ? { google: s.googleSiteVerification } : {}),

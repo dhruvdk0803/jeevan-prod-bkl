@@ -18,7 +18,7 @@ export const team: TeamMember[] = [
     slug: "jeevan-dhaker",
     name: "Jeevan Dhaker",
     role: "Founder",
-    bio: "Jeevan Dhaker founded Jeevan Productions on the idea that every brand has a story worth telling with clarity, creativity, and purpose — bringing together strategy, storytelling, and execution under one roof.",
+    bio: "Jeevan Dhaker founded Jeevan Productions on the idea that every brand has a story worth telling with clarity, creativity, and purpose, bringing together strategy, storytelling, and execution under one roof.",
     links: [
       { label: "Instagram", href: "https://www.instagram.com/jeevan_dhaker_jd/" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/jeevan-dhaker/" },

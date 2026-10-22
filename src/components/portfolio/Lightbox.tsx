@@ -108,7 +108,7 @@ export function Lightbox({ images, index, chapters, onIndex, onClose }: Props) {
           {chapter ? (
             <>
               <span className="text-ember-light"> · </span>
-              Act {chapter.numeral} — {chapter.title}
+              Act {chapter.numeral}: {chapter.title}
             </>
           ) : null}
         </p>
