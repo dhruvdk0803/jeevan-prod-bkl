@@ -6,10 +6,13 @@ import type { Chapter, ChapterId, PortfolioImage } from "@/content/portfolio";
 import { portfolioSrc } from "@/content/portfolio";
 import { scrollToId } from "@/lib/motion";
 import { Lightbox } from "./Lightbox";
+import { ShowcaseVideo } from "@/components/showcase/ShowcaseVideo";
+import { showcaseVideos } from "@/content/showcase";
 
 /**
- * The portfolio wall — every frame, filterable by category ("All" + one chip
- * per category), opening into the fullscreen viewer.
+ * The portfolio wall — every frame, filterable by category ("All", "Videos",
+ * then one chip per category), opening into the fullscreen viewer. "Videos"
+ * swaps the photo wall for JP's films.
  *
  * Client component for the filter, batching and viewer state; it still
  * server-renders the first batch in full, with alt text, for SEO and no-JS.
@@ -23,7 +26,7 @@ type Props = {
   chapters: Chapter[];
 };
 
-type Filter = ChapterId | "all";
+type Filter = ChapterId | "all" | "videos";
 
 const WALL_BATCH = 60;
 
@@ -34,7 +37,12 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
   const [shown, setShown] = useState(WALL_BATCH);
 
   const visible = useMemo(
-    () => (filter === "all" ? images : images.filter((i) => i.chapter === filter)),
+    () =>
+      filter === "all"
+        ? images
+        : filter === "videos"
+          ? []
+          : images.filter((i) => i.chapter === filter),
     [filter, images],
   );
 
@@ -73,6 +81,9 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
             <FilterChip active={filter === "all"} onClick={() => pickFilter("all")}>
               All <span className="tabular-nums opacity-60">{images.length}</span>
             </FilterChip>
+            <FilterChip active={filter === "videos"} onClick={() => pickFilter("videos")}>
+              Videos <span className="tabular-nums opacity-60">{showcaseVideos.length}</span>
+            </FilterChip>
             {categories.map((c) => (
               <FilterChip key={c.chapter.id} active={filter === c.chapter.id} onClick={() => pickFilter(c.chapter.id)}>
                 {c.chapter.title} <span className="tabular-nums opacity-60">{c.total}</span>
@@ -81,8 +92,12 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
           </div>
 
           <p className="sr-only" aria-live="polite">
-            Showing {Math.min(shown, visible.length)} of {visible.length} frames
+            {filter === "videos"
+              ? `Showing ${showcaseVideos.length} videos`
+              : `Showing ${Math.min(shown, visible.length)} of ${visible.length} frames`}
           </p>
+
+          {filter === "videos" ? <VideoGrid /> : null}
 
           <ul className="pf-wall">
             {visible.slice(0, shown).map((img, i) => (
@@ -138,6 +153,25 @@ export function PortfolioWall({ categories, images, chapters }: Props) {
         <Lightbox images={visible} index={open} chapters={chapters} onIndex={setOpen} onClose={closeBox} />
       ) : null}
     </>
+  );
+}
+
+/** The landscape reel first, then the vertical films in one row. */
+function VideoGrid() {
+  const landscape = showcaseVideos.filter((v) => v.orientation === "landscape");
+  const portrait = showcaseVideos.filter((v) => v.orientation === "portrait");
+  return (
+    <div className="space-y-[clamp(2.5rem,5vw,4rem)]">
+      {landscape.map((video) => (
+        // Capped so a 16:9 frame never runs taller than a laptop screen.
+        <ShowcaseVideo key={video.id} video={video} className="max-w-[72rem]" />
+      ))}
+      <div className="grid grid-cols-2 gap-x-[clamp(1rem,2.5vw,2rem)] gap-y-[clamp(2.5rem,5vw,4rem)] sm:grid-cols-3 lg:grid-cols-5">
+        {portrait.map((video) => (
+          <ShowcaseVideo key={video.id} video={video} />
+        ))}
+      </div>
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioWall } from "@/components/portfolio/PortfolioWall";
-import { PortfolioVideos } from "@/components/portfolio/PortfolioVideos";
 import {
   activeChapters,
   imagesByChapter,
@@ -18,8 +17,8 @@ import "./portfolio.css";
  * /portfolio — JP's photography.
  *
  *   Opening   a short WebGL corridor of frames you fly through on scroll
- *   Videos    JP's films: the landscape reel, then the vertical cuts
- *   Wall      every frame, filterable by category, with a fullscreen viewer
+ *   Wall      every frame, filterable by category, with a fullscreen viewer;
+ *             its "Videos" filter shows JP's films
  *
  * All selection happens here on the server so the client receives only the
  * data each piece needs.
@@ -99,8 +98,6 @@ export default function PortfolioPage() {
       />
 
       <PortfolioHero frames={tunnel} total={portfolio.length} categoryCount={categories.length} />
-
-      <PortfolioVideos />
 
       {portfolio.length ? (
         <PortfolioWall categories={categories} images={portfolio} chapters={activeChapters} />
