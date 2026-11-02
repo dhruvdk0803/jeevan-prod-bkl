@@ -20,13 +20,6 @@ export const STATIC_ROUTES: StaticRoute[] = [
       "Jeevan Productions is a creative company in San Diego. We tell stories through media, build brands through marketing, and bring people together through events.",
   },
   {
-    path: "/work",
-    label: "Work",
-    defaultTitle: "Work",
-    defaultDescription:
-      "Photography and event coverage from Jeevan Productions across media, marketing and events in San Diego and Los Angeles.",
-  },
-  {
     path: "/portfolio",
     label: "Portfolio",
     defaultTitle: "Portfolio",
@@ -49,8 +42,8 @@ export const STATIC_ROUTES: StaticRoute[] = [
   },
   {
     path: "/blog",
-    label: "Blog",
-    defaultTitle: "Blog",
+    label: "Blogs",
+    defaultTitle: "Blogs",
     defaultDescription:
       "Notes, stories and guides from Jeevan Productions, the San Diego creative company working across media, marketing and events.",
   },

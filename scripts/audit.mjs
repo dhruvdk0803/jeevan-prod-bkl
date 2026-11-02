@@ -12,10 +12,7 @@ const base = process.argv[2] ?? "http://localhost:3000";
 
 const ROUTES = [
   "/",
-  "/work",
   "/portfolio",
-  "/work/author-portraits",
-  "/work/center-stage",
   "/services",
   "/about",
   "/impact",

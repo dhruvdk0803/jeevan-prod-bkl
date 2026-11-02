@@ -11,8 +11,9 @@ import type { Project } from "@/content/types";
  * Each project declares a `layout`, and the index alternates between them so
  * the page reads like a magazine spread rather than a product catalogue.
  *
- * A card only becomes a link when the project actually has a case study, so
- * the site never ships a hover affordance that leads nowhere.
+ * Projects that used to have a case study now link to the portfolio (the
+ * Work archive was folded into it); the rest stay plain, so the site never
+ * ships a hover affordance that leads nowhere.
  */
 
 const sizesFor: Record<Project["layout"], string> = {
@@ -48,7 +49,7 @@ export function ProjectCard({
   cover?: { src: string; alt: string };
 }) {
   const image = cover ?? project.cover;
-  const href = project.caseStudy ? `/work/${project.slug}` : undefined;
+  const href = project.caseStudy ? "/portfolio" : undefined;
 
   const media = (
     <MediaReveal
@@ -112,7 +113,7 @@ export function ProjectCard({
       {meta}
       {href ? (
         <span className="t-label text-ember mt-4 inline-flex items-center gap-2 opacity-0 [.on-dark_&]:text-ember-light transition-opacity duration-300 group-hover:opacity-100">
-          View case study
+          View portfolio
           <Arrow className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1" />
         </span>
       ) : null}
@@ -138,38 +139,5 @@ function Dot() {
       aria-hidden="true"
       className="bg-neutral-2 inline-block h-1 w-1 rounded-full [.on-dark_&]:bg-paper/40"
     />
-  );
-}
-
-/**
- * ProjectRhythm — a compact editorial index of featured work.
- *
- * Four across on desktop at the photographs' native 4:5, with alternating
- * vertical offsets so the row reads as a considered composition rather than a
- * grid. Deliberately small: the work is shown at a scale where the titles and
- * disciplines carry equal weight, instead of full-width slabs that crop
- * portrait photographs into wide letterboxes.
- */
-export function ProjectRhythm({
-  projects,
-  covers,
-}: {
-  projects: Project[];
-  /** Per-slug cover overrides for this placement. */
-  covers?: Record<string, { src: string; alt: string }>;
-}) {
-  return (
-    <div className="grid grid-cols-2 gap-x-[clamp(1rem,2.5vw,2rem)] gap-y-[clamp(2.5rem,5vw,4rem)] lg:grid-cols-4">
-      {projects.map((project, i) => (
-        <ProjectCard
-          key={project.slug}
-          project={project}
-          cover={covers?.[project.slug]}
-          index={i}
-          ratio="4/5"
-          sizes="(max-width: 640px) 46vw, (max-width: 1024px) 46vw, 22vw"
-        />
-      ))}
-    </div>
   );
 }

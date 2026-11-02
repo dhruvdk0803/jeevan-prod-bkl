@@ -11,7 +11,7 @@ import { Turnstile } from "@/components/forms/Turnstile";
 /**
  * Compact enquiry form for the dark footer. Posts to the same server action
  * as the full contact form (rate limit → Turnstile → zod → webhook), so it
- * sends just a name, email, interest and message. Hidden on /contact, where
+ * sends just a name, email, phone, interest and message. Hidden on /contact, where
  * the full form already is.
  */
 
@@ -88,6 +88,7 @@ export function FooterContactForm() {
   const ids = {
     name: `${uid}-name`,
     email: `${uid}-email`,
+    phone: `${uid}-phone`,
     interest: `${uid}-interest`,
     details: `${uid}-details`,
   };
@@ -125,29 +126,40 @@ export function FooterContactForm() {
             className={inputClass}
           />
         </Field>
-      </div>
-
-      <Field id={ids.interest} label="Interested in" error={errors.interest}>
-        <select
-          id={ids.interest}
-          name="interest"
-          required
-          defaultValue=""
-          aria-invalid={Boolean(errors.interest)}
-          aria-describedby={describe("interest")}
-          // Muted until a choice is made, matching the empty text fields.
-          className={clsx(inputClass, "cursor-pointer invalid:text-paper/45 [&>option]:text-ink")}
-        >
-          <option value="" disabled>
-            Choose one
-          </option>
-          {interests.map((i) => (
-            <option key={i.id} value={i.id}>
-              {i.label}
+        <Field id={ids.phone} label="Phone" error={errors.phone}>
+          <input
+            id={ids.phone}
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            inputMode="tel"
+            aria-invalid={Boolean(errors.phone)}
+            aria-describedby={describe("phone")}
+            className={inputClass}
+          />
+        </Field>
+        <Field id={ids.interest} label="Interested in" error={errors.interest}>
+          <select
+            id={ids.interest}
+            name="interest"
+            required
+            defaultValue=""
+            aria-invalid={Boolean(errors.interest)}
+            aria-describedby={describe("interest")}
+            // Muted until a choice is made, matching the empty text fields.
+            className={clsx(inputClass, "cursor-pointer invalid:text-paper/45 [&>option]:text-ink")}
+          >
+            <option value="" disabled>
+              Choose one
             </option>
-          ))}
-        </select>
-      </Field>
+            {interests.map((i) => (
+              <option key={i.id} value={i.id}>
+                {i.label}
+              </option>
+            ))}
+          </select>
+        </Field>
+      </div>
 
       <Field id={ids.details} label="Tell us about your project" error={errors.details}>
         <textarea

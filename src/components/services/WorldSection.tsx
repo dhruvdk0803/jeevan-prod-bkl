@@ -39,7 +39,7 @@ const chipClasses: Record<Theme, string> = {
 function WorkLink({ dark, className }: { dark: boolean; className?: string }) {
   return (
     <Link
-      href="/work"
+      href="/portfolio"
       className={clsx(
         "group t-label inline-flex shrink-0 items-center gap-2.5 py-2 transition-colors duration-300",
         dark ? "text-paper/80 hover:text-ember-light" : "text-ink hover:text-ember",
@@ -47,7 +47,7 @@ function WorkLink({ dark, className }: { dark: boolean; className?: string }) {
       )}
     >
       <span className="relative">
-        See all work
+        See the portfolio
         <span
           aria-hidden="true"
           className="absolute -bottom-1 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:origin-left group-hover:scale-x-100"

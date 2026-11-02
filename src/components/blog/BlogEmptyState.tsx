@@ -17,7 +17,7 @@ export function BlogEmptyState() {
           Check back soon.
         </p>
         <div className="mt-10">
-          <ArrowLink href="/work">See our work instead</ArrowLink>
+          <ArrowLink href="/portfolio">See our portfolio instead</ArrowLink>
         </div>
       </div>
     </div>

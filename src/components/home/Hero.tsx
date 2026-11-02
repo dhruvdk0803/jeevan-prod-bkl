@@ -70,7 +70,7 @@ export function Hero() {
           className="jp-in mt-10 flex w-full max-w-[18rem] flex-col items-stretch gap-3 sm:w-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center"
           style={{ "--d": "0.82s" } as React.CSSProperties}
         >
-          <Button href="/work" variant="ghost-ember">
+          <Button href="/portfolio" variant="ghost-ember">
             Explore our work
           </Button>
           <Button href="/contact" variant="ember">

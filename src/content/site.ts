@@ -38,11 +38,10 @@ export const site = {
 } as const;
 
 export const primaryNav: NavItem[] = [
-  { label: "Work", href: "/work", meta: "Selected projects" },
   { label: "Portfolio", href: "/portfolio", meta: "The story in frames" },
   { label: "Services", href: "/services", meta: "Media, marketing, events" },
   { label: "About", href: "/about", meta: "Who we are" },
-  { label: "Blog", href: "/blog", meta: "Notes, stories and guides" },
+  { label: "Blogs", href: "/blog", meta: "Notes, stories and guides" },
   { label: "Impact", href: "/impact", meta: "Community stories" },
   { label: "Careers", href: "/careers", meta: "Join the team" },
   { label: "Contact", href: "/contact", meta: "Start a project" },

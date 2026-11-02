@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
-import { caseStudyProjects } from "@/content/projects";
 import { publishedImpactStories } from "@/content/impact";
 import { getAllPageSeo, getCategories, getSitemapPosts } from "@/lib/cms/public";
 
@@ -23,7 +22,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const candidateStaticRoutes: (MetadataRoute.Sitemap[number] & { url: string })[] = [
     { url: `${site.url}/`, lastModified: now, changeFrequency: "monthly", priority: 1 },
-    { url: `${site.url}/work`, lastModified: now, changeFrequency: "weekly", priority: 0.9 },
     { url: `${site.url}/portfolio`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
     { url: `${site.url}/services`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${site.url}/about`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
@@ -39,13 +37,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = candidateStaticRoutes.filter(
     (r) => !noindexPaths.has(r.url.replace(site.url, "") || "/"),
   );
-
-  const workRoutes: MetadataRoute.Sitemap = caseStudyProjects.map((project) => ({
-    url: `${site.url}/work/${project.slug}`,
-    lastModified: now,
-    changeFrequency: "yearly",
-    priority: 0.7,
-  }));
 
   const impactRoutes: MetadataRoute.Sitemap = publishedImpactStories.map((story) => ({
     url: `${site.url}/impact/${story.slug}`,
@@ -72,5 +63,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.4,
     }));
 
-  return [...staticRoutes, ...workRoutes, ...impactRoutes, ...postRoutes, ...categoryRoutes];
+  return [...staticRoutes, ...impactRoutes, ...postRoutes, ...categoryRoutes];
 }

@@ -39,7 +39,7 @@ export default async function BlogIndexPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={jsonLd(breadcrumbSchema([{ name: "Home", href: "/" }, { name: "Blog", href: "/blog" }]))}
+        dangerouslySetInnerHTML={jsonLd(breadcrumbSchema([{ name: "Home", href: "/" }, { name: "Blogs", href: "/blog" }]))}
       />
       <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(blogSchema())} />
       <script

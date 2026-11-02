@@ -119,15 +119,15 @@ export function Navigation() {
 
   const close = useCallback(() => setOpen(false), []);
 
-  /* The bar is fully transparent at the top of every page. Pages that open on
-   * a dark or photographic hero keep light type (with a soft scrim behind the
-   * bar so it reads over any frame); every other page opens on paper, so the
-   * bar uses ink type until you scroll and the translucent glass appears.
-   * Pathname is known during SSR, so this never flashes. */
+  /* The bar always uses light type, so it looks the same on a fresh load,
+   * a refresh and every client-side navigation. Over a dark or photographic
+   * hero it stays transparent (with a soft scrim behind it); on pages that
+   * open on paper the translucent ink glass is on from the first paint, since
+   * light type needs it there. Pathname is known during SSR, so this never
+   * flashes. */
   const darkTop =
     pathname === "/" || DARK_HERO_PREFIXES.some((prefix) => pathname.startsWith(prefix));
-  const glass = scrolled || open;
-  const onLight = !glass && !darkTop;
+  const glass = scrolled || open || !darkTop;
 
   return (
     <>
@@ -137,14 +137,14 @@ export function Navigation() {
           aria-hidden="true"
           className={clsx(
             "from-ink/70 pointer-events-none absolute inset-x-0 top-0 -z-10 h-40 bg-gradient-to-b to-transparent transition-opacity duration-500",
-            !glass && darkTop ? "opacity-100" : "opacity-0",
+            !glass ? "opacity-100" : "opacity-0",
           )}
         />
         <div className="gutter mx-auto max-w-[110rem]">
           <div
             className={clsx(
               "flex items-center justify-between gap-5 rounded-full border transition-[background-color,border-color,padding,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
-              onLight ? "text-ink" : "on-dark text-paper",
+              "on-dark text-paper",
               // 75% is the floor at which the paper/90 nav links and the
               // ember-light mark still clear 4.5:1 when the glass floats over
               // the lightest page background. Keep `PILL_ALPHA` in
@@ -175,21 +175,14 @@ export function Navigation() {
                       // the underline away from the text.
                       "group t-label relative py-2 transition-colors duration-300",
                       "before:absolute before:inset-x-0 before:-top-3 before:-bottom-3 before:content-['']",
-                      onLight
-                        ? active
-                          ? "text-ink"
-                          : "text-ink/75 hover:text-ink"
-                        : active
-                          ? "text-paper"
-                          : "text-paper/90 hover:text-paper",
+                      active ? "text-paper" : "text-paper/90 hover:text-paper",
                     )}
                   >
                     {item.label}
                     <span
                       aria-hidden="true"
                       className={clsx(
-                        onLight ? "bg-ember" : "bg-ember-light",
-                        "absolute -bottom-0.5 left-0 h-px w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
+                        "bg-ember-light absolute -bottom-0.5 left-0 h-px w-full transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]",
                         active
                           ? "scale-x-100"
                           : "origin-right scale-x-0 group-hover:origin-left group-hover:scale-x-100",
@@ -203,11 +196,7 @@ export function Navigation() {
             <div className="flex shrink-0 items-center gap-2">
               <Link
                 href="/contact"
-                className={clsx(
-                  "t-label bg-ember text-paper hover:bg-paper hover:text-ink hidden min-h-11 items-center gap-2.5 rounded-full px-5 ring-1 ring-transparent transition-[background-color,color,box-shadow] duration-300 sm:inline-flex",
-                  // On paper the white hover state needs an edge to stay visible.
-                  onLight && "hover:ring-ink/20",
-                )}
+                className="t-label bg-ember text-paper hover:bg-paper hover:text-ink hidden min-h-11 items-center gap-2.5 rounded-full px-5 transition-[background-color,color] duration-300 sm:inline-flex"
               >
                 Start a project
                 <Arrow />
@@ -219,13 +208,8 @@ export function Navigation() {
                 onClick={() => setOpen((v) => !v)}
                 aria-expanded={open}
                 aria-controls="jp-menu"
-                className={clsx(
-                  "t-label flex min-h-11 items-center gap-3 rounded-full px-5 transition-colors duration-300",
-                  // Solid neutral partner to the terracotta CTA, legible over video or paper.
-                  onLight
-                    ? "bg-ink text-paper hover:bg-ember"
-                    : "bg-paper text-ink hover:bg-ember hover:text-paper",
-                )}
+                // Solid neutral partner to the terracotta CTA, legible over video or glass.
+                className="t-label bg-paper text-ink hover:bg-ember hover:text-paper flex min-h-11 items-center gap-3 rounded-full px-5 transition-colors duration-300"
               >
                 <span className="sr-only sm:not-sr-only">{open ? "Close" : "Menu"}</span>
                 <span aria-hidden="true" className="relative block h-3 w-4">

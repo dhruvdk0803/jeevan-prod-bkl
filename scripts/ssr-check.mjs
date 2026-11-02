@@ -18,7 +18,7 @@ for (let i = 0; i < 40; i++) {
 }
 
 const ROUTES = [
-  "/", "/does-not-exist", "/work", "/work/center-stage", "/services",
+  "/", "/does-not-exist", "/services",
   "/about", "/impact", "/social-hours", "/careers", "/contact",
 ];
 

@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { Hero } from "@/components/home/Hero";
 import { ThreeWorlds } from "@/components/home/ThreeWorlds";
 import { LatestPosts } from "@/components/home/LatestPosts";
+import { SelectedWork } from "@/components/home/SelectedWork";
 import { AnimatedHeading, Label } from "@/components/primitives/Type";
 import { MediaReveal } from "@/components/primitives/Media";
 import { ArrowLink, Button } from "@/components/primitives/Actions";
-import { ProjectRhythm } from "@/components/primitives/ProjectCard";
 import { BrandMarquee } from "@/components/primitives/BrandMarquee";
-import { featuredProjects } from "@/content/projects";
 import { sitePhotos } from "@/content/site-photos";
 import { site } from "@/content/site";
 import { websiteSchema } from "@/lib/schema";
@@ -40,12 +39,12 @@ export default function HomePage() {
             <MediaReveal
               src={introPhoto.src}
               alt={introPhoto.alt}
-              ratio="4/5"
-              sizes="(max-width: 1024px) 100vw, 30vw"
+              ratio="3/2"
+              sizes="(max-width: 1024px) 100vw, 40vw"
               quality={82}
-              className="order-last w-full max-w-[26rem] lg:order-none lg:col-span-4 lg:max-w-none"
+              className="order-last w-full max-w-[40rem] lg:order-none lg:col-span-5 lg:max-w-none"
             />
-            <div className="lg:col-span-8">
+            <div className="lg:col-span-7">
               <Label className="mb-6">More than a production company</Label>
               <AnimatedHeading
                 id="intro-heading"
@@ -82,21 +81,7 @@ export default function HomePage() {
       <ThreeWorlds />
 
       {/* ---------- PROOF: selected work ---------- */}
-      <section className="bg-paper-warm" aria-labelledby="work-heading">
-        <div className="gutter mx-auto max-w-[110rem] py-[clamp(5rem,12vw,10rem)]">
-          <div className="mb-[clamp(3rem,7vw,5.5rem)] flex flex-wrap items-end justify-between gap-8">
-            <AnimatedHeading id="work-heading" size="statement" lines={["Selected work"]} />
-            <div data-reveal="fade-up">
-              <ArrowLink href="/work">View the full archive</ArrowLink>
-            </div>
-          </div>
-
-          <ProjectRhythm
-            projects={featuredProjects}
-            covers={{ together: sitePhotos.togetherHome }}
-          />
-        </div>
-      </section>
+      <SelectedWork />
 
       {/* ---- Proof, continued: who we've worked with ---- */}
       <BrandMarquee />

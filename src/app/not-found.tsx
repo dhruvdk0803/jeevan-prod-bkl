@@ -39,7 +39,7 @@ export default function NotFound() {
           data-reveal-delay={0.25}
         >
           <Button href="/">Back to the homepage</Button>
-          <ArrowLink href="/work">See the work</ArrowLink>
+          <ArrowLink href="/portfolio">See the portfolio</ArrowLink>
           <ArrowLink href="/contact">Start a project</ArrowLink>
         </div>
 

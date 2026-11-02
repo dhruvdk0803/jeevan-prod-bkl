@@ -62,7 +62,7 @@ export default async function BlogPagePage({ params }: { params: Promise<Params>
         dangerouslySetInnerHTML={jsonLd(
           breadcrumbSchema([
             { name: "Home", href: "/" },
-            { name: "Blog", href: "/blog" },
+            { name: "Blogs", href: "/blog" },
             { name: `Page ${page}`, href: `/blog/page/${page}` },
           ]),
         )}

@@ -73,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
 
   const trail = breadcrumbSchema([
     { name: "Home", href: "/" },
-    { name: "Blog", href: "/blog" },
+    { name: "Blogs", href: "/blog" },
     { name: post.title, href: `/blog/${post.slug}` },
   ]);
   const article = blogPostingSchema({

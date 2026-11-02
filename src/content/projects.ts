@@ -379,35 +379,5 @@ export const projects: Project[] = [
 
 /* ---- Query helpers -------------------------------------------------- */
 
-export const featuredProjects = projects.filter((p) => p.featured);
-
-/** Only these get a detail route — everything else has no dead link. */
-export const caseStudyProjects = projects.filter((p) => p.caseStudy);
-
-export const projectBySlug = (slug: string) => projects.find((p) => p.slug === slug);
-
 export const projectsByWorld = (world: Project["world"]) =>
   projects.filter((p) => p.world === world);
-
-/**
- * The next project that actually has a detail page, wrapping at the end.
- *
- * Cycles `caseStudyProjects` rather than all projects: the "next project"
- * band is a navigation promise, and pointing it at a project with no route
- * would produce a 404. Returns undefined when there is nothing else to go
- * to, so the caller can omit the band entirely.
- */
-export const nextProject = (slug: string) => {
-  const i = caseStudyProjects.findIndex((p) => p.slug === slug);
-  if (i === -1 || caseStudyProjects.length < 2) return undefined;
-  return caseStudyProjects[(i + 1) % caseStudyProjects.length];
-};
-
-/** Same-world projects, excluding the current one. */
-export const relatedProjects = (slug: string, limit = 2) => {
-  const current = projectBySlug(slug);
-  if (!current) return [];
-  const sameWorld = projects.filter((p) => p.world === current.world && p.slug !== slug);
-  const rest = projects.filter((p) => p.world !== current.world && p.slug !== slug);
-  return [...sameWorld, ...rest].slice(0, limit);
-};

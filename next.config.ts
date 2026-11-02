@@ -18,6 +18,9 @@ const nextConfig: NextConfig = {
     return [
       // The Social Hours page was retired; send old links and search results home.
       { source: "/social-hours", destination: "/", permanent: true },
+      // The Work archive and its case studies were folded into the portfolio.
+      { source: "/work", destination: "/portfolio", permanent: true },
+      { source: "/work/:slug*", destination: "/portfolio", permanent: true },
     ];
   },
   async headers() {

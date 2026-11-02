@@ -24,7 +24,7 @@ export async function LatestPosts() {
             lines={["Notes, stories", "and guides."]}
           />
           <div data-reveal="fade-up">
-            <ArrowLink href="/blog">Read the blog</ArrowLink>
+            <ArrowLink href="/blog">Read the blogs</ArrowLink>
           </div>
         </div>
 
