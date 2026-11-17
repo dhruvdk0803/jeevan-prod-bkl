@@ -4,18 +4,30 @@ import { z } from "zod";
 import {
   checkRateLimit,
   getClientIp,
-  postToWebhook,
   verifyTurnstile,
   type ActionResult,
 } from "@/lib/form-security";
+import { HONEYPOT_FIELD } from "@/components/forms/Honeypot";
 
 /**
- * Server Action backing `src/components/contact/ContactForm.tsx`. Mirrors the
- * careers action's security pattern (rate limit → Turnstile → zod → deliver)
+ * Server Action backing both enquiry forms (`ContactForm` and the footer's
+ * `FooterContactForm`). Honeypot → rate limit → Turnstile → zod → Formspree,
  * via the shared helpers in `src/lib/form-security.ts`.
  */
 
 const interestValues = ["MEDIA", "MARKETING", "EVENTS", "PARTNERSHIPS", "OTHER"] as const;
+
+const interestLabels: Record<(typeof interestValues)[number], string> = {
+  MEDIA: "Media",
+  MARKETING: "Marketing",
+  EVENTS: "Events",
+  PARTNERSHIPS: "Partnerships",
+  OTHER: "Other",
+};
+
+/** Where enquiries land. `ENQUIRY_FORMSPREE_URL` overrides it per environment. */
+const FORMSPREE_ENDPOINT =
+  process.env.ENQUIRY_FORMSPREE_URL || "https://formspree.io/f/xkgknllg";
 
 const optionalText = (max: number) => z.string().trim().max(max).optional().or(z.literal(""));
 
@@ -51,6 +63,12 @@ export async function submitEnquiry(
   formData: FormData,
 ): Promise<ActionResult> {
   const ip = await getClientIp();
+
+  // A person never sees the honeypot field, so anything in it is a bot. Report
+  // success so the bot has nothing to learn, and send nothing.
+  if (String(formData.get(HONEYPOT_FIELD) ?? "").trim()) {
+    return { status: "success", message: "Thank you. Your message is in, and we'll be in touch soon." };
+  }
 
   if (!checkRateLimit(`contact:${ip}`)) {
     return {
@@ -101,11 +119,7 @@ export async function submitEnquiry(
   }
 
   try {
-    await deliverEnquiry({
-      ...parsed.data,
-      submittedAt: new Date().toISOString(),
-      sourceIp: ip,
-    });
+    await deliverEnquiry(parsed.data);
   } catch (err) {
     console.error("[contact/actions] deliverEnquiry failed:", err);
     return {
@@ -121,21 +135,51 @@ export async function submitEnquiry(
   };
 }
 
-type EnquiryData = z.infer<typeof enquirySchema> & {
-  submittedAt: string;
-  sourceIp: string;
-};
+type EnquiryData = z.infer<typeof enquirySchema>;
+
+/** Readable labels for the Formspree email, in the order they should appear. */
+const fieldLabels: [keyof EnquiryData, string][] = [
+  ["name", "Name"],
+  ["phone", "Phone"],
+  ["company", "Company"],
+  ["projectType", "Project type"],
+  ["timeline", "Timeline"],
+  ["budget", "Budget"],
+  ["shootType", "Shoot type"],
+  ["shootLocation", "Shoot location"],
+  ["eventDate", "Event date"],
+  ["guestCount", "Guest count"],
+  ["marketingScope", "Marketing scope"],
+  ["marketingChannels", "Marketing channels"],
+  ["partnershipType", "Partnership type"],
+  ["details", "Message"],
+];
 
 /**
- * SINGLE HAND-OFF POINT for delivering a validated enquiry.
- *
- * No storage/CRM provider is wired up out of the box — this repo commits no
- * credentials. JP's developer: point `ENQUIRY_WEBHOOK_URL` (see
- * `.env.example`) at whatever receives new enquiries (a CRM's inbound
- * webhook, a Zapier/Make automation, an email-sending function, etc.), or
- * replace the body of this function with a direct SDK call. Do this here
- * ONLY — nothing else in the app should reach out to an external service.
+ * SINGLE HAND-OFF POINT for delivering a validated enquiry: posts it to
+ * Formspree, which emails it to the team. `email` keeps its own key so
+ * Formspree sets it as the reply-to address; blank optional fields are left
+ * out so the email only shows what the person actually filled in.
  */
 async function deliverEnquiry(data: EnquiryData): Promise<void> {
-  await postToWebhook(process.env.ENQUIRY_WEBHOOK_URL, data, undefined, "Enquiry");
+  const interest = interestLabels[data.interest];
+  const body: Record<string, string> = {
+    _subject: `New ${interest.toLowerCase()} enquiry from ${data.name}`,
+    email: data.email,
+    "Interested in": interest,
+  };
+  for (const [key, label] of fieldLabels) {
+    const value = data[key];
+    if (typeof value === "string" && value.trim()) body[label] = value;
+  }
+
+  const res = await fetch(FORMSPREE_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(10_000),
+  });
+  if (!res.ok) {
+    throw new Error(`Formspree responded with HTTP ${res.status}: ${await res.text()}`);
+  }
 }

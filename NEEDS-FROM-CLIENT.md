@@ -91,18 +91,18 @@ redesign can go fully live. Grouped by urgency. File paths reference the
 
 ## Technical
 
-- [ ] **Form delivery endpoints** *(blocks launch)* — the old site posted to
-      `formsubmit.co` and its message `<textarea>` had no `name` attribute, so
-      message text never actually submitted. The redesign replaces that with
-      validated Server Actions. JP must set `ENQUIRY_WEBHOOK_URL` and
-      `APPLICATION_WEBHOOK_URL` (see `.env.example`), or replace the bodies of
-      `deliverEnquiry()` / `deliverApplication()` in
-      `src/app/contact/actions.ts` and `src/app/careers/actions.ts` with a
-      direct CRM/ATS call. Until then both fail with a descriptive error.
-- [ ] **Turnstile keys** *(blocks launch)* — bot protection is implemented and
+- [x] **Enquiry delivery** — the contact page and footer forms post to
+      Formspree (`https://formspree.io/f/xkgknllg`) from `deliverEnquiry()` in
+      `src/app/(site)/contact/actions.ts`.
+- [ ] **Application delivery** *(blocks careers)* — set
+      `APPLICATION_WEBHOOK_URL` (see `.env.example`), or replace the body of
+      `deliverApplication()` in `src/app/(site)/careers/actions.ts`. Until then
+      applications fail with a descriptive error.
+- [ ] **Turnstile keys** *(optional)* — bot protection is implemented and
       verified server-side. Provision a Cloudflare Turnstile site/secret pair
       and set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY`.
-      Without the secret, submissions **fail closed in production**.
+      Without them, forms still work, protected by a honeypot, the rate limit
+      and Formspree's spam filter.
 - [ ] **Resume upload storage** — uploads are fully validated (MIME +
       extension + magic bytes, 5 MB cap, sanitised filename) and are never
       written to `public/`. JP still needs to nominate private storage

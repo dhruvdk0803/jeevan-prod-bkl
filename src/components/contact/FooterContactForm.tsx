@@ -7,6 +7,7 @@ import { clsx } from "clsx";
 import { submitEnquiry } from "@/app/(site)/contact/actions";
 import type { ActionResult } from "@/lib/form-security";
 import { Turnstile } from "@/components/forms/Turnstile";
+import { Honeypot } from "@/components/forms/Honeypot";
 
 /**
  * Compact enquiry form for the dark footer. Posts to the same server action
@@ -172,6 +173,8 @@ export function FooterContactForm() {
           className={clsx(inputClass, "resize-y")}
         />
       </Field>
+
+      <Honeypot id={`${uid}-website`} />
 
       <Turnstile />
 

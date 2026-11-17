@@ -152,11 +152,12 @@ the CMS code: `CMS-BRIEF.md`. After changing the schema: `npm run db:generate`.
 
 1. **Read `NEEDS-FROM-CLIENT.md`** and resolve the "Confirm Before Publish" list.
 2. Set the environment variables in `.env.example`:
-   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` - bot protection.
-     Without the secret, form submission **fails closed in production**.
-   - `APPLICATION_WEBHOOK_URL` / `ENQUIRY_WEBHOOK_URL` - where submissions go.
-     `deliverApplication()` and `deliverEnquiry()` in the two `actions.ts` files
-     are the single hand-off points; wire your ATS/CRM there.
+   - `NEXT_PUBLIC_TURNSTILE_SITE_KEY` / `TURNSTILE_SECRET_KEY` - optional bot
+     protection on top of the honeypot and rate limit.
+   - Enquiries go to Formspree (`https://formspree.io/f/xkgknllg`, override
+     with `ENQUIRY_FORMSPREE_URL`) from `deliverEnquiry()`.
+   - `APPLICATION_WEBHOOK_URL` - where careers applications go;
+     `deliverApplication()` is the single hand-off point.
 3. Replace the in-memory rate limiter in `src/lib/form-security.ts` with a
    shared store (Redis/Upstash) if running more than one instance.
 4. Resume uploads are validated (MIME + extension + magic bytes, 5 MB cap,

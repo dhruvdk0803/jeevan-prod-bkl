@@ -80,12 +80,11 @@ const TURNSTILE_VERIFY_URL = "https://challenges.cloudflare.com/turnstile/v0/sit
  * Fail-open/closed policy (explicit, on purpose):
  * - `TURNSTILE_SECRET_KEY` set → always verify against Cloudflare. A missing
  *   or empty token, or a verification failure, rejects the submission.
- * - `TURNSTILE_SECRET_KEY` NOT set, `NODE_ENV === "production"` → FAIL CLOSED.
- *   Refusing to accept bot-protection-less submissions in production is the
- *   safer default; a misconfigured deploy should not silently accept spam.
- * - `TURNSTILE_SECRET_KEY` NOT set, any other environment (dev/test) → allow
- *   the submission through so the form is testable without Cloudflare
- *   credentials on a laptop. A console warning makes this impossible to miss.
+ * - `TURNSTILE_SECRET_KEY` NOT set → allow the submission through, with a
+ *   console warning. Enquiries go to Formspree, which runs its own spam
+ *   filtering, and every form also has a honeypot and the rate limit below,
+ *   so a deploy without Cloudflare keys still accepts real messages instead
+ *   of refusing all of them.
  */
 export async function verifyTurnstile(
   token: FormDataEntryValue | null,
@@ -94,19 +93,9 @@ export async function verifyTurnstile(
   const secret = process.env.TURNSTILE_SECRET_KEY;
 
   if (!secret) {
-    if (process.env.NODE_ENV === "production") {
-      console.warn(
-        "[form-security] TURNSTILE_SECRET_KEY is not set. Failing CLOSED in production — " +
-          "no submissions will be accepted until the env var is configured (see .env.example).",
-      );
-      return {
-        ok: false,
-        reason: "This form is temporarily unavailable. Please try again shortly.",
-      };
-    }
     console.warn(
-      "[form-security] TURNSTILE_SECRET_KEY is not set. Allowing this submission because " +
-        "NODE_ENV is not 'production' (dev/test mode). Do not deploy without setting the key.",
+      "[form-security] TURNSTILE_SECRET_KEY is not set. Allowing this submission without " +
+        "a Turnstile check; the honeypot, rate limit and Formspree's spam filter still apply.",
     );
     return { ok: true };
   }

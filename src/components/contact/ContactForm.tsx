@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@/components/forms/FormField";
 import { Turnstile } from "@/components/forms/Turnstile";
+import { Honeypot } from "@/components/forms/Honeypot";
 
 /**
  * The interactive contact form: a tactile "what are you interested in"
@@ -280,6 +281,8 @@ export function ContactForm() {
         .map(([field]) => (
           <input key={field} type="hidden" name={field} value="" />
         ))}
+
+      <Honeypot id="contact-website" />
 
       <Turnstile />
 
